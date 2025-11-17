@@ -1,18 +1,16 @@
 # Copyright (C) 2015 Florian Franzen
+# Copyright (C) 2025 Joscha Schmiedt
+cmake_minimum_required(VERSION 3.16)
 project(neurosuite CXX)
-cmake_minimum_required(VERSION 2.8.12)
 
-set(PROJECT_VERSION_MAJOR 2)
+set(PROJECT_VERSION_MAJOR 3)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_VERSION_PATCH 0)
 set(PROJECT_VERSION
     "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
 )
 
-# Options
-option(WITH_QT4
-       "Enable to build against Qt4 (default: Qt5)"
-       OFF)
+# Options - Qt6 is now the default and only supported version
 
 option(WITH_TEST
        "Build scrollarea test binary"
@@ -39,25 +37,17 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 
-# Find correct Qt library
-if(WITH_QT4)
-    find_package(Qt4 4.8.0 REQUIRED QtGui QtWebKit)
-
-    if(APPLE)
-        # The QStandardPaths port needs these on OS X
-        find_library(CF_LIBRARIES NAMES CoreFoundation)
-        find_library(CS_LIBRARIES NAMES CoreServices)
-    endif()
-else()
-    find_package(Qt5Widgets REQUIRED)
-    find_package(Qt5PrintSupport REQUIRED)
-    find_package(Qt5WebKitWidgets REQUIRED)
-endif()
+# Find Qt6 libraries
+find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport WebEngineWidgets)
 
 if (MSVC)
    # Qt disables the native wchar_t type, do it too to avoid linking issues
    #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Zc:wchar_t-" )
 endif()
+
+# Set C++ standard for Qt6
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ########################
 # Include subdirectory #
@@ -141,28 +131,9 @@ neurosuite_cpack_init("lib${PROJECT_NAME}"
                       OFF)
 
 # Use deb and rpm on linux
-if(WITH_QT4)
-    neurosuite_cpack_ubuntu(
-        "libqtgui4, libqt4-webkit4"
-        OFF
-    )
-    neurosuite_cpack_suse(
-        "libqt4, libqt4-x11, libQtWebKit4"
-        OFF
-    )
-    neurosuite_cpack_fedora(
-        "qt, qt-mobility, qtwebkit, qt-x11"
-        OFF
-    )
-    neurosuite_cpack_scientific(
-        "libQtCore, libQtGui, libQtNetwork, libQtWebKit"
-        OFF
-    )
-else()
-    neurosuite_cpack_ubuntu(
-        "libqt5widgets5, libqt5printsupport5, libqt5webkit5"
-        OFF
-    )
-endif()
+neurosuite_cpack_ubuntu(
+    "qt6-base-dev, qt6-webengine-dev"
+    OFF
+)
 
 include(CPack)

@@ -24,26 +24,6 @@ set(SOURCE_FILES
     shared/utilities.cpp
 )
 
-# Add qstandardpaths and it os specific interface if qt5 is not available
-if(WITH_QT4)
-    list(APPEND SOURCE_FILES libinqt5/qstandardpaths.cpp)
-    include_directories(libinqt5)
-
-    if (UNIX)
-        if(APPLE)
-            list(APPEND SOURCE_FILES
-                 libinqt5/qstandardpaths_mac.cpp)
-        else(APPLE)
-            list(APPEND SOURCE_FILES
-                 libinqt5/qstandardpaths_unix.cpp)
-        endif()
-    endif()
-
-    if (WIN32)
-        list(APPEND SOURCE_FILES
-             libinqt5/qstandardpaths_win.cpp)
-    endif()
-endif()
 
 # Add ressource files
 set(RESSOURCE_FILES
@@ -51,11 +31,6 @@ set(RESSOURCE_FILES
     gui/libneurosuite-cursors.qrc
 )
 
-if(WITH_QT4)
-    qt4_add_resources(SOURCE_FILES ${RESSOURCE_FILES})
-else()
-    qt5_add_resources(SOURCE_FILES ${RESSOURCE_FILES})
-endif()
 
 # Run compiler
 add_library (${PROJECT_NAME} SHARED ${SOURCE_FILES})
@@ -66,16 +41,7 @@ set_target_properties(${PROJECT_NAME}
 ################
 # Link library #
 ################
-if(WITH_QT4)
-    target_link_libraries(${PROJECT_NAME} Qt4::QtGui Qt4::QtWebKit)
-
-    if(APPLE)
-        # Or QStandardPaths port needs these on OS X
-        target_link_libraries(${PROJECT_NAME} ${CF_LIBRARIES} ${CS_LIBRARIES})
-    endif()
-else()
-    target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport Qt5::WebKitWidgets)
-endif()
+target_link_libraries(${PROJECT_NAME} Qt6::Widgets Qt6::PrintSupport Qt6::WebEngineWidgets)
 
 ###################
 # Install library #
