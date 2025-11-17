@@ -168,7 +168,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param parent The parent of the dialog.
      * @param flags  The widget flags passed to the QDialog constructor
      */
-    explicit QExtendDialog(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit QExtendDialog(QWidget* parent = 0, Qt::WindowFlags flags = Qt::WindowType::Widget);
 
     /**
      * Destroys the dialog.
@@ -850,7 +850,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
     void updateGeometry();
 
   protected:
-    QExtendDialog(QExtendDialogPrivate& dd, QWidget* parent, Qt::WindowFlags flags = 0);
+    QExtendDialog(QExtendDialogPrivate& dd, QWidget* parent, Qt::WindowFlags flags = Qt::WindowType::Widget);
     QExtendDialogPrivate* const d_ptr;
 
   private:

@@ -21,6 +21,7 @@
 #define KLUSTERSEPARATOR_H
 
 #include <QFrame>
+#include <qnamespace.h>
 
 /**
  * Standard horizontal or vertical separator.
@@ -41,7 +42,7 @@ class KLusterSeparator : public QFrame
    * @param parent parent object.
    * @param f extra QWidget flags.
    **/
-    explicit KLusterSeparator(QWidget* parent = 0, Qt::WindowFlags f = 0);
+    explicit KLusterSeparator(QWidget* parent = 0, Qt::WindowFlags f = Qt::WindowType::Widget);
 
     /**
    * Constructor.
@@ -50,7 +51,7 @@ class KLusterSeparator : public QFrame
    * @param parent parent object.
    * @param f extra QWidget flags.
    **/
-    explicit KLusterSeparator(Qt::Orientation orientation, QWidget* parent = 0, Qt::WindowFlags f = 0);
+    explicit KLusterSeparator(Qt::Orientation orientation, QWidget* parent = 0, Qt::WindowFlags f = Qt::WindowType::Widget);
 
     /**
    * Returns the orientation of the separator.

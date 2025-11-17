@@ -42,8 +42,8 @@ class NEUROSUITE_EXPORT Utilities
     */
     inline static bool compareVersion(const QString& oldVersion, const QString& newVersion)
     {
-        QStringList oldList = oldVersion.split(".", QString::SkipEmptyParts);
-        QStringList newList = newVersion.split(".", QString::SkipEmptyParts);
+        QStringList oldList = oldVersion.split(".", Qt::SkipEmptyParts);
+        QStringList newList = newVersion.split(".", Qt::SkipEmptyParts);
         int minLength = qMin(oldList.count(), newList.count());
         for (int i = 0; i < minLength; ++i)
         {

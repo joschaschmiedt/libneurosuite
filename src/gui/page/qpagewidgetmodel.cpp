@@ -327,7 +327,7 @@ bool QPageWidgetModel::setData(const QModelIndex& index, const QVariant& value, 
 Qt::ItemFlags QPageWidgetModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
-        return 0;
+        return Qt::NoItemFlags;
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 

@@ -26,7 +26,8 @@
 #include "kdialogqueue_p.h"
 #endif
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
+#include <QGuiApplication>
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QHideEvent>
@@ -385,7 +386,7 @@ void QExtendDialog::setMainWidget(QWidget* widget)
     if (d->mMainWidget && d->mMainWidget->layout())
     {
         // Avoid double-margin problem
-        d->mMainWidget->layout()->setMargin(0);
+        d->mMainWidget->layout()->setContentsMargins(0, 0, 0, 0);
     }
     d->setupLayout();
 }
@@ -478,12 +479,12 @@ void QExtendDialog::keyPressEvent(QKeyEvent* event)
 
 int QExtendDialog::marginHint()
 {
-    return QApplication::style()->pixelMetric(QStyle::PM_DefaultChildMargin);
+    return QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 }
 
 int QExtendDialog::spacingHint()
 {
-    return QApplication::style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
+    return QApplication::style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing);
 }
 
 int QExtendDialog::groupSpacingHint()
@@ -584,34 +585,25 @@ void QExtendDialog::resizeLayout(QLayout* layout, int margin, int spacing) //sta
 
     if (layout->layout())
     {
-        layout->layout()->setMargin(margin);
+        layout->layout()->setContentsMargins(margin, margin, margin, margin);
         layout->layout()->setSpacing(spacing);
     }
 }
 
 static QRect screenRect(QWidget* widget, int screen)
 {
-    QDesktopWidget* desktop = QApplication::desktop();
-#if 0
-  KConfig gc( "kdeglobals", KConfig::NoGlobals );
-  KConfigGroup cg(&gc, "Windows" );
-  if ( desktop->isVirtualDesktop() &&
-       cg.readEntry( "XineramaEnabled", true ) &&
-       cg.readEntry( "XineramaPlacementEnabled", true ) ) {
+    Q_UNUSED(widget);
+    Q_UNUSED(screen);
 
-    if ( screen < 0 || screen >= desktop->numScreens() ) {
-      if ( screen == -1 )
-        screen = desktop->primaryScreen();
-      else if ( screen == -3 )
-        screen = desktop->screenNumber( QCursor::pos() );
-      else
-        screen = desktop->screenNumber( widget );
+    // Use the primary screen's geometry
+    QScreen* primaryScreen = QGuiApplication::primaryScreen();
+    if (primaryScreen)
+    {
+        return primaryScreen->geometry();
     }
 
-    return desktop->availableGeometry( screen );
-  } else
-#endif
-    return desktop->geometry();
+    // Fallback to a default rect if no screen is available
+    return QRect(0, 0, 800, 600);
 }
 
 void QExtendDialog::centerOnScreen(QWidget* widget, int screen)
@@ -1106,8 +1098,14 @@ void QExtendDialog::restoreDialogSize()
 {
     QSettings settings;
     int width, height;
-    int scnum = QApplication::desktop()->screenNumber(parentWidget());
-    QRect desk = QApplication::desktop()->screenGeometry(scnum);
+
+    // Get the screen containing this dialog
+    QScreen* screen = QGuiApplication::screenAt(mapToGlobal(QPoint(0, 0)));
+    if (!screen)
+    {
+        screen = QGuiApplication::primaryScreen();
+    }
+    QRect desk = screen->geometry();
 
     width = sizeHint().width();
     height = sizeHint().height();
@@ -1122,8 +1120,13 @@ void QExtendDialog::saveDialogSize() const
 {
     QSettings settings;
 
-    int scnum = QApplication::desktop()->screenNumber(parentWidget());
-    QRect desk = QApplication::desktop()->screenGeometry(scnum);
+    // Get the screen containing this dialog
+    QScreen* screen = QGuiApplication::screenAt(mapToGlobal(QPoint(0, 0)));
+    if (!screen)
+    {
+        screen = QGuiApplication::primaryScreen();
+    }
+    QRect desk = screen->geometry();
 
     const QSize sizeToSave = size();
 

@@ -102,7 +102,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
     /**
      * Creates a new page dialog.
      */
-    explicit QPageDialog(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit QPageDialog(QWidget* parent = 0, Qt::WindowFlags flags = Qt::WindowType::Widget);
 
     /**
      * Destroys the page dialog.
@@ -212,8 +212,8 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      * \param widget The QPageWidget object will be reparented to this object, so you can create
      * it without parent and you are not allowed to delete it.
      */
-    QPageDialog(QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags = 0);
-    QPageDialog(QPageDialogPrivate& dd, QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags = 0);
+    QPageDialog(QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags = Qt::WindowType::Widget);
+    QPageDialog(QPageDialogPrivate& dd, QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags = Qt::WindowType::Widget);
 
     /**
      * Returns the page widget of the dialog or 0 if no page widget is set.
@@ -227,7 +227,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
 
     /**
      * Set the page widget of the dialog.
-     * 
+     *
      * @note the previous pageWidget will be deleted.
      *
      * @param widget The QPageWidget object will be reparented to this object, so you can create

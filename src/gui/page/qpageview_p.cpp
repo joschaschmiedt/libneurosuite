@@ -219,7 +219,7 @@ QPageTabbedView::QPageTabbedView(QWidget* parent)
     setFrameShape(NoFrame);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     mTabWidget = new QTabWidget(this);
     connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(currentPageChanged(int)));
@@ -440,7 +440,7 @@ void QPageListViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     if (cg == QPalette::Normal && !(option.state & QStyle::State_Active))
         cg = QPalette::Inactive;
 
-    QStyleOptionViewItemV4 opt(option);
+    QStyleOptionViewItem opt(option);
     opt.showDecorationSelected = true;
     QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
@@ -509,7 +509,7 @@ void QPageListViewDelegate::drawFocus(QPainter* painter, const QStyleOptionViewI
         o.rect = rect;
         o.state |= QStyle::State_KeyboardFocusChange;
         QPalette::ColorGroup cg = (option.state & QStyle::State_Enabled) ? QPalette::Normal : QPalette::Disabled;
-        o.backgroundColor = option.palette.color(cg, (option.state & QStyle::State_Selected) ? QPalette::Highlight : QPalette::Background);
+        o.backgroundColor = option.palette.color(cg, (option.state & QStyle::State_Selected) ? QPalette::Highlight : QPalette::Window);
         QApplication::style()->drawPrimitive(QStyle::PE_FrameFocusRect, &o, painter);
     }
 }
