@@ -162,7 +162,7 @@ void ScrollArea::orderTheGroups()
     }
 
     {
-        qSort(itemGroupList);
+        std::sort(itemGroupList.begin(), itemGroupList.end());
         QStringList::iterator iterator;
         for (iterator = itemGroupList.begin(); iterator != itemGroupList.end(); ++iterator)
             verticalContainer->addWidget(itemGroupViewDict[*iterator]);

@@ -55,7 +55,7 @@ class GroupNameLabel : public QLabel
     void middleClickOnLabel(const QString& sourceId);
 
   protected:
-    void mousePressEvent(QMouseEvent* e)
+    void mousePressEvent(QMouseEvent* e) override
     {
         if (e->button() == Qt::LeftButton && !(e->modifiers() & Qt::ShiftModifier) && !(e->modifiers() & Qt::ControlModifier) && !(e->modifiers() & Qt::AltModifier))
         {
@@ -69,7 +69,7 @@ class GroupNameLabel : public QLabel
         {
             emit leftClickOnLabel(parent()->objectName(), false, true);
         }
-        if (e->button() == Qt::MidButton)
+        if (e->button() == Qt::MiddleButton)
         {
             emit middleClickOnLabel(parent()->objectName());
         }

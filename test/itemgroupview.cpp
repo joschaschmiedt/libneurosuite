@@ -27,7 +27,7 @@ ItemGroupView::ItemGroupView(const QColor& backgroundColor, QWidget* parent)
 {
     qDebug() << " ItemGroupView::ItemGroupView(const QColor& backgroundColor,QWidget* parent)";
     mLayout = new QHBoxLayout;
-    mLayout->setMargin(0);
+    mLayout->setContentsMargins(0, 0, 0, 0);
     mLayout->setSpacing(0);
 
     setAutoFillBackground(true);
@@ -72,7 +72,7 @@ void ItemGroupView::reAdjustSize(int parentWidth, int labelSize)
         iconView->setNewWidth(viewfuturWidth);
 
         /*if(iconView->size().height() != 1 && height() != iconView->size().height()) {
-            qDebug() << "setFixedHeight" << iconView->size().height(); 
+            qDebug() << "setFixedHeight" << iconView->size().height();
             setFixedHeight(iconView->size().height());
         }*/
     }
