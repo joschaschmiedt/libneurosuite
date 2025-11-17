@@ -127,38 +127,37 @@ class QExtendDialogPrivate;
  */
 class NEUROSUITE_EXPORT QExtendDialog : public QDialog
 {
-  Q_OBJECT
-  Q_ENUMS(ButtonCode)
+    Q_OBJECT
+    Q_ENUMS(ButtonCode)
     Q_DECLARE_PRIVATE(QExtendDialog)
 
   public:
-
     enum ButtonCode
     {
-      None    = 0x00000000,
-      Help    = 0x00000001, ///< Show Help button. (this button will run the help set with setHelp)
-      Default = 0x00000002, ///< Show Default button.
-      Ok      = 0x00000004, ///< Show Ok button. (this button accept()s the dialog; result set to QDialog::Accepted)
-      Apply   = 0x00000008, ///< Show Apply button.
-      Try     = 0x00000010, ///< Show Try button.
-      Cancel  = 0x00000020, ///< Show Cancel-button. (this button reject()s the dialog; result set to QDialog::Rejected)
-      Close   = 0x00000040, ///< Show Close-button. (this button closes the dialog)
-      No      = 0x00000080, ///< Show No button. (this button closes the dialog and sets the result to QExtendDialog::No)
-      Yes     = 0x00000100, ///< Show Yes button. (this button closes the dialog and sets the result to QExtendDialog::Yes)
-      Reset   = 0x00000200, ///< Show Reset button
-      Details = 0x00000400, ///< Show Details button. (this button will show the detail widget set with setDetailsWidget)
-      User1   = 0x00001000, ///< Show User defined button 1.
-      User2   = 0x00002000, ///< Show User defined button 2.
-      User3   = 0x00004000, ///< Show User defined button 3.
-      NoDefault = 0x00008000 ///< Used when specifying a default button; indicates that no button should be marked by default.
+        None = 0x00000000,
+        Help = 0x00000001,     ///< Show Help button. (this button will run the help set with setHelp)
+        Default = 0x00000002,  ///< Show Default button.
+        Ok = 0x00000004,       ///< Show Ok button. (this button accept()s the dialog; result set to QDialog::Accepted)
+        Apply = 0x00000008,    ///< Show Apply button.
+        Try = 0x00000010,      ///< Show Try button.
+        Cancel = 0x00000020,   ///< Show Cancel-button. (this button reject()s the dialog; result set to QDialog::Rejected)
+        Close = 0x00000040,    ///< Show Close-button. (this button closes the dialog)
+        No = 0x00000080,       ///< Show No button. (this button closes the dialog and sets the result to QExtendDialog::No)
+        Yes = 0x00000100,      ///< Show Yes button. (this button closes the dialog and sets the result to QExtendDialog::Yes)
+        Reset = 0x00000200,    ///< Show Reset button
+        Details = 0x00000400,  ///< Show Details button. (this button will show the detail widget set with setDetailsWidget)
+        User1 = 0x00001000,    ///< Show User defined button 1.
+        User2 = 0x00002000,    ///< Show User defined button 2.
+        User3 = 0x00004000,    ///< Show User defined button 3.
+        NoDefault = 0x00008000 ///< Used when specifying a default button; indicates that no button should be marked by default.
     };
     // TODO KDE5: remove NoDefault and use the value None instead
     Q_DECLARE_FLAGS(ButtonCodes, ButtonCode)
 
     enum ButtonPopupMode
     {
-      InstantPopup = 0,
-      DelayedPopup = 1
+        InstantPopup = 0,
+        DelayedPopup = 1
     };
     Q_DECLARE_FLAGS(ButtonPopupModes, ButtonPopupMode)
 
@@ -169,7 +168,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param parent The parent of the dialog.
      * @param flags  The widget flags passed to the QDialog constructor
      */
-    explicit QExtendDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+    explicit QExtendDialog(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 
     /**
      * Destroys the dialog.
@@ -189,7 +188,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param buttonMask Specifies what buttons will be made.
      */
-    void setButtons( ButtonCodes buttonMask );
+    void setButtons(ButtonCodes buttonMask);
 
     /**
      * Sets the orientation of the button box.
@@ -201,7 +200,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param orientation The button box orientation.
      */
-    void setButtonsOrientation( Qt::Orientation orientation );
+    void setButtonsOrientation(Qt::Orientation orientation);
 
     /**
      * Sets the button that will be activated when the Escape key
@@ -213,7 +212,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param id The button code.
      */
-    void setEscapeButton( ButtonCode id );
+    void setEscapeButton(ButtonCode id);
 
     /**
      * Sets the button that will be activated when the Enter key
@@ -223,7 +222,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param id The button code.
      */
-    void setDefaultButton( ButtonCode id );
+    void setDefaultButton(ButtonCode id);
 
     /**
      * Returns the button code of the default button,
@@ -235,7 +234,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * Hide or display the a separator line drawn between the action
      * buttons an the main widget.
      */
-    void showButtonSeparator( bool state );
+    void showButtonSeparator(bool state);
 
     /**
      * Hide or display a general action button.
@@ -247,7 +246,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id Button identifier.
      * @param state true display the button(s).
      */
-    void showButton( ButtonCode id, bool state );
+    void showButton(ButtonCode id, bool state);
 
     /**
      * Sets the text of any button.
@@ -255,12 +254,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id The button identifier.
      * @param text Button text.
      */
-    void setButtonText( ButtonCode id, const QString &text );
+    void setButtonText(ButtonCode id, const QString& text);
 
     /**
      * Returns the text of any button.
      */
-    QString buttonText( ButtonCode id ) const;
+    QString buttonText(ButtonCode id) const;
 
     /**
      * Sets the icon of any button.
@@ -268,12 +267,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id The button identifier.
      * @param icon Button icon.
      */
-    void setButtonIcon(ButtonCode id, const QIcon &icon );
+    void setButtonIcon(ButtonCode id, const QIcon& icon);
 
     /**
      * Returns the icon of any button.
      */
-    QIcon buttonIcon( ButtonCode id ) const;
+    QIcon buttonIcon(ButtonCode id) const;
 
     /**
      * Sets the tooltip text of any button.
@@ -281,12 +280,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id The button identifier.
      * @param text Button text.
      */
-    void setButtonToolTip( ButtonCode id, const QString &text );
+    void setButtonToolTip(ButtonCode id, const QString& text);
 
     /**
      * Returns the tooltip of any button.
      */
-    QString buttonToolTip( ButtonCode id ) const;
+    QString buttonToolTip(ButtonCode id) const;
 
     /**
      * Sets the "What's this?" text of any button.
@@ -294,12 +293,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id The button identifier.
      * @param text Button text.
      */
-    void setButtonWhatsThis( ButtonCode id, const QString &text );
+    void setButtonWhatsThis(ButtonCode id, const QString& text);
 
     /**
      * Returns the "What's this?" text of any button.
      */
-    QString buttonWhatsThis( ButtonCode id ) const;
+    QString buttonWhatsThis(ButtonCode id) const;
 #if 0
     /**
      * Sets the KGuiItem directly for the button instead of using 3 methods to
@@ -319,12 +318,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param menu The menu.
      * @param popupmode Choose if QPushButton setMenu or setDelayedMenu is used
      */
-    void setButtonMenu( ButtonCode id, QMenu *menu, ButtonPopupMode popupmode=InstantPopup);
+    void setButtonMenu(ButtonCode id, QMenu* menu, ButtonPopupMode popupmode = InstantPopup);
 
     /**
      * Sets the focus to the button of the passed @p id.
      */
-    void setButtonFocus( ButtonCode id );
+    void setButtonFocus(ButtonCode id);
 
     /**
      * Convenience method. Sets the initial dialog size.
@@ -335,7 +334,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param size Startup size.
      */
-    void setInitialSize( const QSize &size );
+    void setInitialSize(const QSize& size);
 
     /**
      * Convenience method. Add a size to the default minimum size of a
@@ -345,7 +344,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param size  Size added to minimum size.
      */
-    void incrementInitialSize( const QSize &size );
+    void incrementInitialSize(const QSize& size);
 
     /**
      * Restores the dialog's size from the configuration according to
@@ -355,7 +354,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      *
      * @param config The config group to read from.
      */
-    void restoreDialogSize() ;
+    void restoreDialogSize();
 
     /**
      * Saves the dialog's size dependent on the screen dimension either to the
@@ -385,7 +384,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
     /**
      * Returns whether any button is enabled.
      */
-    bool isButtonEnabled( ButtonCode id ) const;
+    bool isButtonEnabled(ButtonCode id) const;
 
     /**
      * Returns the button that corresponds to the @p id.
@@ -397,7 +396,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id Identifier of the button.
      * @return The button or 0 if the button does not exist.
      */
-    QPushButton* button( ButtonCode id ) const;
+    QPushButton* button(ButtonCode id) const;
 
     /**
      * Returns the number of pixels that should be used between a
@@ -466,9 +465,9 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param flags
      * @return the created caption
      */
-    static QString makeStandardCaption( const QString &userCaption,
-                                        QWidget* window = 0,
-                                        CaptionFlags flags = HIGCompliantCaption );
+    static QString makeStandardCaption(const QString& userCaption,
+                                       QWidget* window = 0,
+                                       CaptionFlags flags = HIGCompliantCaption);
 
     /**
      * Resize every layout manager used in @p widget and its nested children.
@@ -481,7 +480,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * values recursively for all children prevents QLayout from creating platform native
      * layouts.
      */
-    static void resizeLayout( QWidget *widget, int margin, int spacing );
+    static void resizeLayout(QWidget* widget, int margin, int spacing);
 
     /**
      * Resize every layout associated with @p lay and its children.
@@ -494,7 +493,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * values recursively for all children prevents QLayout from creating platform native
      * layouts.
      */
-    static void resizeLayout( QLayout *lay, int margin, int spacing );
+    static void resizeLayout(QLayout* lay, int margin, int spacing);
 
     /**
      * Centers @p widget on the desktop, taking multi-head setups into
@@ -505,7 +504,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @p screen will be ignored if a merged display (like Xinerama) is not
      * in use, or merged display placement is not enabled in kdeglobals.
      */
-    static void centerOnScreen( QWidget *widget, int screen = -1 );
+    static void centerOnScreen(QWidget* widget, int screen = -1);
 
     /**
      * Places @p widget so that it doesn't cover a certain @p area of the screen.
@@ -515,12 +514,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @return true on success (widget doesn't cover area anymore, or never did),
      * false on failure (not enough space found)
      */
-    static bool avoidArea( QWidget *widget, const QRect& area, int screen = -1 );
+    static bool avoidArea(QWidget* widget, const QRect& area, int screen = -1);
 
     /**
      * Sets the main widget of the dialog.
      */
-    void setMainWidget( QWidget *widget );
+    void setMainWidget(QWidget* widget);
 
     /**
      * @return The current main widget. Will create a QWidget as the mainWidget
@@ -530,7 +529,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * \endcode
      * when using designer.
      */
-    QWidget *mainWidget();
+    QWidget* mainWidget();
 
     /**
      * Reimplemented from QDialog.
@@ -541,13 +540,13 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * Reimplemented from QDialog.
      */
     virtual QSize minimumSizeHint() const;
-	
-	/**
+
+    /**
      * Allow embedding the dialogs based on QExtendDialog into a graphics view. By default embedding is not allowed, dialogs
 	 * will appear as separate windows.
 	 * @since 4.6
 	*/
-	static void setAllowEmbeddingInGraphicsView( bool allowEmbedding );
+    static void setAllowEmbeddingInGraphicsView(bool allowEmbedding);
 
   public Q_SLOTS:
     /**
@@ -557,7 +556,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * in this string. It will be added automatically according to the KDE
      * standard.
      */
-    virtual void setCaption( const QString &caption );
+    virtual void setCaption(const QString& caption);
 
     /**
      * Makes a KDE compliant caption.
@@ -568,7 +567,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param modified Specify whether the document is modified. This displays
      * an additional sign in the title bar, usually "**".
      */
-    virtual void setCaption( const QString &caption, bool modified );
+    virtual void setCaption(const QString& caption, bool modified);
 
     /**
      * Make a plain caption without any modifications.
@@ -576,7 +575,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param caption Your caption. This is the string that will be
      * displayed in the window title.
      */
-    virtual void setPlainCaption( const QString &caption );
+    virtual void setPlainCaption(const QString& caption);
 
     /**
      * Enable or disable (gray out) a general action button.
@@ -584,28 +583,28 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * @param id Button identifier.
      * @param state @p true enables the button(s).
      */
-    void enableButton( ButtonCode id, bool state );
+    void enableButton(ButtonCode id, bool state);
 
     /**
      * Enable or disable (gray out) the OK button.
      *
      * @param state @p true enables the button.
      */
-    void enableButtonOk( bool state );
+    void enableButtonOk(bool state);
 
     /**
      * Enable or disable (gray out) the Apply button.
      *
      * @param state true enables the button.
      */
-    void enableButtonApply( bool state );
+    void enableButtonApply(bool state);
 
     /**
      * Enable or disable (gray out) the Cancel button.
      *
      * @param state true enables the button.
      */
-    void enableButtonCancel( bool state );
+    void enableButtonCancel(bool state);
 
     /**
      * Display or hide the help link area on the top of the dialog.
@@ -644,7 +643,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * function for Dialogs of that type.  See
      * KCMultiDialog::slotHelp() for more information.
      */
-    void setHelp( const QString &anchor, const QString &appname = QString() );
+    void setHelp(const QString& anchor, const QString& appname = QString());
 
     /**
      * Returns the status of the Details button.
@@ -654,7 +653,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
     /**
      * Sets the status of the Details button.
      */
-    void setDetailsWidgetVisible( bool visible );
+    void setDetailsWidgetVisible(bool visible);
 
     /**
      * Sets the widget that gets shown when "Details" is enabled.
@@ -662,7 +661,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * The dialog takes over ownership of the widget.
      * Any previously set widget gets deleted.
      */
-    void setDetailsWidget( QWidget *detailsWidget );
+    void setDetailsWidget(QWidget* detailsWidget);
 
     /**
      * Destruct the dialog delayed.
@@ -767,7 +766,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * slotButtonClicked() is not replaced
      * @param button is the code of the pressed button.
      */
-    void buttonClicked( QExtendDialog::ButtonCode button);
+    void buttonClicked(QExtendDialog::ButtonCode button);
 
     /**
      * The dialog is about to be hidden.
@@ -805,7 +804,7 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * Emits the #hidden signal. You can connect to that signal to
      * detect when a dialog has been closed.
      */
-    virtual void hideEvent( QHideEvent * );
+    virtual void hideEvent(QHideEvent*);
 
     /**
      * Detects when a dialog is being closed from the window manager
@@ -813,12 +812,12 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      * is activated. Otherwise standard QDialog behavior
      * will take place.
      */
-    virtual void closeEvent( QCloseEvent *e );
+    virtual void closeEvent(QCloseEvent* e);
 
     /**
      * @internal
      */
-    virtual void keyPressEvent( QKeyEvent* );
+    virtual void keyPressEvent(QKeyEvent*);
 
   protected Q_SLOTS:
     /**
@@ -850,14 +849,14 @@ class NEUROSUITE_EXPORT QExtendDialog : public QDialog
      */
     void updateGeometry();
 
-    protected:
-        QExtendDialog(QExtendDialogPrivate &dd, QWidget *parent, Qt::WindowFlags flags = 0);
-        QExtendDialogPrivate *const d_ptr;
+  protected:
+    QExtendDialog(QExtendDialogPrivate& dd, QWidget* parent, Qt::WindowFlags flags = 0);
+    QExtendDialogPrivate* const d_ptr;
 
-    private:
-        Q_DISABLE_COPY(QExtendDialog)
-        Q_PRIVATE_SLOT(d_ptr, void queuedLayoutUpdate())
-        Q_PRIVATE_SLOT(d_ptr, void helpLinkClicked())
+  private:
+    Q_DISABLE_COPY(QExtendDialog)
+    Q_PRIVATE_SLOT(d_ptr, void queuedLayoutUpdate())
+    Q_PRIVATE_SLOT(d_ptr, void helpLinkClicked())
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QExtendDialog::ButtonCodes)

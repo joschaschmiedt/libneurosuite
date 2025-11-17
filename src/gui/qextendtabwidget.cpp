@@ -18,34 +18,32 @@
 #include "qextendtabwidget.h"
 #include "dockarea.h"
 
-QExtendTabWidget::QExtendTabWidget(QWidget *parent)
-    :QTabWidget(parent)
+QExtendTabWidget::QExtendTabWidget(QWidget* parent)
+    : QTabWidget(parent)
 {
 }
 
 QExtendTabWidget::~QExtendTabWidget()
 {
-
 }
 
 DockArea* QExtendTabWidget::addDockArea(const QString& label)
 {
-    DockArea* dockArea = new DockArea ( this );
-    addTab ( dockArea,label );
+    DockArea* dockArea = new DockArea(this);
+    addTab(dockArea, label);
     return dockArea;
 }
 
 void QExtendTabWidget::addDockArea(DockArea* area, const QString& label)
 {
-    addTab ( area,label );
+    addTab(area, label);
 }
 
 
 DockArea* QExtendTabWidget::currentDockArea()
 {
-    QWidget *w = currentWidget ();
-    if(!w)
+    QWidget* w = currentWidget();
+    if (!w)
         return 0;
-    return static_cast<DockArea *>(w);
+    return static_cast<DockArea*>(w);
 }
-

@@ -11,22 +11,23 @@ class ItemGroupView;
 class ScrollArea : public QScrollArea
 {
     Q_OBJECT
-public:
-    explicit ScrollArea(QWidget *parent=0);
+  public:
+    explicit ScrollArea(QWidget* parent = 0);
 
-    void createItemList(const QString &groupName);
-    void createGroup(const QString &id);
+    void createItemList(const QString& groupName);
+    void createGroup(const QString& id);
     void updateItemList(const QString& groupName);
 
     void orderTheGroups();
-protected:
+
+  protected:
     void resizeEvent(QResizeEvent* event);
 
-Q_SIGNALS:
-    void paletteResized(int parentWidth,int labelSize);
+  Q_SIGNALS:
+    void paletteResized(int parentWidth, int labelSize);
 
 
-private:
+  private:
     /**Dictionnary of the iconviews representing the group of items.*/
     QHash<QString, ListWidget*> iconviewDict;
     /**Dictionnary of layout containing the iconviews.*/
@@ -42,32 +43,37 @@ private:
     int labelSize;
 };
 
-class GroupNameLabel : public QLabel{
+class GroupNameLabel : public QLabel
+{
     Q_OBJECT
-public:
-    GroupNameLabel(const QString& text,QWidget* parent):
-        QLabel(text,parent){}
+  public:
+    GroupNameLabel(const QString& text, QWidget* parent)
+        : QLabel(text, parent) {}
 
-Q_SIGNALS:
-    void leftClickOnLabel(const QString& sourceId,bool shiftKey,bool ctrlAlt);
+  Q_SIGNALS:
+    void leftClickOnLabel(const QString& sourceId, bool shiftKey, bool ctrlAlt);
     void middleClickOnLabel(const QString& sourceId);
 
-protected:
-    void mousePressEvent(QMouseEvent* e){
-        if(e->button() == Qt::LeftButton && !(e->modifiers() & Qt::ShiftModifier) && !(e->modifiers() & Qt::ControlModifier) && !(e->modifiers() & Qt::AltModifier)){
-            emit leftClickOnLabel(parent()->objectName(),false,false);
+  protected:
+    void mousePressEvent(QMouseEvent* e)
+    {
+        if (e->button() == Qt::LeftButton && !(e->modifiers() & Qt::ShiftModifier) && !(e->modifiers() & Qt::ControlModifier) && !(e->modifiers() & Qt::AltModifier))
+        {
+            emit leftClickOnLabel(parent()->objectName(), false, false);
         }
-        if(e->button() == Qt::LeftButton && (e->modifiers() & Qt::ShiftModifier) && !(e->modifiers() & Qt::ControlModifier) && !(e->modifiers() & Qt::AltModifier)){
-            emit leftClickOnLabel(parent()->objectName(),true,false);
+        if (e->button() == Qt::LeftButton && (e->modifiers() & Qt::ShiftModifier) && !(e->modifiers() & Qt::ControlModifier) && !(e->modifiers() & Qt::AltModifier))
+        {
+            emit leftClickOnLabel(parent()->objectName(), true, false);
         }
-        if(e->button() == Qt::LeftButton && (e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::AltModifier)){
-            emit leftClickOnLabel(parent()->objectName(),false,true);
+        if (e->button() == Qt::LeftButton && (e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::AltModifier))
+        {
+            emit leftClickOnLabel(parent()->objectName(), false, true);
         }
-        if(e->button() == Qt::MidButton){
+        if (e->button() == Qt::MidButton)
+        {
             emit middleClickOnLabel(parent()->objectName());
         }
     }
-
 };
 
 #endif // SCROLLAREA_H

@@ -43,15 +43,15 @@
 #include <QScrollArea>
 
 
-
 /**
 * Dock area where dockwidget can be added. An overall scrollarea is used to allow a scollbar when there are to many widgets in the area.
 * @author Lynn Hazan <lynn.hazan@lsce.ipsl.fr>
 */
-class NEUROSUITE_EXPORT DockArea : public QScrollArea {
+class NEUROSUITE_EXPORT DockArea : public QScrollArea
+{
     Q_OBJECT
   public:
-    DockArea ( QWidget * parent = 0 );
+    DockArea(QWidget* parent = 0);
 
     virtual ~DockArea();
     /**
@@ -62,66 +62,65 @@ class NEUROSUITE_EXPORT DockArea : public QScrollArea {
      * @param pWidget widget to be added.
      *
      * */
-    void addWidget (QWidget * pWidget, const QString &pName, Qt::DockWidgetArea pAllowedAreas = Qt::AllDockWidgetAreas,
-             Qt::DockWidgetArea pArea = Qt::RightDockWidgetArea );
+    void addWidget(QWidget* pWidget, const QString& pName, Qt::DockWidgetArea pAllowedAreas = Qt::AllDockWidgetAreas,
+                   Qt::DockWidgetArea pArea = Qt::RightDockWidgetArea);
 
     /**
     * Add the given dockwidget to the specified area.
      * @param pArea area where to add the dockwidget.
      * @param pDockwidget dockwidget to be added.
     */
-    void addDockWidget ( Qt::DockWidgetArea pArea, QDockWidget * pDockwidget );
-   
-    void removeDockWidget ( QDockWidget * dockwidget );
+    void addDockWidget(Qt::DockWidgetArea pArea, QDockWidget* pDockwidget);
+
+    void removeDockWidget(QDockWidget* dockwidget);
 
   public slots:
 
     /**Change the background color.*/
-    void slotChangeBackgroundColor ( const QColor& pColor ) {emit sig_backgroundColorChanged ( pColor );}
+    void slotChangeBackgroundColor(const QColor& pColor) { emit sig_backgroundColorChanged(pColor); }
 
 
     /** Show or hide the dockWidget corresponding to widgetName.
     * @param pWidgetName name of the dockWidget to show or hide.
     * @param show show the dockWidget if true, hide otherwise.
     */
-    void showDockWidget ( const QString& pWidgetName, bool pShow );
-
+    void showDockWidget(const QString& pWidgetName, bool pShow);
 
 
     /** Return the names of the dockwidgets contained in this area.*/
-    inline QList<QString> dockWidgetNames() {
-      //The names (map keys) are ordered in ascending order
-      return  mDockWidgetByNameMap.keys();
+    inline QList<QString> dockWidgetNames()
+    {
+        //The names (map keys) are ordered in ascending order
+        return mDockWidgetByNameMap.keys();
     }
 
     /** Return the list of widgets having @p pName as a name in this area.*/
-    QList<QWidget *> widgets ( const QString& pName );
-    
+    QList<QWidget*> widgets(const QString& pName);
+
     /** Return a map of list of widgets by name in this area.*/
-    QMap< QString,QList<QWidget *> > widgetsByName ( );
-    
+    QMap<QString, QList<QWidget*>> widgetsByName();
+
     /** Delete the list of widgets having @p pName as a name in this area.*/
-    void deleteWidgets ( const QString& pName );
-		    
+    void deleteWidgets(const QString& pName);
+
   signals:
     /** Signal emited when a new dockWidget is added.
     * @param  pWidgetName name of the dockWidget added.
      */
-    void dockWidgetAdded ( const QString& pWidgetName );
+    void dockWidgetAdded(const QString& pWidgetName);
 
     void contentToUpdate();
-    void sig_backgroundColorChanged( const QColor&);
+    void sig_backgroundColorChanged(const QColor&);
 
   private:
+    void setupConnection(QWidget* pWidget);
 
-    void setupConnection ( QWidget * pWidget );
-
-    QMap<QString, QList< QPointer<QDockWidget> > > mDockWidgetByNameMap;    
+    QMap<QString, QList<QPointer<QDockWidget>>> mDockWidgetByNameMap;
 
     /** This map contains widget display information which are applicable at the dock are level.
     This mean that the information has an impact on all the widgets contained in the dock area.*/
-    QMap<QString,QVariant> mDisplayInfo;   
-    
+    QMap<QString, QVariant> mDisplayInfo;
+
     /**The main window allows to use dockwidgets*/
     QMainWindow mMainWindow;
 };

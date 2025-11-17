@@ -22,7 +22,7 @@
 
 // include files for Qt
 #include <QString>
-#include <QStringList> 
+#include <QStringList>
 #include <QFile>
 #include <QFileInfo>
 
@@ -31,23 +31,26 @@
 /**
 @author Lynn Hazan
 */
-class NEUROSUITE_EXPORT Utilities{
-public:
+class NEUROSUITE_EXPORT Utilities
+{
+  public:
     /**
     * Compares the versions
     * @param oldVersion the old version
     * @param newVersion the new version
     * @return true if @p newVersion is superior to @p oldVersion, false otherwise.
     */
-    inline static bool compareVersion(const QString& oldVersion, const QString& newVersion){
+    inline static bool compareVersion(const QString& oldVersion, const QString& newVersion)
+    {
         QStringList oldList = oldVersion.split(".", QString::SkipEmptyParts);
         QStringList newList = newVersion.split(".", QString::SkipEmptyParts);
-        int minLength = qMin(oldList.count(),newList.count());
-        for(int i = 0; i< minLength;++i){
-            if(newList[i] > oldList[i])
+        int minLength = qMin(oldList.count(), newList.count());
+        for (int i = 0; i < minLength; ++i)
+        {
+            if (newList[i] > oldList[i])
                 return true;
         }
-        if(newList.count() > oldList.count())
+        if (newList.count() > oldList.count())
             return true;
         else
             return false;
@@ -57,8 +60,8 @@ public:
     * @param path file path.
     * @return the number of lines in the file.
     */
-    static int getNbLines(const QString &path);
-    
+    static int getNbLines(const QString& path);
+
     /**Creates a backup of the file @p path. The backup file name is the original
     * file name with an additional ~.
     * @param path file path.

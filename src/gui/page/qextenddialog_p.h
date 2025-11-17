@@ -35,60 +35,61 @@ class QDialogButtonBox;
 class QExtendDialogPrivate
 {
     Q_DECLARE_PUBLIC(QExtendDialog)
-    protected:
-        QExtendDialogPrivate()
-            : mDetailsVisible(false), mSettingDetails(false), mDeferredDelete(false),
-            mDetailsWidget(0),
-            mTopLayout(0), mMainWidget(0)
+  protected:
+    QExtendDialogPrivate()
+        : mDetailsVisible(false), mSettingDetails(false), mDeferredDelete(false),
+          mDetailsWidget(0),
+          mTopLayout(0), mMainWidget(0)
           //, mUrlHelp(0)
-          , mActionSeparator(0),
-            mButtonOrientation(Qt::Horizontal),
-            mDefaultButton(QExtendDialog::NoDefault),
-            mButtonBox(0)
-        {
-        }
+          ,
+          mActionSeparator(0),
+          mButtonOrientation(Qt::Horizontal),
+          mDefaultButton(QExtendDialog::NoDefault),
+          mButtonBox(0)
+    {
+    }
 
-        virtual ~QExtendDialogPrivate() {}
+    virtual ~QExtendDialogPrivate() {}
 
-        QExtendDialog *q_ptr;
+    QExtendDialog* q_ptr;
 
-        void setupLayout();
-        void appendButton(QExtendDialog::ButtonCode code , const QString &item );
-        QPushButton *button( QExtendDialog::ButtonCode code ) const;
+    void setupLayout();
+    void appendButton(QExtendDialog::ButtonCode code, const QString& item);
+    QPushButton* button(QExtendDialog::ButtonCode code) const;
 
 
-        bool mDetailsVisible;
-        bool mSettingDetails;
-        bool mDeferredDelete;
-        QWidget *mDetailsWidget;
-        QSize mIncSize;
-        QSize mMinSize;
-        QString mDetailsButtonText;
+    bool mDetailsVisible;
+    bool mSettingDetails;
+    bool mDeferredDelete;
+    QWidget* mDetailsWidget;
+    QSize mIncSize;
+    QSize mMinSize;
+    QString mDetailsButtonText;
 
-        QBoxLayout *mTopLayout;
-        QPointer<QWidget> mMainWidget;
-        //KUrlLabel *mUrlHelp;
-        KLusterSeparator *mActionSeparator;
+    QBoxLayout* mTopLayout;
+    QPointer<QWidget> mMainWidget;
+    //KUrlLabel *mUrlHelp;
+    KLusterSeparator* mActionSeparator;
 
-        QString mAnchor;
-        QString mHelpApp;
-        QString mHelpLinkText;
+    QString mAnchor;
+    QString mHelpApp;
+    QString mHelpLinkText;
 
-        Qt::Orientation mButtonOrientation;
-        QExtendDialog::ButtonCode mDefaultButton;
-        QExtendDialog::ButtonCode mEscapeButton;
+    Qt::Orientation mButtonOrientation;
+    QExtendDialog::ButtonCode mDefaultButton;
+    QExtendDialog::ButtonCode mEscapeButton;
 
-        QDialogButtonBox *mButtonBox;
-        QHash<int, QPushButton*> mButtonList;
-        QSignalMapper mButtonSignalMapper;
+    QDialogButtonBox* mButtonBox;
+    QHash<int, QPushButton*> mButtonList;
+    QSignalMapper mButtonSignalMapper;
 
-    protected Q_SLOTS:
-        void queuedLayoutUpdate();
-        void helpLinkClicked();
+  protected Q_SLOTS:
+    void queuedLayoutUpdate();
+    void helpLinkClicked();
 
-    private:
-        void init(QExtendDialog *);
-        bool dirty: 1;
+  private:
+    void init(QExtendDialog*);
+    bool dirty : 1;
 };
 
 #endif // KDEUI_KDIALOG_P_H

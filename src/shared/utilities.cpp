@@ -19,12 +19,15 @@
  ***************************************************************************/
 #include "utilities.h"
 
-int Utilities::getNbLines(const QString& path){
+int Utilities::getNbLines(const QString& path)
+{
     // ' are added around the path to take care of directory names with blank.
     int numLines = 0;
     QFile file(path);
-    if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        while (!file.atEnd()) {
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        while (!file.atEnd())
+        {
             file.readLine();
             ++numLines;
         }
@@ -33,14 +36,13 @@ int Utilities::getNbLines(const QString& path){
 }
 
 
-
-void Utilities::createBackup(const QString& path){
+void Utilities::createBackup(const QString& path)
+{
     QFile original(path);
-    QFile backup(path+"~");
+    QFile backup(path + "~");
     original.open(QIODevice::ReadOnly);
     backup.open(QIODevice::WriteOnly);
     backup.write(original.readAll());
     original.close();
     backup.close();
 }
-

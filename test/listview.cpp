@@ -3,16 +3,16 @@
 #include <QPalette>
 #include <QDebug>
 
-ListWidget::ListWidget(QWidget *parent)
+ListWidget::ListWidget(QWidget* parent)
     : QListWidget(parent)
 {
-    QFont font( "Helvetica",8);
+    QFont font("Helvetica", 8);
     setFont(font);
     setSpacing(4);
     setFrameStyle(QFrame::NoFrame);
     setResizeMode(QListWidget::Adjust);
     setViewMode(QListView::IconMode);
-    setGridSize(QSize(50,50));
+    setGridSize(QSize(50, 50));
     setWordWrap(false);
     setAutoFillBackground(true);
     viewport()->setAutoFillBackground(false);
@@ -23,9 +23,9 @@ ListWidget::ListWidget(QWidget *parent)
     int h;
     int s;
     int v;
-    backgroundColor.getHsv(&h,&s,&v);
+    backgroundColor.getHsv(&h, &s, &v);
     QColor legendColor;
-    if(s <= 80 && v >= 240 || (s <= 40 && v >= 220))
+    if (s <= 80 && v >= 240 || (s <= 40 && v >= 220))
         legendColor = Qt::black;
     else
         legendColor = Qt::white;

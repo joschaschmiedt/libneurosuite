@@ -41,7 +41,7 @@ class QPageWidgetPrivate;
  */
 class NEUROSUITE_EXPORT QPageWidget : public QPageView
 {
-  Q_OBJECT
+    Q_OBJECT
     Q_DECLARE_PRIVATE(QPageWidget)
 
   public:
@@ -50,7 +50,7 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @param parent The parent widget.
      */
-    explicit QPageWidget( QWidget *parent = 0 );
+    explicit QPageWidget(QWidget* parent = 0);
 
     /**
      * Destroys the page widget.
@@ -65,14 +65,14 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @returns The associated @see QPageWidgetItem.
      */
-    QPageWidgetItem* addPage( QWidget *widget, const QString &name );
+    QPageWidgetItem* addPage(QWidget* widget, const QString& name);
 
     /**
      * Adds a new top level page to the widget.
      *
      * @param item The @see QPageWidgetItem which describes the page.
      */
-    void addPage( QPageWidgetItem *item );
+    void addPage(QPageWidgetItem* item);
 
     /**
      * Inserts a new page in the widget.
@@ -84,7 +84,7 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @returns The associated @see QPageWidgetItem.
      */
-    QPageWidgetItem* insertPage( QPageWidgetItem *before, QWidget *widget, const QString &name );
+    QPageWidgetItem* insertPage(QPageWidgetItem* before, QWidget* widget, const QString& name);
 
     /**
      * Inserts a new page in the widget.
@@ -94,7 +94,7 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @param item The @see QPageWidgetItem which describes the page.
      */
-    void insertPage( QPageWidgetItem *before, QPageWidgetItem *item );
+    void insertPage(QPageWidgetItem* before, QPageWidgetItem* item);
 
     /**
      * Inserts a new sub page in the widget.
@@ -105,7 +105,7 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @returns The associated @see QPageWidgetItem.
      */
-    QPageWidgetItem* addSubPage( QPageWidgetItem *parent, QWidget *widget, const QString &name );
+    QPageWidgetItem* addSubPage(QPageWidgetItem* parent, QWidget* widget, const QString& name);
 
     /**
      * Inserts a new sub page in the widget.
@@ -114,18 +114,18 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @param item The @see QPageWidgetItem which describes the page.
      */
-    void addSubPage( QPageWidgetItem *parent, QPageWidgetItem *item );
+    void addSubPage(QPageWidgetItem* parent, QPageWidgetItem* item);
 
     /**
      * Removes the page associated with the given @see QPageWidgetItem.
      */
-    void removePage( QPageWidgetItem *item );
+    void removePage(QPageWidgetItem* item);
 
     /**
      * Sets the page which is associated with the given @see QPageWidgetItem to
      * be the current page and emits the currentPageChanged() signal.
      */
-    void setCurrentPage( QPageWidgetItem *item );
+    void setCurrentPage(QPageWidgetItem* item);
 
     /**
      * Returns the @see QPageWidgetItem for the current page or 0 if there is no
@@ -139,25 +139,25 @@ class NEUROSUITE_EXPORT QPageWidget : public QPageView
      *
      * @param item The new current page or 0 if no current page is available.
      */
-    void currentPageChanged( QPageWidgetItem *current, QPageWidgetItem *before );
+    void currentPageChanged(QPageWidgetItem* current, QPageWidgetItem* before);
 
     /**
      * This signal is emitted whenever a checkable page changes its state. @param checked is true
      * when the @param page is checked, or false if the @param page is unchecked.
      */
-    void pageToggled( QPageWidgetItem *page, bool checked );
-    
+    void pageToggled(QPageWidgetItem* page, bool checked);
+
     /**
      * This signal is emitted when a page is removed.
      * @param page The page which is removed
      * */
-    void pageRemoved( QPageWidgetItem *page );
+    void pageRemoved(QPageWidgetItem* page);
 
-    protected:
-        QPageWidget(QPageWidgetPrivate &dd, QWidget *parent);
+  protected:
+    QPageWidget(QPageWidgetPrivate& dd, QWidget* parent);
 
-    private:
-        Q_PRIVATE_SLOT(d_func(), void _k_slotCurrentPageChanged(const QModelIndex &, const QModelIndex &))
+  private:
+    Q_PRIVATE_SLOT(d_func(), void _k_slotCurrentPageChanged(const QModelIndex&, const QModelIndex&))
 };
 
 #endif

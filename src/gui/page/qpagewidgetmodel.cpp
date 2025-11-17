@@ -37,14 +37,14 @@ class QPageWidgetItem::Private
 {
   public:
     Private()
-            : checkable(false), checked(false), enabled(true)
+        : checkable(false), checked(false), enabled(true)
     {
     }
 
     ~Private()
     {
-      delete widget;
-      widget = 0;
+        delete widget;
+        widget = 0;
     }
 
     QString name;
@@ -56,44 +56,45 @@ class QPageWidgetItem::Private
     bool enabled : 1;
 };
 
-QPageWidgetItem::QPageWidgetItem( QWidget *widget )
-  : QObject( 0 ), d( new Private )
+QPageWidgetItem::QPageWidgetItem(QWidget* widget)
+    : QObject(0), d(new Private)
 {
-  d->widget = widget;
+    d->widget = widget;
 
-  /**
+    /**
    * Hide the widget, otherwise when the widget has this QPageView as
    * parent the widget is shown outside the QStackedWidget if the page
    * was not selected ( and reparented ) yet.
    */
-  if ( d->widget )
-    d->widget->hide();
+    if (d->widget)
+        d->widget->hide();
 }
 
-QPageWidgetItem::QPageWidgetItem( QWidget *widget, const QString &name )
-  : QObject( 0 ), d( new Private )
+QPageWidgetItem::QPageWidgetItem(QWidget* widget, const QString& name)
+    : QObject(0), d(new Private)
 {
-  d->widget = widget;
-  d->name = name;
+    d->widget = widget;
+    d->name = name;
 
-  /**
+    /**
    * Hide the widget, otherwise when the widget has this QPageView as
    * parent the widget is shown outside the QStackedWidget if the page
    * was not selected ( and reparented ) yet.
    */
-  if ( d->widget )
-    d->widget->hide();
+    if (d->widget)
+        d->widget->hide();
 }
 
 QPageWidgetItem::~QPageWidgetItem()
 {
-  delete d;
+    delete d;
 }
 
 void QPageWidgetItem::setEnabled(bool enabled)
 {
     d->enabled = enabled;
-    if (d->widget) {
+    if (d->widget)
+    {
         d->widget->setEnabled(enabled);
     }
     emit changed();
@@ -106,158 +107,159 @@ bool QPageWidgetItem::isEnabled() const
 
 QWidget* QPageWidgetItem::widget() const
 {
-  return d->widget;
+    return d->widget;
 }
 
-void QPageWidgetItem::setName( const QString &name )
+void QPageWidgetItem::setName(const QString& name)
 {
-  d->name = name;
+    d->name = name;
 
-  emit changed();
+    emit changed();
 }
 
 QString QPageWidgetItem::name() const
 {
-  return d->name;
+    return d->name;
 }
 
-void QPageWidgetItem::setHeader( const QString &header )
+void QPageWidgetItem::setHeader(const QString& header)
 {
-  d->header = header;
+    d->header = header;
 
-  emit changed();
+    emit changed();
 }
 
 QString QPageWidgetItem::header() const
 {
-  return d->header;
+    return d->header;
 }
 
-void QPageWidgetItem::setIcon( const QIcon &icon )
+void QPageWidgetItem::setIcon(const QIcon& icon)
 {
-  d->icon = icon;
+    d->icon = icon;
 
-  emit changed();
+    emit changed();
 }
 
 QIcon QPageWidgetItem::icon() const
 {
-  return d->icon;
+    return d->icon;
 }
 
-void QPageWidgetItem::setCheckable( bool checkable )
+void QPageWidgetItem::setCheckable(bool checkable)
 {
-  d->checkable = checkable;
+    d->checkable = checkable;
 
-  emit changed();
+    emit changed();
 }
 
 bool QPageWidgetItem::isCheckable() const
 {
-  return d->checkable;
+    return d->checkable;
 }
 
-void QPageWidgetItem::setChecked( bool checked )
+void QPageWidgetItem::setChecked(bool checked)
 {
-  d->checked = checked;
+    d->checked = checked;
 
-  emit toggled( checked );
-  emit changed();
+    emit toggled(checked);
+    emit changed();
 }
 
 bool QPageWidgetItem::isChecked() const
 {
-  return d->checked;
+    return d->checked;
 }
 
-PageItem::PageItem( QPageWidgetItem *pageWidgetItem, PageItem *parent )
-  : mPageWidgetItem( pageWidgetItem ), mParentItem( parent )
+PageItem::PageItem(QPageWidgetItem* pageWidgetItem, PageItem* parent)
+    : mPageWidgetItem(pageWidgetItem), mParentItem(parent)
 {
 }
 
 PageItem::~PageItem()
 {
-  delete mPageWidgetItem;
-  mPageWidgetItem = 0;
+    delete mPageWidgetItem;
+    mPageWidgetItem = 0;
 
-  qDeleteAll(mChildItems);
+    qDeleteAll(mChildItems);
 }
 
-void PageItem::appendChild( PageItem *item )
+void PageItem::appendChild(PageItem* item)
 {
-  mChildItems.append( item );
+    mChildItems.append(item);
 }
 
-void PageItem::insertChild( int row, PageItem *item )
+void PageItem::insertChild(int row, PageItem* item)
 {
-  mChildItems.insert( row, item );
+    mChildItems.insert(row, item);
 }
 
-void PageItem::removeChild( int row )
+void PageItem::removeChild(int row)
 {
-  mChildItems.removeAt( row );
+    mChildItems.removeAt(row);
 }
 
-PageItem *PageItem::child( int row )
+PageItem* PageItem::child(int row)
 {
-  return mChildItems.value( row );
+    return mChildItems.value(row);
 }
 
 int PageItem::childCount() const
 {
-  return mChildItems.count();
+    return mChildItems.count();
 }
 
 int PageItem::columnCount() const
 {
-  return 1;
+    return 1;
 }
 
-PageItem *PageItem::parent()
+PageItem* PageItem::parent()
 {
-  return mParentItem;
+    return mParentItem;
 }
 
 int PageItem::row() const
 {
-  if ( mParentItem )
-    return mParentItem->mChildItems.indexOf( const_cast<PageItem*>(this) );
+    if (mParentItem)
+        return mParentItem->mChildItems.indexOf(const_cast<PageItem*>(this));
 
-  return 0;
+    return 0;
 }
 
 QPageWidgetItem* PageItem::pageWidgetItem() const
 {
-  return mPageWidgetItem;
+    return mPageWidgetItem;
 }
 
-PageItem *PageItem::findChild( const QPageWidgetItem *item )
+PageItem* PageItem::findChild(const QPageWidgetItem* item)
 {
-  if ( mPageWidgetItem == item )
-    return this;
+    if (mPageWidgetItem == item)
+        return this;
 
-  for ( int i = 0; i < mChildItems.count(); ++i ) {
-    PageItem *pageItem = mChildItems[ i ]->findChild( item );
-    if ( pageItem )
-      return pageItem;
-  }
+    for (int i = 0; i < mChildItems.count(); ++i)
+    {
+        PageItem* pageItem = mChildItems[i]->findChild(item);
+        if (pageItem)
+            return pageItem;
+    }
 
-  return 0;
+    return 0;
 }
 
-void PageItem::dump( int indent )
+void PageItem::dump(int indent)
 {
-  QString prefix;
-  for ( int i = 0; i < indent; ++i )
-    prefix.append( " " );
+    QString prefix;
+    for (int i = 0; i < indent; ++i)
+        prefix.append(" ");
 
-  const QString name = ( mPageWidgetItem ? mPageWidgetItem->name() : "root" );
-  qDebug( "%s (%p)", qPrintable( QString( "%1%2" ).arg( prefix, name ) ), (void*)this );
-  for ( int i = 0; i < mChildItems.count(); ++i )
-    mChildItems[ i ]->dump( indent + 2 );
+    const QString name = (mPageWidgetItem ? mPageWidgetItem->name() : "root");
+    qDebug("%s (%p)", qPrintable(QString("%1%2").arg(prefix, name)), (void*)this);
+    for (int i = 0; i < mChildItems.count(); ++i)
+        mChildItems[i]->dump(indent + 2);
 }
 
-QPageWidgetModel::QPageWidgetModel( QObject *parent )
+QPageWidgetModel::QPageWidgetModel(QObject* parent)
     : QPageModel(*new QPageWidgetModelPrivate, parent)
 {
 }
@@ -266,286 +268,297 @@ QPageWidgetModel::~QPageWidgetModel()
 {
 }
 
-int QPageWidgetModel::columnCount( const QModelIndex& ) const
+int QPageWidgetModel::columnCount(const QModelIndex&) const
 {
-  return 1;
+    return 1;
 }
 
-QVariant QPageWidgetModel::data( const QModelIndex &index, int role ) const
+QVariant QPageWidgetModel::data(const QModelIndex& index, int role) const
 {
-  if ( !index.isValid() )
-    return QVariant();
+    if (!index.isValid())
+        return QVariant();
 
-  PageItem *item = static_cast<PageItem*>( index.internalPointer() );
+    PageItem* item = static_cast<PageItem*>(index.internalPointer());
 
-  if ( role == Qt::DisplayRole )
-    return QVariant( item->pageWidgetItem()->name() );
-  else if ( role == Qt::DecorationRole )
-    return QVariant( item->pageWidgetItem()->icon() );
-  else if ( role == HeaderRole )
-    return QVariant( item->pageWidgetItem()->header() );
-  else if ( role == WidgetRole )
-    return QVariant::fromValue( item->pageWidgetItem()->widget() );
-  else if ( role == Qt::CheckStateRole ) {
-    if ( item->pageWidgetItem()->isCheckable() ) {
-      return ( item->pageWidgetItem()->isChecked() ? Qt::Checked : Qt::Unchecked );
-    } else
-      return QVariant();
-  } else
-    return QVariant();
+    if (role == Qt::DisplayRole)
+        return QVariant(item->pageWidgetItem()->name());
+    else if (role == Qt::DecorationRole)
+        return QVariant(item->pageWidgetItem()->icon());
+    else if (role == HeaderRole)
+        return QVariant(item->pageWidgetItem()->header());
+    else if (role == WidgetRole)
+        return QVariant::fromValue(item->pageWidgetItem()->widget());
+    else if (role == Qt::CheckStateRole)
+    {
+        if (item->pageWidgetItem()->isCheckable())
+        {
+            return (item->pageWidgetItem()->isChecked() ? Qt::Checked : Qt::Unchecked);
+        }
+        else
+            return QVariant();
+    }
+    else
+        return QVariant();
 }
 
-bool QPageWidgetModel::setData( const QModelIndex &index, const QVariant &value, int role )
+bool QPageWidgetModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-  if ( !index.isValid() )
-    return false;
+    if (!index.isValid())
+        return false;
 
-  if ( role != Qt::CheckStateRole )
-    return false;
+    if (role != Qt::CheckStateRole)
+        return false;
 
-  PageItem *item = static_cast<PageItem*>( index.internalPointer() );
-  if ( !item )
-    return false;
+    PageItem* item = static_cast<PageItem*>(index.internalPointer());
+    if (!item)
+        return false;
 
-  if ( !item->pageWidgetItem()->isCheckable() )
-    return false;
+    if (!item->pageWidgetItem()->isCheckable())
+        return false;
 
-  if ( value.toInt() == Qt::Checked )
-    item->pageWidgetItem()->setChecked( true );
-  else
-    item->pageWidgetItem()->setChecked( false );
+    if (value.toInt() == Qt::Checked)
+        item->pageWidgetItem()->setChecked(true);
+    else
+        item->pageWidgetItem()->setChecked(false);
 
-  return true;
+    return true;
 }
 
-Qt::ItemFlags QPageWidgetModel::flags( const QModelIndex &index ) const
+Qt::ItemFlags QPageWidgetModel::flags(const QModelIndex& index) const
 {
-  if ( !index.isValid() )
-    return 0;
+    if (!index.isValid())
+        return 0;
 
-  Qt::ItemFlags flags = Qt::ItemIsSelectable;
+    Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-  PageItem *item = static_cast<PageItem*>( index.internalPointer() );
-  if ( item->pageWidgetItem()->isCheckable() )
-    flags |= Qt::ItemIsUserCheckable;
-  if (item->pageWidgetItem()->isEnabled()) {
-      flags |= Qt::ItemIsEnabled;
-  }
+    PageItem* item = static_cast<PageItem*>(index.internalPointer());
+    if (item->pageWidgetItem()->isCheckable())
+        flags |= Qt::ItemIsUserCheckable;
+    if (item->pageWidgetItem()->isEnabled())
+    {
+        flags |= Qt::ItemIsEnabled;
+    }
 
-  return flags;
+    return flags;
 }
 
-QModelIndex QPageWidgetModel::index( int row, int column, const QModelIndex &parent ) const
+QModelIndex QPageWidgetModel::index(int row, int column, const QModelIndex& parent) const
 {
-  PageItem *parentItem;
+    PageItem* parentItem;
 
-  if ( parent.isValid() )
-    parentItem = static_cast<PageItem*>( parent.internalPointer() );
-  else
+    if (parent.isValid())
+        parentItem = static_cast<PageItem*>(parent.internalPointer());
+    else
         parentItem = d_func()->rootItem;
 
-  PageItem *childItem = parentItem->child( row );
-  if ( childItem )
-    return createIndex( row, column, childItem );
-  else
-    return QModelIndex();
+    PageItem* childItem = parentItem->child(row);
+    if (childItem)
+        return createIndex(row, column, childItem);
+    else
+        return QModelIndex();
 }
 
-QModelIndex QPageWidgetModel::parent( const QModelIndex &index ) const
+QModelIndex QPageWidgetModel::parent(const QModelIndex& index) const
 {
-  if ( !index.isValid() )
-    return QModelIndex();
+    if (!index.isValid())
+        return QModelIndex();
 
-  PageItem *item = static_cast<PageItem*>( index.internalPointer() );
-  PageItem *parentItem = item->parent();
+    PageItem* item = static_cast<PageItem*>(index.internalPointer());
+    PageItem* parentItem = item->parent();
 
-    if ( parentItem == d_func()->rootItem )
-    return QModelIndex();
-  else
-    return createIndex( parentItem->row(), 0, parentItem );
+    if (parentItem == d_func()->rootItem)
+        return QModelIndex();
+    else
+        return createIndex(parentItem->row(), 0, parentItem);
 }
 
-int QPageWidgetModel::rowCount( const QModelIndex &parent ) const
+int QPageWidgetModel::rowCount(const QModelIndex& parent) const
 {
-  PageItem *parentItem;
+    PageItem* parentItem;
 
-  if ( !parent.isValid() )
+    if (!parent.isValid())
         parentItem = d_func()->rootItem;
-  else
-    parentItem = static_cast<PageItem*>( parent.internalPointer() );
+    else
+        parentItem = static_cast<PageItem*>(parent.internalPointer());
 
-  return parentItem->childCount();
+    return parentItem->childCount();
 }
 
-QPageWidgetItem* QPageWidgetModel::addPage( QWidget *widget, const QString &name )
+QPageWidgetItem* QPageWidgetModel::addPage(QWidget* widget, const QString& name)
 {
-  QPageWidgetItem *item = new QPageWidgetItem( widget, name );
+    QPageWidgetItem* item = new QPageWidgetItem(widget, name);
 
-  addPage( item );
+    addPage(item);
 
-  return item;
+    return item;
 }
 
-void QPageWidgetModel::addPage( QPageWidgetItem *item )
+void QPageWidgetModel::addPage(QPageWidgetItem* item)
 {
-  emit layoutAboutToBeChanged();
+    emit layoutAboutToBeChanged();
 
     Q_D(QPageWidgetModel);
     connect(item, SIGNAL(changed()), this, SLOT(_k_itemChanged()));
     connect(item, SIGNAL(toggled(bool)), this, SLOT(_k_itemToggled(bool)));
 
-  // The row to be inserted
-  int row = d->rootItem->childCount();
+    // The row to be inserted
+    int row = d->rootItem->childCount();
 
-  beginInsertRows(QModelIndex(), row, row);
+    beginInsertRows(QModelIndex(), row, row);
 
-  PageItem *pageItem = new PageItem( item, d->rootItem );
-  d->rootItem->appendChild( pageItem );
+    PageItem* pageItem = new PageItem(item, d->rootItem);
+    d->rootItem->appendChild(pageItem);
 
-  endInsertRows();
+    endInsertRows();
 
-  emit layoutChanged();
+    emit layoutChanged();
 }
 
-QPageWidgetItem* QPageWidgetModel::insertPage( QPageWidgetItem *before, QWidget *widget, const QString &name )
+QPageWidgetItem* QPageWidgetModel::insertPage(QPageWidgetItem* before, QWidget* widget, const QString& name)
 {
-  QPageWidgetItem *item = new QPageWidgetItem( widget, name );
+    QPageWidgetItem* item = new QPageWidgetItem(widget, name);
 
-  insertPage( before, item );
+    insertPage(before, item);
 
-  return item;
+    return item;
 }
 
-void QPageWidgetModel::insertPage( QPageWidgetItem *before, QPageWidgetItem *item )
+void QPageWidgetModel::insertPage(QPageWidgetItem* before, QPageWidgetItem* item)
 {
-    PageItem *beforePageItem = d_func()->rootItem->findChild(before);
-  if ( !beforePageItem ) {
-    qDebug( "Invalid QPageWidgetItem passed!" );
-    return;
-  }
+    PageItem* beforePageItem = d_func()->rootItem->findChild(before);
+    if (!beforePageItem)
+    {
+        qDebug("Invalid QPageWidgetItem passed!");
+        return;
+    }
 
-  emit layoutAboutToBeChanged();
+    emit layoutAboutToBeChanged();
 
     connect(item, SIGNAL(changed()), this, SLOT(_k_itemChanged()));
     connect(item, SIGNAL(toggled(bool)), this, SLOT(_k_itemToggled(bool)));
 
-  PageItem *parent = beforePageItem->parent();
-  // The row to be inserted
-  int row = beforePageItem->row();
+    PageItem* parent = beforePageItem->parent();
+    // The row to be inserted
+    int row = beforePageItem->row();
 
-  QModelIndex index;
-  if (parent != d_func()->rootItem) {
-      index = createIndex( parent->row(), 0, parent );
-  }
+    QModelIndex index;
+    if (parent != d_func()->rootItem)
+    {
+        index = createIndex(parent->row(), 0, parent);
+    }
 
-  beginInsertRows(index, row, row);
+    beginInsertRows(index, row, row);
 
-  PageItem *newPageItem = new PageItem( item, parent );
-  parent->insertChild( row, newPageItem );
+    PageItem* newPageItem = new PageItem(item, parent);
+    parent->insertChild(row, newPageItem);
 
-  endInsertRows();
+    endInsertRows();
 
-  emit layoutChanged();
+    emit layoutChanged();
 }
 
-QPageWidgetItem* QPageWidgetModel::addSubPage( QPageWidgetItem *parent, QWidget *widget, const QString &name )
+QPageWidgetItem* QPageWidgetModel::addSubPage(QPageWidgetItem* parent, QWidget* widget, const QString& name)
 {
-  QPageWidgetItem *item = new QPageWidgetItem( widget, name );
+    QPageWidgetItem* item = new QPageWidgetItem(widget, name);
 
-  addSubPage( parent, item );
+    addSubPage(parent, item);
 
-  return item;
+    return item;
 }
 
-void QPageWidgetModel::addSubPage( QPageWidgetItem *parent, QPageWidgetItem *item )
+void QPageWidgetModel::addSubPage(QPageWidgetItem* parent, QPageWidgetItem* item)
 {
-    PageItem *parentPageItem = d_func()->rootItem->findChild(parent);
-  if ( !parentPageItem ) {
-    qDebug( "Invalid QPageWidgetItem passed!" );
-    return;
-  }
+    PageItem* parentPageItem = d_func()->rootItem->findChild(parent);
+    if (!parentPageItem)
+    {
+        qDebug("Invalid QPageWidgetItem passed!");
+        return;
+    }
 
-  emit layoutAboutToBeChanged();
+    emit layoutAboutToBeChanged();
 
     connect(item, SIGNAL(changed()), this, SLOT(_k_itemChanged()));
     connect(item, SIGNAL(toggled(bool)), this, SLOT(_k_itemToggled(bool)));
 
-  // The row to be inserted
-  int row = parentPageItem->childCount();
+    // The row to be inserted
+    int row = parentPageItem->childCount();
 
-  QModelIndex index;
-  if (parentPageItem != d_func()->rootItem) {
-      index = createIndex( parentPageItem->row(), 0, parentPageItem );
-  }
+    QModelIndex index;
+    if (parentPageItem != d_func()->rootItem)
+    {
+        index = createIndex(parentPageItem->row(), 0, parentPageItem);
+    }
 
-  beginInsertRows(index, row, row);
+    beginInsertRows(index, row, row);
 
-  PageItem *newPageItem = new PageItem( item, parentPageItem );
-  parentPageItem->appendChild( newPageItem );
+    PageItem* newPageItem = new PageItem(item, parentPageItem);
+    parentPageItem->appendChild(newPageItem);
 
-  endInsertRows();
+    endInsertRows();
 
-  emit layoutChanged();
+    emit layoutChanged();
 }
 
-void QPageWidgetModel::removePage( QPageWidgetItem *item )
+void QPageWidgetModel::removePage(QPageWidgetItem* item)
 {
-  if ( !item )
-    return;
+    if (!item)
+        return;
 
-  Q_D(QPageWidgetModel);
+    Q_D(QPageWidgetModel);
 
-  PageItem *pageItem = d->rootItem->findChild( item );
-  if ( !pageItem ) {
-    qDebug( "Invalid QPageWidgetItem passed!" );
-    return;
-  }
+    PageItem* pageItem = d->rootItem->findChild(item);
+    if (!pageItem)
+    {
+        qDebug("Invalid QPageWidgetItem passed!");
+        return;
+    }
 
-  emit layoutAboutToBeChanged();
+    emit layoutAboutToBeChanged();
 
     disconnect(item, SIGNAL(changed()), this, SLOT(_k_itemChanged()));
     disconnect(item, SIGNAL(toggled(bool)), this, SLOT(_k_itemToggled(bool)));
 
-  PageItem *parentPageItem = pageItem->parent();
-  int row = parentPageItem->row();
+    PageItem* parentPageItem = pageItem->parent();
+    int row = parentPageItem->row();
 
-  QModelIndex index;
-  if ( parentPageItem != d->rootItem )
-    index = createIndex( row, 0, parentPageItem );
+    QModelIndex index;
+    if (parentPageItem != d->rootItem)
+        index = createIndex(row, 0, parentPageItem);
 
     beginRemoveRows(index, pageItem->row(), pageItem->row());
 
-  parentPageItem->removeChild( pageItem->row() );
-  delete pageItem;
+    parentPageItem->removeChild(pageItem->row());
+    delete pageItem;
 
-  endRemoveRows();
+    endRemoveRows();
 
-  emit layoutChanged();
+    emit layoutChanged();
 }
 
-QPageWidgetItem *QPageWidgetModel::item(const QModelIndex &index) const
+QPageWidgetItem* QPageWidgetModel::item(const QModelIndex& index) const
 {
-  if ( !index.isValid() )
-    return 0;
+    if (!index.isValid())
+        return 0;
 
-  PageItem *item = static_cast<PageItem*>( index.internalPointer() );
-  if ( !item )
-    return 0;
+    PageItem* item = static_cast<PageItem*>(index.internalPointer());
+    if (!item)
+        return 0;
 
-  return item->pageWidgetItem();
+    return item->pageWidgetItem();
 }
 
-QModelIndex QPageWidgetModel::index( const QPageWidgetItem *item ) const
+QModelIndex QPageWidgetModel::index(const QPageWidgetItem* item) const
 {
-  if ( !item )
-    return QModelIndex();
+    if (!item)
+        return QModelIndex();
 
-    const PageItem *pageItem = d_func()->rootItem->findChild(item);
-  if ( !pageItem ) {
-    return QModelIndex();
-  }
+    const PageItem* pageItem = d_func()->rootItem->findChild(item);
+    if (!pageItem)
+    {
+        return QModelIndex();
+    }
 
-  return createIndex( pageItem->row(), 0, (void*)pageItem );
+    return createIndex(pageItem->row(), 0, (void*)pageItem);
 }
 
 #include "moc_qpagewidgetmodel.cpp"

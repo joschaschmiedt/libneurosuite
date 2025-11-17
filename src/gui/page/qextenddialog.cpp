@@ -57,138 +57,145 @@ static bool sAllowEmbeddingInGraphicsView = false;
 void QExtendDialogPrivate::setupLayout()
 {
     Q_Q(QExtendDialog);
-    if (!dirty) {
-        QMetaObject::invokeMethod( q, "queuedLayoutUpdate", Qt::QueuedConnection );
+    if (!dirty)
+    {
+        QMetaObject::invokeMethod(q, "queuedLayoutUpdate", Qt::QueuedConnection);
         dirty = true;
     }
 }
 
 void QExtendDialogPrivate::queuedLayoutUpdate()
 {
-  if (!dirty)
-    return;
+    if (!dirty)
+        return;
 
-  dirty = false;
+    dirty = false;
 
-  Q_Q(QExtendDialog);
+    Q_Q(QExtendDialog);
 
     // Don't lose the focus widget when re-creating the layout.
     // Testcase: KOrganizer's "Select Categories" dialog
     QPointer<QWidget> focusWidget = mMainWidget ? mMainWidget->focusWidget() : 0;
 
-  if (q->layout() && q->layout() != mTopLayout) {
-      qDebug() << q->metaObject()->className() << "created with a layout; don't do that, QExtendDialog takes care of it, use mainWidget or setMainWidget instead";
-      delete q->layout();
-  }
+    if (q->layout() && q->layout() != mTopLayout)
+    {
+        qDebug() << q->metaObject()->className() << "created with a layout; don't do that, QExtendDialog takes care of it, use mainWidget or setMainWidget instead";
+        delete q->layout();
+    }
 
-  delete mTopLayout;
+    delete mTopLayout;
 
-  if ( mButtonOrientation == Qt::Horizontal )
+    if (mButtonOrientation == Qt::Horizontal)
         mTopLayout = new QVBoxLayout(q);
-  else
+    else
         mTopLayout = new QHBoxLayout(q);
 #if 0
   if ( mUrlHelp )
     mTopLayout->addWidget( mUrlHelp, 0, Qt::AlignRight );
 #endif
-  if ( mMainWidget )
-    mTopLayout->addWidget( mMainWidget, 10 );
+    if (mMainWidget)
+        mTopLayout->addWidget(mMainWidget, 10);
 
-  if ( mDetailsWidget )
-    mTopLayout->addWidget( mDetailsWidget );
+    if (mDetailsWidget)
+        mTopLayout->addWidget(mDetailsWidget);
 
-  if ( mActionSeparator )
-    mTopLayout->addWidget( mActionSeparator );
+    if (mActionSeparator)
+        mTopLayout->addWidget(mActionSeparator);
 
-  if ( mButtonBox ) {
-    mButtonBox->setOrientation( mButtonOrientation );
-    mTopLayout->addWidget( mButtonBox );
-  }
+    if (mButtonBox)
+    {
+        mButtonBox->setOrientation(mButtonOrientation);
+        mTopLayout->addWidget(mButtonBox);
+    }
 
-    if (focusWidget) {
+    if (focusWidget)
+    {
         focusWidget->setFocus();
     }
 }
 
-void QExtendDialogPrivate::appendButton(QExtendDialog::ButtonCode key, const QString &item)
+void QExtendDialogPrivate::appendButton(QExtendDialog::ButtonCode key, const QString& item)
 {
     Q_Q(QExtendDialog);
 
-  QDialogButtonBox::ButtonRole role = QDialogButtonBox::InvalidRole;
-  switch ( key ) {
+    QDialogButtonBox::ButtonRole role = QDialogButtonBox::InvalidRole;
+    switch (key)
+    {
     case QExtendDialog::Help:
     case QExtendDialog::Details:
-      role = QDialogButtonBox::HelpRole;
-      break;
+        role = QDialogButtonBox::HelpRole;
+        break;
     case QExtendDialog::Default:
     case QExtendDialog::Reset:
-      role = QDialogButtonBox::ResetRole;
-      break;
+        role = QDialogButtonBox::ResetRole;
+        break;
     case QExtendDialog::Ok:
-      role = QDialogButtonBox::AcceptRole;
-      break;
+        role = QDialogButtonBox::AcceptRole;
+        break;
     case QExtendDialog::Apply:
-      role = QDialogButtonBox::ApplyRole;
-      break;
+        role = QDialogButtonBox::ApplyRole;
+        break;
     case QExtendDialog::Try:
     case QExtendDialog::Yes:
-      role = QDialogButtonBox::YesRole;
-      break;
+        role = QDialogButtonBox::YesRole;
+        break;
     case QExtendDialog::Close:
     case QExtendDialog::Cancel:
-      role = QDialogButtonBox::RejectRole;
-      break;
+        role = QDialogButtonBox::RejectRole;
+        break;
     case QExtendDialog::No:
-      role = QDialogButtonBox::NoRole;
-      break;
+        role = QDialogButtonBox::NoRole;
+        break;
     case QExtendDialog::User1:
     case QExtendDialog::User2:
     case QExtendDialog::User3:
-      role = QDialogButtonBox::ActionRole;
-      break;
+        role = QDialogButtonBox::ActionRole;
+        break;
     default:
-      role = QDialogButtonBox::InvalidRole;
-      break;
-  }
+        role = QDialogButtonBox::InvalidRole;
+        break;
+    }
 
-  if ( role == QDialogButtonBox::InvalidRole )
-    return;
+    if (role == QDialogButtonBox::InvalidRole)
+        return;
 
-  QPushButton *button = new QPushButton( item );
-  mButtonBox->addButton( button, role );
-  switch(key) {
-  case QExtendDialog::Ok:
-      button->setIcon(QPixmap(":/shared-icons/dialog-ok"));
-      break;
-  case QExtendDialog::Apply:
-      button->setIcon(QPixmap(":/shared-icons/dialog-ok-apply"));
-      break;
-  case QExtendDialog::Cancel:
-      button->setIcon(QPixmap(":/shared-icons/dialog-cancel"));
-      break;
-  case QExtendDialog::Close:
-      button->setIcon(QPixmap(":/shared-icons/dialog-close"));
-      break;
-  case QExtendDialog::Help:
-      button->setIcon(QPixmap(":/shared-icons/help-contents"));
-      break;
-  default:
-      break;
-  }
+    QPushButton* button = new QPushButton(item);
+    mButtonBox->addButton(button, role);
+    switch (key)
+    {
+    case QExtendDialog::Ok:
+        button->setIcon(QPixmap(":/shared-icons/dialog-ok"));
+        break;
+    case QExtendDialog::Apply:
+        button->setIcon(QPixmap(":/shared-icons/dialog-ok-apply"));
+        break;
+    case QExtendDialog::Cancel:
+        button->setIcon(QPixmap(":/shared-icons/dialog-cancel"));
+        break;
+    case QExtendDialog::Close:
+        button->setIcon(QPixmap(":/shared-icons/dialog-close"));
+        break;
+    case QExtendDialog::Help:
+        button->setIcon(QPixmap(":/shared-icons/help-contents"));
+        break;
+    default:
+        break;
+    }
 
-  mButtonList.insert( key, button );
-  mButtonSignalMapper.setMapping( button, key );
+    mButtonList.insert(key, button);
+    mButtonSignalMapper.setMapping(button, key);
 
     QObject::connect(button, SIGNAL(clicked()),
-           &mButtonSignalMapper, SLOT(map()) );
+                     &mButtonSignalMapper, SLOT(map()));
 
-    if (key == mDefaultButton) {
+    if (key == mDefaultButton)
+    {
         // Now that it exists, set it as default
         q->setDefaultButton(mDefaultButton);
     }
 }
 
-void QExtendDialogPrivate::init(QExtendDialog *q)
+void QExtendDialogPrivate::init(QExtendDialog* q)
 {
     q_ptr = q;
 
@@ -199,7 +206,7 @@ void QExtendDialogPrivate::init(QExtendDialog *q)
 
     q->connect(&mButtonSignalMapper, SIGNAL(mapped(int)), q, SLOT(slotButtonClicked(int)));
 
-    q->setPlainCaption(/*KGlobal::caption()*/QString()); // set appropriate initial window title for case it gets not set later
+    q->setPlainCaption(/*KGlobal::caption()*/ QString()); // set appropriate initial window title for case it gets not set later
 }
 
 void QExtendDialogPrivate::helpLinkClicked()
@@ -207,13 +214,13 @@ void QExtendDialogPrivate::helpLinkClicked()
     q_ptr->slotButtonClicked(QExtendDialog::Help);
 }
 
-QExtendDialog::QExtendDialog( QWidget *parent, Qt::WindowFlags flags )
-  : QDialog(parent, sAllowEmbeddingInGraphicsView ? flags : flags | Qt::BypassGraphicsProxyWidget ), d_ptr(new QExtendDialogPrivate)
+QExtendDialog::QExtendDialog(QWidget* parent, Qt::WindowFlags flags)
+    : QDialog(parent, sAllowEmbeddingInGraphicsView ? flags : flags | Qt::BypassGraphicsProxyWidget), d_ptr(new QExtendDialogPrivate)
 {
     d_ptr->init(this);
 }
 
-QExtendDialog::QExtendDialog(QExtendDialogPrivate &dd, QWidget *parent, Qt::WindowFlags flags)
+QExtendDialog::QExtendDialog(QExtendDialogPrivate& dd, QWidget* parent, Qt::WindowFlags flags)
     : QDialog(parent, sAllowEmbeddingInGraphicsView ? flags : flags | Qt::BypassGraphicsProxyWidget), d_ptr(&dd)
 {
     d_ptr->init(this);
@@ -224,90 +231,94 @@ QExtendDialog::~QExtendDialog()
     delete d_ptr;
 }
 
-void QExtendDialog::setButtons( ButtonCodes buttonMask )
+void QExtendDialog::setButtons(ButtonCodes buttonMask)
 {
     Q_D(QExtendDialog);
-  if ( d->mButtonBox ) {
-    d->mButtonList.clear();
+    if (d->mButtonBox)
+    {
+        d->mButtonList.clear();
 
-    delete d->mButtonBox;
-    d->mButtonBox = 0;
-  }
+        delete d->mButtonBox;
+        d->mButtonBox = 0;
+    }
 
-  if ( buttonMask & Cancel )
-    buttonMask &= ~Close;
+    if (buttonMask & Cancel)
+        buttonMask &= ~Close;
 
-  if ( buttonMask & Apply )
-    buttonMask &= ~Try;
+    if (buttonMask & Apply)
+        buttonMask &= ~Try;
 
-  if ( buttonMask & Details )
-    buttonMask &= ~Default;
+    if (buttonMask & Details)
+        buttonMask &= ~Default;
 
-  if ( buttonMask == None ) {
+    if (buttonMask == None)
+    {
+        d->setupLayout();
+        return; // When we want no button box
+    }
+
+    d->mEscapeButton = (buttonMask & Cancel) ? Cancel : Close;
+    d->mButtonBox = new QDialogButtonBox(this);
+
+    if (buttonMask & Help)
+        d->appendButton(Help, tr("Help"));
+    if (buttonMask & Default)
+        d->appendButton(Default, tr("Default"));
+    if (buttonMask & Reset)
+        d->appendButton(Reset, tr("Reset"));
+    if (buttonMask & User3)
+        d->appendButton(User3, QString());
+    if (buttonMask & User2)
+        d->appendButton(User2, QString());
+    if (buttonMask & User1)
+        d->appendButton(User1, QString());
+    if (buttonMask & Ok)
+        d->appendButton(Ok, tr("Ok"));
+    if (buttonMask & Apply)
+        d->appendButton(Apply, tr("Apply"));
+    if (buttonMask & Try)
+        d->appendButton(Try, tr("&Try"));
+    if (buttonMask & Cancel)
+        d->appendButton(Cancel, tr("Cancel"));
+    if (buttonMask & Close)
+        d->appendButton(Close, tr("Close"));
+    if (buttonMask & Yes)
+        d->appendButton(Yes, tr("Yes"));
+    if (buttonMask & No)
+        d->appendButton(No, tr("No"));
+    if (buttonMask & Details)
+    {
+        d->appendButton(Details, /*KGuiItem(QString(), "help-about")*/ QString());
+        setDetailsWidgetVisible(false);
+    }
+
     d->setupLayout();
-    return; // When we want no button box
-  }
-
-  d->mEscapeButton = (buttonMask & Cancel) ? Cancel : Close;
-  d->mButtonBox = new QDialogButtonBox( this );
-
-  if ( buttonMask & Help )
-      d->appendButton( Help, tr("Help") );
-  if ( buttonMask & Default )
-    d->appendButton( Default, tr("Default") );
-  if ( buttonMask & Reset )
-    d->appendButton( Reset, tr("Reset") );
-  if ( buttonMask & User3 )
-      d->appendButton( User3, QString() );
-  if ( buttonMask & User2 )
-    d->appendButton( User2, QString() );
-  if ( buttonMask & User1 )
-    d->appendButton( User1, QString() );
-  if ( buttonMask & Ok )
-      d->appendButton( Ok, tr("Ok") );
-  if ( buttonMask & Apply )
-      d->appendButton( Apply, tr("Apply") );
-  if ( buttonMask & Try )
-    d->appendButton( Try, tr( "&Try" ) );
-  if ( buttonMask & Cancel )
-      d->appendButton( Cancel, tr("Cancel") );
-  if ( buttonMask & Close )
-      d->appendButton( Close, tr("Close") );
-  if ( buttonMask & Yes )
-      d->appendButton( Yes, tr("Yes") );
-  if ( buttonMask & No )
-      d->appendButton( No, tr("No") );
-  if ( buttonMask & Details ) {
-      d->appendButton( Details, /*KGuiItem(QString(), "help-about")*/QString() );
-    setDetailsWidgetVisible( false );
-  }
-
-  d->setupLayout();
 }
 
 
-void QExtendDialog::setButtonsOrientation( Qt::Orientation orientation )
+void QExtendDialog::setButtonsOrientation(Qt::Orientation orientation)
 {
     Q_D(QExtendDialog);
-  if ( d->mButtonOrientation != orientation ) {
-    d->mButtonOrientation = orientation;
+    if (d->mButtonOrientation != orientation)
+    {
+        d->mButtonOrientation = orientation;
 
-    if ( d->mActionSeparator )
-      d->mActionSeparator->setOrientation( d->mButtonOrientation );
+        if (d->mActionSeparator)
+            d->mActionSeparator->setOrientation(d->mButtonOrientation);
 
-    /*
+        /*
     if ( d->mButtonOrientation == Qt::Vertical )
       enableLinkedHelp( false ); // 2000-06-18 Espen: No support for this yet.
       */
-  }
+    }
 }
 
-void QExtendDialog::setEscapeButton( ButtonCode id )
+void QExtendDialog::setEscapeButton(ButtonCode id)
 {
     d_func()->mEscapeButton = id;
 }
 
-void QExtendDialog::setDefaultButton( ButtonCode newDefaultButton )
+void QExtendDialog::setDefaultButton(ButtonCode newDefaultButton)
 {
     Q_D(QExtendDialog);
 
@@ -318,19 +329,24 @@ void QExtendDialog::setDefaultButton( ButtonCode newDefaultButton )
 
     bool oldDefaultHadFocus = false;
 
-    if (oldDefault != NoDefault) {
-        QPushButton *old = button(oldDefault);
-        if (old) {
+    if (oldDefault != NoDefault)
+    {
+        QPushButton* old = button(oldDefault);
+        if (old)
+        {
             oldDefaultHadFocus = (focusWidget() == old);
             old->setDefault(false);
         }
     }
 
-    if (newDefaultButton != NoDefault) {
-        QPushButton *b = button(newDefaultButton);
-        if (b) {
+    if (newDefaultButton != NoDefault)
+    {
+        QPushButton* b = button(newDefaultButton);
+        if (b)
+        {
             b->setDefault(true);
-            if (focusWidget() == 0 || oldDefaultHadFocus) {
+            if (focusWidget() == 0 || oldDefaultHadFocus)
+            {
                 // No widget had focus yet, or the old default button had
                 // -> ok to give focus to the new default button, so that it's
                 // really default (Enter triggers it).
@@ -347,35 +363,38 @@ void QExtendDialog::setDefaultButton( ButtonCode newDefaultButton )
 QExtendDialog::ButtonCode QExtendDialog::defaultButton() const
 {
     Q_D(const QExtendDialog);
-  QHashIterator<int, QPushButton*> it( d->mButtonList );
-  while ( it.hasNext() ) {
-    it.next();
-    if (it.value()->isDefault()) {
-      return (ButtonCode)it.key();
+    QHashIterator<int, QPushButton*> it(d->mButtonList);
+    while (it.hasNext())
+    {
+        it.next();
+        if (it.value()->isDefault())
+        {
+            return (ButtonCode)it.key();
+        }
     }
-  }
 
     return d->mDefaultButton;
 }
 
-void QExtendDialog::setMainWidget( QWidget *widget )
+void QExtendDialog::setMainWidget(QWidget* widget)
 {
     Q_D(QExtendDialog);
-    if ( d->mMainWidget == widget )
+    if (d->mMainWidget == widget)
         return;
     d->mMainWidget = widget;
-    if (d->mMainWidget && d->mMainWidget->layout()) {
+    if (d->mMainWidget && d->mMainWidget->layout())
+    {
         // Avoid double-margin problem
         d->mMainWidget->layout()->setMargin(0);
     }
     d->setupLayout();
 }
 
-QWidget *QExtendDialog::mainWidget()
+QWidget* QExtendDialog::mainWidget()
 {
     Q_D(QExtendDialog);
     if (!d->mMainWidget)
-        setMainWidget( new QWidget(this) );
+        setMainWidget(new QWidget(this));
     return d->mMainWidget;
 }
 
@@ -384,8 +403,9 @@ QSize QExtendDialog::sizeHint() const
     Q_D(const QExtendDialog);
 
     if (!d->mMinSize.isEmpty())
-        return d->mMinSize.expandedTo( minimumSizeHint() ) + d->mIncSize;
-    else {
+        return d->mMinSize.expandedTo(minimumSizeHint()) + d->mIncSize;
+    else
+    {
         if (d->dirty)
             const_cast<QExtendDialogPrivate*>(d)->queuedLayoutUpdate();
         return QDialog::sizeHint() + d->mIncSize;
@@ -404,57 +424,66 @@ QSize QExtendDialog::minimumSizeHint() const
 //
 // Grab QDialogs keypresses if non-modal.
 //
-void QExtendDialog::keyPressEvent( QKeyEvent *event )
+void QExtendDialog::keyPressEvent(QKeyEvent* event)
 {
     Q_D(QExtendDialog);
-  if ( event->modifiers() == 0 ) {
-    if ( event->key() == Qt::Key_F1 ) {
-      QPushButton *button = this->button( Help );
+    if (event->modifiers() == 0)
+    {
+        if (event->key() == Qt::Key_F1)
+        {
+            QPushButton* button = this->button(Help);
 
-      if ( button ) {
-        button->animateClick();
+            if (button)
+            {
+                button->animateClick();
+                event->accept();
+                return;
+            }
+        }
+
+        if (event->key() == Qt::Key_Escape)
+        {
+            QPushButton* button = this->button(d->mEscapeButton);
+
+            if (button)
+            {
+                button->animateClick();
+                event->accept();
+                return;
+            }
+        }
+    }
+    else if (event->key() == Qt::Key_F1 && event->modifiers() == Qt::ShiftModifier)
+    {
+        QWhatsThis::enterWhatsThisMode();
         event->accept();
         return;
-      }
+    }
+    else if (event->modifiers() == Qt::ControlModifier &&
+             (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter))
+    {
+        // accept the dialog when Ctrl-Return is pressed
+        QPushButton* button = this->button(Ok);
+
+        if (button)
+        {
+            button->animateClick();
+            event->accept();
+            return;
+        }
     }
 
-    if ( event->key() == Qt::Key_Escape ) {
-      QPushButton *button = this->button( d->mEscapeButton );
-
-      if ( button ) {
-        button->animateClick();
-        event->accept();
-        return;
-      }
-
-    }
-  } else if ( event->key() == Qt::Key_F1 && event->modifiers() == Qt::ShiftModifier ) {
-    QWhatsThis::enterWhatsThisMode();
-    event->accept();
-    return;
-  } else if ( event->modifiers() == Qt::ControlModifier &&
-            ( event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter ) ) {
-    // accept the dialog when Ctrl-Return is pressed
-    QPushButton *button = this->button( Ok );
-
-    if ( button ) {
-      button->animateClick();
-      event->accept();
-      return;
-    }
-  }
-
-  QDialog::keyPressEvent( event );
+    QDialog::keyPressEvent(event);
 }
 
 int QExtendDialog::marginHint()
 {
-    return QApplication::style()->pixelMetric( QStyle::PM_DefaultChildMargin );
+    return QApplication::style()->pixelMetric(QStyle::PM_DefaultChildMargin);
 }
 
 int QExtendDialog::spacingHint()
 {
-    return QApplication::style()->pixelMetric( QStyle::PM_DefaultLayoutSpacing );
+    return QApplication::style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
 }
 
 int QExtendDialog::groupSpacingHint()
@@ -462,56 +491,59 @@ int QExtendDialog::groupSpacingHint()
     return QApplication::fontMetrics().lineSpacing();
 }
 
-QString QExtendDialog::makeStandardCaption( const QString &userCaption,
-                                      QWidget* window,
-                                      CaptionFlags flags )
+QString QExtendDialog::makeStandardCaption(const QString& userCaption,
+                                           QWidget* window,
+                                           CaptionFlags flags)
 {
-  Q_UNUSED(window);
-  QString caption;/* = KGlobal::caption();*/
-  QString captionString = userCaption.isEmpty() ? caption : userCaption;
+    Q_UNUSED(window);
+    QString caption; /* = KGlobal::caption();*/
+    QString captionString = userCaption.isEmpty() ? caption : userCaption;
 
-  // If the document is modified, add '[modified]'.
-  if (flags & ModifiedCaption)
-      captionString += QString::fromUtf8(" [") + tr("modified") + QString::fromUtf8("]");
+    // If the document is modified, add '[modified]'.
+    if (flags & ModifiedCaption)
+        captionString += QString::fromUtf8(" [") + tr("modified") + QString::fromUtf8("]");
 
-  if ( !userCaption.isEmpty() ) {
-      // Add the application name if:
-      // User asked for it, it's not a duplication  and the app name (caption()) is not empty
-      if ( flags & AppNameCaption &&
-           !caption.isEmpty() &&
-           !userCaption.endsWith(caption)  ) {
-           // TODO: check to see if this is a transient/secondary window before trying to add the app name
-           //       on platforms that need this
-          captionString += " – " + caption;
-      }
-  }
+    if (!userCaption.isEmpty())
+    {
+        // Add the application name if:
+        // User asked for it, it's not a duplication  and the app name (caption()) is not empty
+        if (flags & AppNameCaption &&
+            !caption.isEmpty() &&
+            !userCaption.endsWith(caption))
+        {
+            // TODO: check to see if this is a transient/secondary window before trying to add the app name
+            //       on platforms that need this
+            captionString += " – " + caption;
+        }
+    }
 
-  return captionString;
+    return captionString;
 }
 
-void QExtendDialog::setCaption( const QString &_caption )
+void QExtendDialog::setCaption(const QString& _caption)
 {
-  const QString caption = makeStandardCaption( _caption, this );
-  setPlainCaption( caption );
+    const QString caption = makeStandardCaption(_caption, this);
+    setPlainCaption(caption);
 }
 
-void QExtendDialog::setCaption( const QString &caption, bool modified )
+void QExtendDialog::setCaption(const QString& caption, bool modified)
 {
     CaptionFlags flags = HIGCompliantCaption;
 
-    if ( modified )
+    if (modified)
     {
         flags |= ModifiedCaption;
     }
 
-    setPlainCaption( makeStandardCaption(caption, this, flags) );
+    setPlainCaption(makeStandardCaption(caption, this, flags));
 }
 
 
-void QExtendDialog::setPlainCaption( const QString &caption )
+void QExtendDialog::setPlainCaption(const QString& caption)
 {
-    if (QWidget *win = window()) {
-        win->setWindowTitle( caption );
+    if (QWidget* win = window())
+    {
+        win->setWindowTitle(caption);
 #if 0
 #ifdef Q_WS_X11
         NETWinInfo info( QX11Info::display(), win->winId(), QX11Info::appRootWindow(), 0 );
@@ -521,41 +553,45 @@ void QExtendDialog::setPlainCaption( const QString &caption )
     }
 }
 
-void QExtendDialog::resizeLayout( QWidget *widget, int margin, int spacing ) //static
+void QExtendDialog::resizeLayout(QWidget* widget, int margin, int spacing) //static
 {
-  if ( widget->layout() )
-    resizeLayout( widget->layout(), margin, spacing );
+    if (widget->layout())
+        resizeLayout(widget->layout(), margin, spacing);
 
-  if ( widget->children().count() > 0 ) {
-    const QList<QObject*> list = widget->children();
-    foreach ( QObject *object, list ) {
-      if ( object->isWidgetType() )
-        resizeLayout( (QWidget*)object, margin, spacing );
+    if (widget->children().count() > 0)
+    {
+        const QList<QObject*> list = widget->children();
+        foreach (QObject* object, list)
+        {
+            if (object->isWidgetType())
+                resizeLayout((QWidget*)object, margin, spacing);
+        }
     }
-  }
 }
 
-void QExtendDialog::resizeLayout( QLayout *layout, int margin, int spacing ) //static
+void QExtendDialog::resizeLayout(QLayout* layout, int margin, int spacing) //static
 {
-  QLayoutItem *child;
-  int pos = 0;
+    QLayoutItem* child;
+    int pos = 0;
 
-  while ( (child = layout->itemAt( pos ) ) ) {
-    if ( child->layout() )
-      resizeLayout( child->layout(), margin, spacing );
+    while ((child = layout->itemAt(pos)))
+    {
+        if (child->layout())
+            resizeLayout(child->layout(), margin, spacing);
 
-    ++pos;
-  }
+        ++pos;
+    }
 
-  if ( layout->layout() ) {
-    layout->layout()->setMargin( margin );
-    layout->layout()->setSpacing( spacing );
-  }
+    if (layout->layout())
+    {
+        layout->layout()->setMargin(margin);
+        layout->layout()->setSpacing(spacing);
+    }
 }
 
-static QRect screenRect( QWidget *widget, int screen )
+static QRect screenRect(QWidget* widget, int screen)
 {
-  QDesktopWidget *desktop = QApplication::desktop();
+    QDesktopWidget* desktop = QApplication::desktop();
 #if 0
   KConfig gc( "kdeglobals", KConfig::NoGlobals );
   KConfigGroup cg(&gc, "Windows" );
@@ -578,10 +614,10 @@ static QRect screenRect( QWidget *widget, int screen )
     return desktop->geometry();
 }
 
-void QExtendDialog::centerOnScreen( QWidget *widget, int screen )
+void QExtendDialog::centerOnScreen(QWidget* widget, int screen)
 {
-  if ( !widget )
-    return;
+    if (!widget)
+        return;
 #if 0
 #ifdef Q_WS_X11
   if( !( widget->windowFlags() & Qt::X11BypassWindowManagerHint ) && widget->windowType() != Qt::Popup
@@ -590,137 +626,140 @@ void QExtendDialog::centerOnScreen( QWidget *widget, int screen )
   }
 #endif
 #endif
-  QRect rect = screenRect( widget, screen );
+    QRect rect = screenRect(widget, screen);
 
-  widget->move( rect.center().x() - widget->width() / 2,
-                rect.center().y() - widget->height() / 2 );
+    widget->move(rect.center().x() - widget->width() / 2,
+                 rect.center().y() - widget->height() / 2);
 }
 
-bool QExtendDialog::avoidArea( QWidget *widget, const QRect& area, int screen )
+bool QExtendDialog::avoidArea(QWidget* widget, const QRect& area, int screen)
 {
-  if ( !widget )
-    return false;
-
-  QRect fg = widget->frameGeometry();
-  if ( !fg.intersects( area ) )
-    return true; // nothing to do.
-
-  const QRect scr = screenRect( widget, screen );
-  QRect avoid( area ); // let's add some margin
-  avoid.translate( -5, -5 );
-  avoid.setRight( avoid.right() + 10 );
-  avoid.setBottom( avoid.bottom() + 10 );
-
-  if ( qMax( fg.top(), avoid.top() ) <= qMin( fg.bottom(), avoid.bottom() ) ) {
-    // We need to move the widget up or down
-    int spaceAbove = qMax( 0, avoid.top() - scr.top() );
-    int spaceBelow = qMax( 0, scr.bottom() - avoid.bottom() );
-    if ( spaceAbove > spaceBelow ) // where's the biggest side?
-      if ( fg.height() <= spaceAbove ) // big enough?
-        fg.setY( avoid.top() - fg.height() );
-      else
+    if (!widget)
         return false;
-    else
-      if ( fg.height() <= spaceBelow ) // big enough?
-        fg.setY( avoid.bottom() );
-      else
-        return false;
-  }
 
-  if ( qMax( fg.left(), avoid.left() ) <= qMin( fg.right(), avoid.right() ) ) {
-    // We need to move the widget left or right
-    const int spaceLeft = qMax( 0, avoid.left() - scr.left() );
-    const int spaceRight = qMax( 0, scr.right() - avoid.right() );
-    if ( spaceLeft > spaceRight ) // where's the biggest side?
-      if ( fg.width() <= spaceLeft ) // big enough?
-        fg.setX( avoid.left() - fg.width() );
-      else
-        return false;
-    else
-      if ( fg.width() <= spaceRight ) // big enough?
-        fg.setX( avoid.right() );
-      else
-        return false;
-  }
+    QRect fg = widget->frameGeometry();
+    if (!fg.intersects(area))
+        return true; // nothing to do.
 
-  widget->move( fg.x(), fg.y() );
+    const QRect scr = screenRect(widget, screen);
+    QRect avoid(area); // let's add some margin
+    avoid.translate(-5, -5);
+    avoid.setRight(avoid.right() + 10);
+    avoid.setBottom(avoid.bottom() + 10);
 
-  return true;
+    if (qMax(fg.top(), avoid.top()) <= qMin(fg.bottom(), avoid.bottom()))
+    {
+        // We need to move the widget up or down
+        int spaceAbove = qMax(0, avoid.top() - scr.top());
+        int spaceBelow = qMax(0, scr.bottom() - avoid.bottom());
+        if (spaceAbove > spaceBelow)       // where's the biggest side?
+            if (fg.height() <= spaceAbove) // big enough?
+                fg.setY(avoid.top() - fg.height());
+            else
+                return false;
+        else if (fg.height() <= spaceBelow) // big enough?
+            fg.setY(avoid.bottom());
+        else
+            return false;
+    }
+
+    if (qMax(fg.left(), avoid.left()) <= qMin(fg.right(), avoid.right()))
+    {
+        // We need to move the widget left or right
+        const int spaceLeft = qMax(0, avoid.left() - scr.left());
+        const int spaceRight = qMax(0, scr.right() - avoid.right());
+        if (spaceLeft > spaceRight)      // where's the biggest side?
+            if (fg.width() <= spaceLeft) // big enough?
+                fg.setX(avoid.left() - fg.width());
+            else
+                return false;
+        else if (fg.width() <= spaceRight) // big enough?
+            fg.setX(avoid.right());
+        else
+            return false;
+    }
+
+    widget->move(fg.x(), fg.y());
+
+    return true;
 }
 
-void QExtendDialog::showButtonSeparator( bool state )
+void QExtendDialog::showButtonSeparator(bool state)
 {
     Q_D(QExtendDialog);
-  if ( ( d->mActionSeparator != 0 ) == state )
-    return;
-  if ( state ) {
-    if ( d->mActionSeparator )
-      return;
+    if ((d->mActionSeparator != 0) == state)
+        return;
+    if (state)
+    {
+        if (d->mActionSeparator)
+            return;
 
-     d->mActionSeparator = new KLusterSeparator( this );
-     d->mActionSeparator->setOrientation( d->mButtonOrientation );
-  } else {
-    delete d->mActionSeparator;
-    d->mActionSeparator = 0;
-  }
+        d->mActionSeparator = new KLusterSeparator(this);
+        d->mActionSeparator->setOrientation(d->mButtonOrientation);
+    }
+    else
+    {
+        delete d->mActionSeparator;
+        d->mActionSeparator = 0;
+    }
 
-  d->setupLayout();
+    d->setupLayout();
 }
 
-void QExtendDialog::setInitialSize( const QSize &size )
+void QExtendDialog::setInitialSize(const QSize& size)
 {
     d_func()->mMinSize = size;
-  adjustSize();
+    adjustSize();
 }
 
-void QExtendDialog::incrementInitialSize( const QSize &size )
+void QExtendDialog::incrementInitialSize(const QSize& size)
 {
     d_func()->mIncSize = size;
-  adjustSize();
+    adjustSize();
 }
 
-QPushButton *QExtendDialog::button( ButtonCode id ) const
+QPushButton* QExtendDialog::button(ButtonCode id) const
 {
     Q_D(const QExtendDialog);
-  return d->mButtonList.value( id, 0 );
+    return d->mButtonList.value(id, 0);
 }
 
-void QExtendDialog::enableButton( ButtonCode id, bool state )
+void QExtendDialog::enableButton(ButtonCode id, bool state)
 {
-  QPushButton *button = this->button( id );
-  if ( button )
-    button->setEnabled( state );
+    QPushButton* button = this->button(id);
+    if (button)
+        button->setEnabled(state);
 }
 
-bool QExtendDialog::isButtonEnabled( ButtonCode id ) const
+bool QExtendDialog::isButtonEnabled(ButtonCode id) const
 {
-  QPushButton *button = this->button( id );
-  if ( button )
-    return button->isEnabled();
+    QPushButton* button = this->button(id);
+    if (button)
+        return button->isEnabled();
 
-  return false;
+    return false;
 }
 
-void QExtendDialog::enableButtonOk( bool state )
+void QExtendDialog::enableButtonOk(bool state)
 {
-  enableButton( Ok, state );
+    enableButton(Ok, state);
 }
 
-void QExtendDialog::enableButtonApply( bool state )
+void QExtendDialog::enableButtonApply(bool state)
 {
-  enableButton( Apply, state );
+    enableButton(Apply, state);
 }
 
-void QExtendDialog::enableButtonCancel( bool state )
+void QExtendDialog::enableButtonCancel(bool state)
 {
-  enableButton( Cancel, state );
+    enableButton(Cancel, state);
 }
 
-void QExtendDialog::showButton( ButtonCode id, bool state )
+void QExtendDialog::showButton(ButtonCode id, bool state)
 {
-  QPushButton *button = this->button( id );
-  if ( button )
-    state ? button->show() : button->hide();
+    QPushButton* button = this->button(id);
+    if (button)
+        state ? button->show() : button->hide();
 }
 #if 0
 void QExtendDialog::setButtonGuiItem( ButtonCode id, const KGuiItem &item )
@@ -732,120 +771,125 @@ void QExtendDialog::setButtonGuiItem( ButtonCode id, const KGuiItem &item )
   button->setGuiItem( item );
 }
 #endif
-void QExtendDialog::setButtonMenu( ButtonCode id, QMenu *menu, ButtonPopupMode popupmode)
+void QExtendDialog::setButtonMenu(ButtonCode id, QMenu* menu, ButtonPopupMode popupmode)
 {
-  QPushButton *button = this->button( id );
-  if ( button ) {
-    //if (popupmode==InstantPopup)
-      button->setMenu( menu );
-    //else
-      //button->setDelayedMenu(menu);
-  }
+    QPushButton* button = this->button(id);
+    if (button)
+    {
+        //if (popupmode==InstantPopup)
+        button->setMenu(menu);
+        //else
+        //button->setDelayedMenu(menu);
+    }
 }
 
-void QExtendDialog::setButtonText( ButtonCode id, const QString &text )
+void QExtendDialog::setButtonText(ButtonCode id, const QString& text)
 {
     Q_D(QExtendDialog);
-  if ( !d->mSettingDetails && (id == Details) ) {
-    d->mDetailsButtonText = text;
-    setDetailsWidgetVisible( d->mDetailsVisible );
-    return;
-  }
+    if (!d->mSettingDetails && (id == Details))
+    {
+        d->mDetailsButtonText = text;
+        setDetailsWidgetVisible(d->mDetailsVisible);
+        return;
+    }
 
-  QPushButton *button = this->button( id );
-  if ( button )
-    button->setText( text );
+    QPushButton* button = this->button(id);
+    if (button)
+        button->setText(text);
 }
 
-QString QExtendDialog::buttonText( ButtonCode id ) const
+QString QExtendDialog::buttonText(ButtonCode id) const
 {
-  QPushButton *button = this->button( id );
-  if ( button )
-    return button->text();
-  else
-    return QString();
-}
-
-void QExtendDialog::setButtonIcon( ButtonCode id, const QIcon &icon )
-{
-  QPushButton *button = this->button( id );
-  if ( button )
-    button->setIcon( icon );
-}
-
-QIcon QExtendDialog::buttonIcon( ButtonCode id ) const
-{
-  QPushButton *button = this->button( id );
-  if ( button )
-    return QIcon(button->icon());
-  else
-    return QIcon();
-}
-
-void QExtendDialog::setButtonToolTip( ButtonCode id, const QString &text )
-{
-  QPushButton *button = this->button( id );
-  if ( button ) {
-    if ( text.isEmpty() )
-      button->setToolTip( QString() );
+    QPushButton* button = this->button(id);
+    if (button)
+        return button->text();
     else
-      button->setToolTip( text );
-  }
+        return QString();
 }
 
-QString QExtendDialog::buttonToolTip( ButtonCode id ) const
+void QExtendDialog::setButtonIcon(ButtonCode id, const QIcon& icon)
 {
-  QPushButton *button = this->button( id );
-  if ( button )
-    return button->toolTip();
-  else
-    return QString();
+    QPushButton* button = this->button(id);
+    if (button)
+        button->setIcon(icon);
 }
 
-void QExtendDialog::setButtonWhatsThis( ButtonCode id, const QString &text )
+QIcon QExtendDialog::buttonIcon(ButtonCode id) const
 {
-  QPushButton *button = this->button( id );
-  if ( button ) {
-    if ( text.isEmpty() )
-      button->setWhatsThis( QString() );
+    QPushButton* button = this->button(id);
+    if (button)
+        return QIcon(button->icon());
     else
-      button->setWhatsThis( text );
-  }
+        return QIcon();
 }
 
-QString QExtendDialog::buttonWhatsThis( ButtonCode id ) const
+void QExtendDialog::setButtonToolTip(ButtonCode id, const QString& text)
 {
-  QPushButton *button = this->button( id );
-  if ( button )
-    return button->whatsThis();
-  else
-    return QString();
+    QPushButton* button = this->button(id);
+    if (button)
+    {
+        if (text.isEmpty())
+            button->setToolTip(QString());
+        else
+            button->setToolTip(text);
+    }
 }
 
-void QExtendDialog::setButtonFocus( ButtonCode id )
+QString QExtendDialog::buttonToolTip(ButtonCode id) const
 {
-  QPushButton *button = this->button( id );
-  if ( button ) {
-      button->setFocus();
-  }
+    QPushButton* button = this->button(id);
+    if (button)
+        return button->toolTip();
+    else
+        return QString();
 }
 
-void QExtendDialog::setDetailsWidget( QWidget *detailsWidget )
+void QExtendDialog::setButtonWhatsThis(ButtonCode id, const QString& text)
+{
+    QPushButton* button = this->button(id);
+    if (button)
+    {
+        if (text.isEmpty())
+            button->setWhatsThis(QString());
+        else
+            button->setWhatsThis(text);
+    }
+}
+
+QString QExtendDialog::buttonWhatsThis(ButtonCode id) const
+{
+    QPushButton* button = this->button(id);
+    if (button)
+        return button->whatsThis();
+    else
+        return QString();
+}
+
+void QExtendDialog::setButtonFocus(ButtonCode id)
+{
+    QPushButton* button = this->button(id);
+    if (button)
+    {
+        button->setFocus();
+    }
+}
+
+void QExtendDialog::setDetailsWidget(QWidget* detailsWidget)
 {
     Q_D(QExtendDialog);
-  if ( d->mDetailsWidget == detailsWidget )
-    return;
-  delete d->mDetailsWidget;
-  d->mDetailsWidget = detailsWidget;
+    if (d->mDetailsWidget == detailsWidget)
+        return;
+    delete d->mDetailsWidget;
+    d->mDetailsWidget = detailsWidget;
 
-  if ( d->mDetailsWidget->parentWidget() != this )
-    d->mDetailsWidget->setParent( this );
+    if (d->mDetailsWidget->parentWidget() != this)
+        d->mDetailsWidget->setParent(this);
 
-  d->mDetailsWidget->hide();
-  d->setupLayout();
+    d->mDetailsWidget->hide();
+    d->setupLayout();
 
-  if ( !d->mSettingDetails )
-    setDetailsWidgetVisible( d->mDetailsVisible );
+    if (!d->mSettingDetails)
+        setDetailsWidgetVisible(d->mDetailsVisible);
 }
 
 bool QExtendDialog::isDetailsWidgetVisible() const
@@ -853,114 +897,122 @@ bool QExtendDialog::isDetailsWidgetVisible() const
     return d_func()->mDetailsVisible;
 }
 
-void QExtendDialog::setDetailsWidgetVisible( bool visible )
+void QExtendDialog::setDetailsWidgetVisible(bool visible)
 {
     Q_D(QExtendDialog);
-  if ( d->mDetailsButtonText.isEmpty() )
-    d->mDetailsButtonText = tr( "&Details" );
+    if (d->mDetailsButtonText.isEmpty())
+        d->mDetailsButtonText = tr("&Details");
 
-  d->mSettingDetails = true;
-  d->mDetailsVisible = visible;
-  if ( d->mDetailsVisible ) {
-    emit aboutToShowDetails();
-    setButtonText( Details, d->mDetailsButtonText + " <<" );
-    if ( d->mDetailsWidget ) {
-      if ( layout() )
-        layout()->setEnabled( false );
+    d->mSettingDetails = true;
+    d->mDetailsVisible = visible;
+    if (d->mDetailsVisible)
+    {
+        emit aboutToShowDetails();
+        setButtonText(Details, d->mDetailsButtonText + " <<");
+        if (d->mDetailsWidget)
+        {
+            if (layout())
+                layout()->setEnabled(false);
 
-      d->mDetailsWidget->show();
+            d->mDetailsWidget->show();
 
-      adjustSize();
+            adjustSize();
 
-      if ( layout() ) {
-        layout()->activate();
-        layout()->setEnabled( true );
-      }
+            if (layout())
+            {
+                layout()->activate();
+                layout()->setEnabled(true);
+            }
+        }
     }
-  } else {
-    setButtonText( Details, d->mDetailsButtonText + " >>" );
-    if ( d->mDetailsWidget )
-      d->mDetailsWidget->hide();
+    else
+    {
+        setButtonText(Details, d->mDetailsButtonText + " >>");
+        if (d->mDetailsWidget)
+            d->mDetailsWidget->hide();
 
-    if ( layout() ) {
-      layout()->activate();
-      adjustSize();
+        if (layout())
+        {
+            layout()->activate();
+            adjustSize();
+        }
     }
 
-  }
-
-  d->mSettingDetails = false;
+    d->mSettingDetails = false;
 }
 
 void QExtendDialog::delayedDestruct()
 {
-  if ( isVisible() )
-    hide();
+    if (isVisible())
+        hide();
 
-  deleteLater();
+    deleteLater();
 }
 
 
-void QExtendDialog::slotButtonClicked( int button )
+void QExtendDialog::slotButtonClicked(int button)
 {
     Q_D(QExtendDialog);
-  emit buttonClicked( static_cast<QExtendDialog::ButtonCode>(button) );
+    emit buttonClicked(static_cast<QExtendDialog::ButtonCode>(button));
 
-  switch( button ) {
+    switch (button)
+    {
     case Ok:
-      emit okClicked();
-      accept();
-      break;
+        emit okClicked();
+        accept();
+        break;
     case Apply:
         emit applyClicked();
-      break;
+        break;
     case Try:
-      emit tryClicked();
-      break;
+        emit tryClicked();
+        break;
     case User3:
-      emit user3Clicked();
-      break;
+        emit user3Clicked();
+        break;
     case User2:
         emit user2Clicked();
-      break;
+        break;
     case User1:
         emit user1Clicked();
         break;
     case Yes:
-      emit yesClicked();
-      done( Yes );
-      break;
+        emit yesClicked();
+        done(Yes);
+        break;
     case No:
         emit noClicked();
-      done( No );
-      break;
+        done(No);
+        break;
     case Cancel:
-      emit cancelClicked();
-      reject();
-      break;
+        emit cancelClicked();
+        reject();
+        break;
     case Close:
-      emit closeClicked();
-      done(Close); // KDE5: call reject() instead; more QDialog-like.
-      break;
+        emit closeClicked();
+        done(Close); // KDE5: call reject() instead; more QDialog-like.
+        break;
     case Help:
-      emit helpClicked();
-      if ( !d->mAnchor.isEmpty() || !d->mHelpApp.isEmpty() ) {
-        //KToolInvocation::invokeHelp( d->mAnchor, d->mHelpApp );
-      }
-      break;
+        emit helpClicked();
+        if (!d->mAnchor.isEmpty() || !d->mHelpApp.isEmpty())
+        {
+            //KToolInvocation::invokeHelp( d->mAnchor, d->mHelpApp );
+        }
+        break;
     case Default:
-      emit defaultClicked();
-      break;
+        emit defaultClicked();
+        break;
     case Reset:
-      emit resetClicked();
-      break;
+        emit resetClicked();
+        break;
     case Details:
-      setDetailsWidgetVisible( !d->mDetailsVisible );
-      break;
-  }
+        setDetailsWidgetVisible(!d->mDetailsVisible);
+        break;
+    }
 
     // If we're here from the closeEvent, and auto-delete is on, well, auto-delete now.
-    if (d->mDeferredDelete) {
+    if (d->mDeferredDelete)
+    {
         d->mDeferredDelete = false;
         delayedDestruct();
     }
@@ -993,11 +1045,11 @@ void QExtendDialog::enableLinkedHelp( bool state )
 }
 #endif
 
-void QExtendDialog::setHelp( const QString &anchor, const QString &appname )
+void QExtendDialog::setHelp(const QString& anchor, const QString& appname)
 {
     Q_D(QExtendDialog);
-  d->mAnchor  = anchor;
-  d->mHelpApp = appname;
+    d->mAnchor = anchor;
+    d->mHelpApp = appname;
 }
 
 
@@ -1014,34 +1066,38 @@ void QExtendDialog::setHelpLinkText( const QString &text )
 QString QExtendDialog::helpLinkText() const
 {
     Q_D(const QExtendDialog);
-  return ( d->mHelpLinkText.isEmpty() ? tr( "Get help..." ) : d->mHelpLinkText );
+    return (d->mHelpLinkText.isEmpty() ? tr("Get help...") : d->mHelpLinkText);
 }
 
 void QExtendDialog::updateGeometry()
 {
 }
 
-void QExtendDialog::hideEvent( QHideEvent *event )
+void QExtendDialog::hideEvent(QHideEvent* event)
 {
-  emit hidden();
+    emit hidden();
 
-  if ( !event->spontaneous() )
-    emit finished();
+    if (!event->spontaneous())
+        emit finished();
 }
 
-void QExtendDialog::closeEvent( QCloseEvent *event )
+void QExtendDialog::closeEvent(QCloseEvent* event)
 {
     Q_D(QExtendDialog);
-    QPushButton *button = this->button(d->mEscapeButton);
-    if (button && !isHidden()) {
+    QPushButton* button = this->button(d->mEscapeButton);
+    if (button && !isHidden())
+    {
         button->animateClick();
 
-        if (testAttribute(Qt::WA_DeleteOnClose)) {
+        if (testAttribute(Qt::WA_DeleteOnClose))
+        {
             // Don't let QWidget::close do a deferred delete just yet, wait for the click first
             d->mDeferredDelete = true;
             setAttribute(Qt::WA_DeleteOnClose, false);
         }
-    } else {
+    }
+    else
+    {
         QDialog::closeEvent(event);
     }
 }
@@ -1049,35 +1105,35 @@ void QExtendDialog::closeEvent( QCloseEvent *event )
 void QExtendDialog::restoreDialogSize()
 {
     QSettings settings;
-  int width, height;
-  int scnum = QApplication::desktop()->screenNumber( parentWidget() );
-  QRect desk = QApplication::desktop()->screenGeometry( scnum );
+    int width, height;
+    int scnum = QApplication::desktop()->screenNumber(parentWidget());
+    QRect desk = QApplication::desktop()->screenGeometry(scnum);
 
-  width = sizeHint().width();
-  height = sizeHint().height();
+    width = sizeHint().width();
+    height = sizeHint().height();
 
-  width = settings.value( QString::fromLatin1( "Width %1" ).arg( desk.width() ), width ).toInt();
-  height = settings.value( QString::fromLatin1( "Height %1" ).arg( desk.height() ), height ).toInt();
+    width = settings.value(QString::fromLatin1("Width %1").arg(desk.width()), width).toInt();
+    height = settings.value(QString::fromLatin1("Height %1").arg(desk.height()), height).toInt();
 
-  resize( width, height );
+    resize(width, height);
 }
 
 void QExtendDialog::saveDialogSize() const
 {
     QSettings settings;
 
-   int scnum = QApplication::desktop()->screenNumber( parentWidget() );
-   QRect desk = QApplication::desktop()->screenGeometry( scnum );
+    int scnum = QApplication::desktop()->screenNumber(parentWidget());
+    QRect desk = QApplication::desktop()->screenGeometry(scnum);
 
-   const QSize sizeToSave = size();
+    const QSize sizeToSave = size();
 
-   settings.setValue( QString::fromLatin1("Width %1").arg( desk.width() ), sizeToSave.width() );
-   settings.setValue( QString::fromLatin1("Height %1").arg( desk.height() ), sizeToSave.height() );
+    settings.setValue(QString::fromLatin1("Width %1").arg(desk.width()), sizeToSave.width());
+    settings.setValue(QString::fromLatin1("Height %1").arg(desk.height()), sizeToSave.height());
 }
 
-void QExtendDialog::setAllowEmbeddingInGraphicsView( bool allowEmbedding )
+void QExtendDialog::setAllowEmbeddingInGraphicsView(bool allowEmbedding)
 {
-  sAllowEmbeddingInGraphicsView = allowEmbedding;
+    sAllowEmbeddingInGraphicsView = allowEmbedding;
 }
 
 #include "moc_qextenddialog.cpp"

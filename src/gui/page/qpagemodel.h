@@ -61,19 +61,20 @@ class QPageModelPrivate;
  */
 class NEUROSUITE_EXPORT QPageModel : public QAbstractItemModel
 {
-  Q_OBJECT
+    Q_OBJECT
     Q_DECLARE_PRIVATE(QPageModel)
 
   public:
-        /**
+    /**
          * Additional roles that QPageView uses.
          */
-        enum Role {
-            /**
+    enum Role
+    {
+        /**
              * A string to be rendered as page header.
              */
-            HeaderRole = Qt::UserRole + 1,
-            /**
+        HeaderRole = Qt::UserRole + 1,
+        /**
              * A pointer to the page widget. This is the widget that is shown when the item is
              * selected.
              *
@@ -83,22 +84,22 @@ class NEUROSUITE_EXPORT QPageModel : public QAbstractItemModel
              * QVariant v = QVariant::fromValue(myWidget);
              * \endcode
              */
-            WidgetRole
-        };
+        WidgetRole
+    };
 
     /**
      * Constructs a page model with the given parent.
      */
-    explicit QPageModel( QObject *parent = 0 );
+    explicit QPageModel(QObject* parent = 0);
 
     /**
      * Destroys the page model.
      */
     virtual ~QPageModel();
 
-    protected:
-        QPageModel(QPageModelPrivate &dd, QObject *parent);
-        QPageModelPrivate *const d_ptr;
+  protected:
+    QPageModel(QPageModelPrivate& dd, QObject* parent);
+    QPageModelPrivate* const d_ptr;
 };
 
 #endif

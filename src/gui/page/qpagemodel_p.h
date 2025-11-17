@@ -25,11 +25,11 @@
 class QPageModelPrivate
 {
     Q_DECLARE_PUBLIC(QPageModel)
-    public:
-        virtual ~QPageModelPrivate();
+  public:
+    virtual ~QPageModelPrivate();
 
-    protected:
-       QPageModel *q_ptr;
+  protected:
+    QPageModel* q_ptr;
 };
 
 #endif // KPAGEMODEL_P_H

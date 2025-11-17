@@ -43,19 +43,19 @@ Port to Qt4
 class QPageStackedWidget : public QStackedWidget
 {
   public:
-    QPageStackedWidget( QWidget *parent = 0 )
-      : QStackedWidget( parent )
+    QPageStackedWidget(QWidget* parent = 0)
+        : QStackedWidget(parent)
     {
     }
 
-    void setMinimumSize( const QSize& size )
+    void setMinimumSize(const QSize& size)
     {
-      mMinimumSize = size;
+        mMinimumSize = size;
     }
 
-    virtual QSize minimumSizeHint () const
+    virtual QSize minimumSizeHint() const
     {
-      return mMinimumSize.expandedTo( QStackedWidget::minimumSizeHint() );
+        return mMinimumSize.expandedTo(QStackedWidget::minimumSizeHint());
     }
 
   private:
@@ -65,41 +65,42 @@ class QPageStackedWidget : public QStackedWidget
 class QPageViewPrivate
 {
     Q_DECLARE_PUBLIC(QPageView)
-    protected:
-        QPageViewPrivate(QPageView *);
+  protected:
+    QPageViewPrivate(QPageView*);
 
-        QPageView* q_ptr;
+    QPageView* q_ptr;
 
-        // data
-        QAbstractItemModel *model;
-        QPageView::FaceType faceType;
+    // data
+    QAbstractItemModel* model;
+    QPageView::FaceType faceType;
 
-        // gui
-        QGridLayout *layout;
-        QPageStackedWidget *stack;
-        //KTitleWidget *titleWidget;
-        QWidget *defaultWidget;
+    // gui
+    QGridLayout* layout;
+    QPageStackedWidget* stack;
+    //KTitleWidget *titleWidget;
+    QWidget* defaultWidget;
 
-        QAbstractItemView *view;
+    QAbstractItemView* view;
 
-        void updateTitleWidget(const QModelIndex& index);
+    void updateTitleWidget(const QModelIndex& index);
 
-        void updateSelection();
-        void cleanupPages();
-        QList<QWidget*> collectPages(const QModelIndex &parent = QModelIndex());
-        QPageView::FaceType detectAutoFace() const;
+    void updateSelection();
+    void cleanupPages();
+    QList<QWidget*> collectPages(const QModelIndex& parent = QModelIndex());
+    QPageView::FaceType detectAutoFace() const;
 
-        // private slots
-        void _k_rebuildGui();
-        void _k_modelChanged();
-        void _k_dataChanged(const QModelIndex&, const QModelIndex&);
-        void _k_pageSelected(const QItemSelection&, const QItemSelection&);
+    // private slots
+    void _k_rebuildGui();
+    void _k_modelChanged();
+    void _k_dataChanged(const QModelIndex&, const QModelIndex&);
+    void _k_pageSelected(const QItemSelection&, const QItemSelection&);
 
-    private:
-        void init();
+  private:
+    void init();
 };
 
-namespace KDEPrivate {
+namespace KDEPrivate
+{
 
 class QPageListViewDelegate;
 class QPageListViewProxy;
@@ -107,30 +108,30 @@ class QPageListViewProxy;
 class QPagePlainView : public QAbstractItemView
 {
   public:
-    QPagePlainView( QWidget *parent = 0 );
+    QPagePlainView(QWidget* parent = 0);
 
-    virtual QModelIndex indexAt( const QPoint &point ) const;
-    virtual void scrollTo( const QModelIndex &index, ScrollHint hint = EnsureVisible );
-    virtual QRect visualRect( const QModelIndex & index ) const;
+    virtual QModelIndex indexAt(const QPoint& point) const;
+    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
+    virtual QRect visualRect(const QModelIndex& index) const;
 
   protected:
-    virtual QModelIndex moveCursor( QAbstractItemView::CursorAction, Qt::KeyboardModifiers );
+    virtual QModelIndex moveCursor(QAbstractItemView::CursorAction, Qt::KeyboardModifiers);
     virtual int horizontalOffset() const;
     virtual int verticalOffset() const;
-    virtual bool isIndexHidden( const QModelIndex& ) const;
-    virtual void setSelection( const QRect&, QFlags<QItemSelectionModel::SelectionFlag> );
-    virtual QRegion visualRegionForSelection( const QItemSelection& ) const;
+    virtual bool isIndexHidden(const QModelIndex&) const;
+    virtual void setSelection(const QRect&, QFlags<QItemSelectionModel::SelectionFlag>);
+    virtual QRegion visualRegionForSelection(const QItemSelection&) const;
 };
 
 class QPageListView : public QListView
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
-    QPageListView( QWidget *parent = 0 );
+    QPageListView(QWidget* parent = 0);
     virtual ~QPageListView();
 
-    virtual void setModel( QAbstractItemModel *model );
+    virtual void setModel(QAbstractItemModel* model);
 
   private Q_SLOTS:
     void updateWidth();
@@ -138,68 +139,68 @@ class QPageListView : public QListView
 
 class QPageTreeView : public QTreeView
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
-    QPageTreeView( QWidget *parent = 0 );
+    QPageTreeView(QWidget* parent = 0);
 
-    virtual void setModel( QAbstractItemModel *model );
+    virtual void setModel(QAbstractItemModel* model);
 
   private Q_SLOTS:
     void updateWidth();
 
   private:
-    void expandItems( const QModelIndex &index = QModelIndex() );
+    void expandItems(const QModelIndex& index = QModelIndex());
 };
 
 class QPageTabbedView : public QAbstractItemView
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
-    QPageTabbedView( QWidget *parent = 0 );
+    QPageTabbedView(QWidget* parent = 0);
     virtual ~QPageTabbedView();
 
-    virtual void setModel( QAbstractItemModel *model );
+    virtual void setModel(QAbstractItemModel* model);
 
-    virtual QModelIndex indexAt( const QPoint &point ) const;
-    virtual void scrollTo( const QModelIndex &index, ScrollHint hint = EnsureVisible );
-    virtual QRect visualRect( const QModelIndex & index ) const;
+    virtual QModelIndex indexAt(const QPoint& point) const;
+    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
+    virtual QRect visualRect(const QModelIndex& index) const;
 
     virtual QSize minimumSizeHint() const;
 
   protected:
-    virtual QModelIndex moveCursor( QAbstractItemView::CursorAction, Qt::KeyboardModifiers );
+    virtual QModelIndex moveCursor(QAbstractItemView::CursorAction, Qt::KeyboardModifiers);
     virtual int horizontalOffset() const;
     virtual int verticalOffset() const;
-    virtual bool isIndexHidden( const QModelIndex& ) const;
-    virtual void setSelection( const QRect&, QFlags<QItemSelectionModel::SelectionFlag> );
-    virtual QRegion visualRegionForSelection( const QItemSelection& ) const;
+    virtual bool isIndexHidden(const QModelIndex&) const;
+    virtual void setSelection(const QRect&, QFlags<QItemSelectionModel::SelectionFlag>);
+    virtual QRegion visualRegionForSelection(const QItemSelection&) const;
 
   private Q_SLOTS:
-    void currentPageChanged( int );
+    void currentPageChanged(int);
     void layoutChanged();
-    virtual void dataChanged( const QModelIndex&, const QModelIndex& );
+    virtual void dataChanged(const QModelIndex&, const QModelIndex&);
 
   private:
-    QTabWidget *mTabWidget;
+    QTabWidget* mTabWidget;
 };
 
 class QPageListViewDelegate : public QAbstractItemDelegate
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
-    QPageListViewDelegate( QObject *parent = 0 );
+    QPageListViewDelegate(QObject* parent = 0);
 
-    virtual void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-    virtual QSize sizeHint( const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+    virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+    virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
-  //private Q_SLOTS:
+    //private Q_SLOTS:
     //void iconSettingsChanged( int group );
 
   private:
-    void drawFocus( QPainter*, const QStyleOptionViewItem&, const QRect& ) const;
+    void drawFocus(QPainter*, const QStyleOptionViewItem&, const QRect&) const;
     int mIconSize;
 };
 
@@ -209,42 +210,42 @@ class QPageListViewDelegate : public QAbstractItemDelegate
  */
 class QPageListViewProxy : public QAbstractProxyModel
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
-    QPageListViewProxy( QObject *parent = 0 );
+    QPageListViewProxy(QObject* parent = 0);
     virtual ~QPageListViewProxy();
 
-    virtual int rowCount( const QModelIndex &parent = QModelIndex() ) const;
-    virtual int columnCount( const QModelIndex &parent = QModelIndex() ) const;
-    virtual QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
-    virtual QModelIndex parent( const QModelIndex& ) const;
-    virtual QVariant data( const QModelIndex &index, int role ) const;
-    virtual QModelIndex mapFromSource( const QModelIndex &index ) const;
-    virtual QModelIndex mapToSource( const QModelIndex &index ) const;
+    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+    virtual QModelIndex parent(const QModelIndex&) const;
+    virtual QVariant data(const QModelIndex& index, int role) const;
+    virtual QModelIndex mapFromSource(const QModelIndex& index) const;
+    virtual QModelIndex mapToSource(const QModelIndex& index) const;
 
   public Q_SLOTS:
     void rebuildMap();
 
   private:
-    void addMapEntry( const QModelIndex& );
+    void addMapEntry(const QModelIndex&);
 
     QList<QModelIndex> mList;
 };
 
 class SelectionModel : public QItemSelectionModel
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
-    SelectionModel( QAbstractItemModel *model, QObject *parent );
+    SelectionModel(QAbstractItemModel* model, QObject* parent);
 
   public Q_SLOTS:
     virtual void clear();
-    virtual void select( const QModelIndex &index, QItemSelectionModel::SelectionFlags command );
-    virtual void select( const QItemSelection &selection, QItemSelectionModel::SelectionFlags command );
+    virtual void select(const QModelIndex& index, QItemSelectionModel::SelectionFlags command);
+    virtual void select(const QItemSelection& selection, QItemSelectionModel::SelectionFlags command);
 };
 
-}
+} // namespace KDEPrivate
 
 #endif

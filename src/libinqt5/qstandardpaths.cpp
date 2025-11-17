@@ -133,7 +133,7 @@ QT_BEGIN_NAMESPACE
     \value LocateDirectory return only directories
 */
 
-static bool existsAsSpecified(const QString &path, QStandardPaths::LocateOptions options)
+static bool existsAsSpecified(const QString& path, QStandardPaths::LocateOptions options)
 {
     if (options & QStandardPaths::LocateDirectory)
         return QDir(path).exists();
@@ -147,10 +147,11 @@ static bool existsAsSpecified(const QString &path, QStandardPaths::LocateOptions
    The full path to the first file or directory (depending on \a options) found is returned.
    If no such file or directory can be found, an empty string is returned.
  */
-QString QStandardPaths::locate(StandardLocation type, const QString &fileName, LocateOptions options)
+QString QStandardPaths::locate(StandardLocation type, const QString& fileName, LocateOptions options)
 {
-    const QStringList &dirs = standardLocations(type);
-    for (QStringList::const_iterator dir = dirs.constBegin(); dir != dirs.constEnd(); ++dir) {
+    const QStringList& dirs = standardLocations(type);
+    for (QStringList::const_iterator dir = dirs.constBegin(); dir != dirs.constEnd(); ++dir)
+    {
         const QString path = *dir + QLatin1Char('/') + fileName;
         if (existsAsSpecified(path, options))
             return path;
@@ -166,11 +167,12 @@ QString QStandardPaths::locate(StandardLocation type, const QString &fileName, L
 
    Returns the list of all the files that were found.
  */
-QStringList QStandardPaths::locateAll(StandardLocation type, const QString &fileName, LocateOptions options)
+QStringList QStandardPaths::locateAll(StandardLocation type, const QString& fileName, LocateOptions options)
 {
-    const QStringList &dirs = standardLocations(type);
+    const QStringList& dirs = standardLocations(type);
     QStringList result;
-    for (QStringList::const_iterator dir = dirs.constBegin(); dir != dirs.constEnd(); ++dir) {
+    for (QStringList::const_iterator dir = dirs.constBegin(); dir != dirs.constEnd(); ++dir)
+    {
         const QString path = *dir + QLatin1Char('/') + fileName;
         if (existsAsSpecified(path, options))
             result.append(path);
@@ -182,7 +184,8 @@ QStringList QStandardPaths::locateAll(StandardLocation type, const QString &file
 static QStringList executableExtensions()
 {
     QStringList ret = QString::fromLocal8Bit(qgetenv("PATHEXT").data()).split(QLatin1Char(';'));
-    if (!ret.contains(QLatin1String(".exe"), Qt::CaseInsensitive)) {
+    if (!ret.contains(QLatin1String(".exe"), Qt::CaseInsensitive))
+    {
         // If %PATHEXT% does not contain .exe, it is either empty, malformed, or distorted in ways that we cannot support, anyway.
         ret.clear();
         ret << QLatin1String(".exe")
@@ -194,7 +197,7 @@ static QStringList executableExtensions()
 }
 #endif
 
-static QString checkExecutable(const QString &path)
+static QString checkExecutable(const QString& path)
 {
     const QFileInfo info(path);
     if (info.isBundle())
@@ -223,10 +226,11 @@ static QString checkExecutable(const QString &path)
 
   Returns the absolute file path to the executable, or an empty string if not found.
  */
-QString QStandardPaths::findExecutable(const QString &executableName, const QStringList &paths)
+QString QStandardPaths::findExecutable(const QString& executableName, const QStringList& paths)
 {
     QStringList searchPaths = paths;
-    if (paths.isEmpty()) {
+    if (paths.isEmpty())
+    {
         QByteArray pEnv = qgetenv("PATH");
 #if defined(Q_OS_WIN) || defined(Q_OS_SYMBIAN)
         const QLatin1Char pathSep(';');
@@ -245,12 +249,15 @@ QString QStandardPaths::findExecutable(const QString &executableName, const QStr
     static QStringList executable_extensions = executableExtensions();
 #endif
 
-    for (QStringList::const_iterator p = searchPaths.constBegin(); p != searchPaths.constEnd(); ++p) {
+    for (QStringList::const_iterator p = searchPaths.constBegin(); p != searchPaths.constEnd(); ++p)
+    {
         const QString candidate = currentDir.absoluteFilePath(*p + QLatin1Char('/') + executableName);
 #ifdef Q_OS_WIN
         const QString extension = QLatin1Char('.') + QFileInfo(executableName).suffix();
-        if (!executable_extensions.contains(extension, Qt::CaseInsensitive)) {
-            foreach (const QString &extension, executable_extensions) {
+        if (!executable_extensions.contains(extension, Qt::CaseInsensitive))
+        {
+            foreach (const QString& extension, executable_extensions)
+            {
                 absPath = checkExecutable(candidate + extension.toLower());
                 if (!absPath.isEmpty())
                     break;
@@ -258,7 +265,8 @@ QString QStandardPaths::findExecutable(const QString &executableName, const QStr
         }
 #endif
         absPath = checkExecutable(candidate);
-        if (!absPath.isEmpty()) {
+        if (!absPath.isEmpty())
+        {
             break;
         }
     }
@@ -275,7 +283,8 @@ QString QStandardPaths::findExecutable(const QString &executableName, const QStr
 #ifndef Q_OS_MAC
 QString QStandardPaths::displayName(StandardLocation type)
 {
-    switch (type) {
+    switch (type)
+    {
     case DesktopLocation:
         return QCoreApplication::translate("QStandardPaths", "Desktop");
     case DocumentsLocation:

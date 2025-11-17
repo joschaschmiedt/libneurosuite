@@ -10,15 +10,15 @@ Copyright (C) 2012 Klarälvdalens Datakonsult AB, a KDAB Group company, info@kda
 #include <QDialogButtonBox>
 #include <QDesktopServices>
 
-QHelpViewer::QHelpViewer(QWidget *parent)
-    :QDialog(parent)
+QHelpViewer::QHelpViewer(QWidget* parent)
+    : QDialog(parent)
 {
     setWindowTitle(tr("Handbook"));
-    QVBoxLayout *lay = new QVBoxLayout;
+    QVBoxLayout* lay = new QVBoxLayout;
     mView = new QWebView;
     lay->addWidget(mView);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     lay->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(mView, SIGNAL(linkClicked(QUrl)), SLOT(slotLinkCLicked(QUrl)));
@@ -35,7 +35,7 @@ void QHelpViewer::setHtml(const QString& filename, const QString& anchor)
     mView->load(QUrl(filename));
 }
 
-void QHelpViewer::slotLinkCLicked(const QUrl &url)
+void QHelpViewer::slotLinkCLicked(const QUrl& url)
 {
     QDesktopServices::openUrl(url);
 }

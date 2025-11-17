@@ -22,11 +22,12 @@
 #include <QStyleOption>
 #include <QPainter>
 
-KLusterSeparator::KLusterSeparator(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
+KLusterSeparator::KLusterSeparator(QWidget* parent, Qt::WindowFlags f)
+    : QFrame(parent, f)
 {
     setLineWidth(1);
     setMidLineWidth(0);
-    setOrientation( Qt::Horizontal );
+    setOrientation(Qt::Horizontal);
 }
 
 
@@ -35,20 +36,22 @@ KLusterSeparator::KLusterSeparator(Qt::Orientation orientation, QWidget* parent,
 {
     setLineWidth(1);
     setMidLineWidth(0);
-    setOrientation( orientation );
+    setOrientation(orientation);
 }
 
 
 void KLusterSeparator::setOrientation(Qt::Orientation orientation)
 {
-    if (orientation == Qt::Vertical) {
-        setFrameShape ( QFrame::VLine );
-        setFrameShadow( QFrame::Sunken );
+    if (orientation == Qt::Vertical)
+    {
+        setFrameShape(QFrame::VLine);
+        setFrameShadow(QFrame::Sunken);
         setMinimumSize(2, 0);
     }
-    else {
-        setFrameShape ( QFrame::HLine );
-        setFrameShadow( QFrame::Sunken );
+    else
+    {
+        setFrameShape(QFrame::HLine);
+        setFrameShadow(QFrame::Sunken);
         setMinimumSize(0, 2);
     }
     updateGeometry();
@@ -58,4 +61,3 @@ Qt::Orientation KLusterSeparator::orientation() const
 {
     return ((frameStyle() & VLine) == VLine) ? Qt::Vertical : Qt::Horizontal;
 }
-

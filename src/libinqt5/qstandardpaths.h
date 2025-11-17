@@ -57,9 +57,10 @@ class QStringList;
 
 class NEUROSUITE_EXPORT QStandardPaths
 {
-public:
+  public:
     // Do not re-order, must match QDesktopServices
-    enum StandardLocation {
+    enum StandardLocation
+    {
         DesktopLocation,
         DocumentsLocation,
         FontsLocation,
@@ -81,19 +82,20 @@ public:
     static QString writableLocation(StandardLocation type);
     static QStringList standardLocations(StandardLocation type);
 
-    enum LocateOption {
+    enum LocateOption
+    {
         LocateFile = 0x0,
         LocateDirectory = 0x1
     };
     Q_DECLARE_FLAGS(LocateOptions, LocateOption)
 
-    static QString locate(StandardLocation type, const QString &fileName, LocateOptions options = LocateFile);
-    static QStringList locateAll(StandardLocation type, const QString &fileName, LocateOptions options = LocateFile);
+    static QString locate(StandardLocation type, const QString& fileName, LocateOptions options = LocateFile);
+    static QStringList locateAll(StandardLocation type, const QString& fileName, LocateOptions options = LocateFile);
     static QString displayName(StandardLocation type);
 
-    static QString findExecutable(const QString &executableName, const QStringList &paths = QStringList());
+    static QString findExecutable(const QString& executableName, const QStringList& paths = QStringList());
 
-private:
+  private:
     // prevent construction
     QStandardPaths();
     ~QStandardPaths();

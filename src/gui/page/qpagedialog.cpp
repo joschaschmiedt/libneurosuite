@@ -34,34 +34,37 @@ Port to Qt4
 #include <QTimer>
 #include <QLayout>
 
-QPageDialog::QPageDialog( QWidget *parent, Qt::WindowFlags flags )
+QPageDialog::QPageDialog(QWidget* parent, Qt::WindowFlags flags)
     : QExtendDialog(*new QPageDialogPrivate, parent, flags)
 {
     Q_D(QPageDialog);
-  d->mPageWidget = new QPageWidget( this );
+    d->mPageWidget = new QPageWidget(this);
 
-  d->init();
+    d->init();
 }
 
-QPageDialog::QPageDialog( QPageWidget *widget, QWidget *parent, Qt::WindowFlags flags )
+QPageDialog::QPageDialog(QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags)
     : QExtendDialog(*new QPageDialogPrivate, parent, flags)
 {
     Q_D(QPageDialog);
     Q_ASSERT(widget);
     widget->setParent(this);
-  d->mPageWidget = widget;
+    d->mPageWidget = widget;
 
-  d->init();
+    d->init();
 }
 
-QPageDialog::QPageDialog(QPageDialogPrivate &dd, QPageWidget *widget, QWidget *parent, Qt::WindowFlags flags)
+QPageDialog::QPageDialog(QPageDialogPrivate& dd, QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags)
     : QExtendDialog(dd, parent, flags)
 {
     Q_D(QPageDialog);
-    if (widget) {
+    if (widget)
+    {
         widget->setParent(this);
         d->mPageWidget = widget;
-    } else {
+    }
+    else
+    {
         d->mPageWidget = new QPageWidget(this);
     }
     d->init();
@@ -71,47 +74,47 @@ QPageDialog::~QPageDialog()
 {
 }
 
-void QPageDialog::setFaceType( FaceType faceType )
+void QPageDialog::setFaceType(FaceType faceType)
 {
     d_func()->mPageWidget->setFaceType(static_cast<QPageWidget::FaceType>(faceType));
 }
 
-QPageWidgetItem* QPageDialog::addPage( QWidget *widget, const QString &name )
+QPageWidgetItem* QPageDialog::addPage(QWidget* widget, const QString& name)
 {
     return d_func()->mPageWidget->addPage(widget, name);
 }
 
-void QPageDialog::addPage( QPageWidgetItem *item )
+void QPageDialog::addPage(QPageWidgetItem* item)
 {
     d_func()->mPageWidget->addPage(item);
 }
 
-QPageWidgetItem* QPageDialog::insertPage( QPageWidgetItem *before, QWidget *widget, const QString &name )
+QPageWidgetItem* QPageDialog::insertPage(QPageWidgetItem* before, QWidget* widget, const QString& name)
 {
     return d_func()->mPageWidget->insertPage(before, widget, name);
 }
 
-void QPageDialog::insertPage( QPageWidgetItem *before, QPageWidgetItem *item )
+void QPageDialog::insertPage(QPageWidgetItem* before, QPageWidgetItem* item)
 {
     d_func()->mPageWidget->insertPage(before, item);
 }
 
-QPageWidgetItem* QPageDialog::addSubPage( QPageWidgetItem *parent, QWidget *widget, const QString &name )
+QPageWidgetItem* QPageDialog::addSubPage(QPageWidgetItem* parent, QWidget* widget, const QString& name)
 {
     return d_func()->mPageWidget->addSubPage(parent, widget, name);
 }
 
-void QPageDialog::addSubPage( QPageWidgetItem *parent, QPageWidgetItem *item )
+void QPageDialog::addSubPage(QPageWidgetItem* parent, QPageWidgetItem* item)
 {
     d_func()->mPageWidget->addSubPage(parent, item);
 }
 
-void QPageDialog::removePage( QPageWidgetItem *item )
+void QPageDialog::removePage(QPageWidgetItem* item)
 {
     d_func()->mPageWidget->removePage(item);
 }
 
-void QPageDialog::setCurrentPage( QPageWidgetItem *item )
+void QPageDialog::setCurrentPage(QPageWidgetItem* item)
 {
     d_func()->mPageWidget->setCurrentPage(item);
 }
@@ -126,7 +129,7 @@ QPageWidget* QPageDialog::pageWidget()
     return d_func()->mPageWidget;
 }
 
-void QPageDialog::setPageWidget(QPageWidget *widget)
+void QPageDialog::setPageWidget(QPageWidget* widget)
 {
     delete d_func()->mPageWidget;
     d_func()->mPageWidget = widget;

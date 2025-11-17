@@ -32,10 +32,10 @@
   * @author Lynn Hazan
   */
 
-class NEUROSUITE_EXPORT ZoomWindow {
+class NEUROSUITE_EXPORT ZoomWindow
+{
 
-public: 
-
+  public:
     /**
 * Constructor using a QRect
 * @param rect initial rectangle.
@@ -68,7 +68,8 @@ public:
 * @param center center point for the newly zoomed rectangle
 * @return boolean indicating if the zoom has been done
 */
-    inline bool zoom(float factor, const QPoint& center){
+    inline bool zoom(float factor, const QPoint& center)
+    {
         return zoom(factor, center.x(), center.y());
     };
 
@@ -91,18 +92,19 @@ public:
 * @param secondPoint Qpoint of the first selected point
 * @return boolean indicating if the zoom has been done
 */
-    inline bool zoom(QPoint firstPoint, QPoint secondPoint) {
+    inline bool zoom(QPoint firstPoint, QPoint secondPoint)
+    {
         return zoom(firstPoint.x(), firstPoint.y(), secondPoint.x(), secondPoint.y());
     };
 
-protected:
+  protected:
     /**
 * Make sure that the new window remains inside the intial boundaries.
 */
     void correctWindow();
 
 
-private:
+  private:
     /**
 * Left coordinate of the rectangle.
 */
@@ -148,18 +150,17 @@ private:
 */
     static const float MAX_SCALE;
 
-public:
-
+  public:
     /**
 * Resets the zoomWindow to its initialize state
 */
-    inline void reset(){
-        left   = initialLeft;
-        right  = initialRight;
-        top    = initialTop;
+    inline void reset()
+    {
+        left = initialLeft;
+        right = initialRight;
+        top = initialTop;
         bottom = initialBottom;
     }
-
 };
 
 

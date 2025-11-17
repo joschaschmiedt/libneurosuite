@@ -19,32 +19,32 @@ class NEUROSUITE_EXPORT QRecentFileAction : public QAction
     Q_OBJECT
     Q_PROPERTY(int maximumFileCount READ maximumFileCount WRITE setMaximumFileCount)
     Q_PROPERTY(QStringList recentFiles READ recentFiles WRITE setRecentFiles)
-public:
-    explicit QRecentFileAction(QObject *parent = 0);
+  public:
+    explicit QRecentFileAction(QObject* parent = 0);
     ~QRecentFileAction();
 
     void setRecentFiles(const QStringList& lst);
     QStringList recentFiles() const;
-    void addRecentFile(const QString &file);
-    void removeRecentFile(const QString &file);
+    void addRecentFile(const QString& file);
+    void removeRecentFile(const QString& file);
     void save();
     int maximumFileCount() const;
     void setMaximumFileCount(int);
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void clear();
 
-Q_SIGNALS:
-    void recentFileSelected(const QString &);
+  Q_SIGNALS:
+    void recentFileSelected(const QString&);
     void recentFileCleared();
     void recentFileListChanged();
 
-private:
-    QRecentFileActionPrivate * const d;
+  private:
+    QRecentFileActionPrivate* const d;
     friend class QRecentFileActionPrivate;
     Q_DISABLE_COPY(QRecentFileAction)
     Q_PRIVATE_SLOT(d, void initializeRecentMenu())
-    Q_PRIVATE_SLOT(d, void fileSelected(QAction *))
+    Q_PRIVATE_SLOT(d, void fileSelected(QAction*))
 };
 
 QT_END_NAMESPACE

@@ -9,15 +9,15 @@ Copyright (C) 2012 Klarälvdalens Datakonsult AB, a KDAB Group company, info@kda
 
 class QColorButtonPrivate
 {
-public:
-    QColorButtonPrivate(QColorButton *qq)
-        :q(qq)
+  public:
+    QColorButtonPrivate(QColorButton* qq)
+        : q(qq)
     {
     }
     void slotSelectColor();
     void updateBackgroundColor();
     QColor color;
-    QColorButton *q;
+    QColorButton* q;
 };
 
 
@@ -30,10 +30,10 @@ void QColorButtonPrivate::updateBackgroundColor()
 }
 
 
-QColorButton::QColorButton(QWidget *parent)
-    :QPushButton(parent),d(new QColorButtonPrivate(this))
+QColorButton::QColorButton(QWidget* parent)
+    : QPushButton(parent), d(new QColorButtonPrivate(this))
 {
-    connect(this,SIGNAL(clicked()),this,SLOT(slotSelectColor()));
+    connect(this, SIGNAL(clicked()), this, SLOT(slotSelectColor()));
 }
 
 QColorButton::~QColorButton()
@@ -42,9 +42,10 @@ QColorButton::~QColorButton()
 }
 
 
-void QColorButton::setColor(const QColor&col)
+void QColorButton::setColor(const QColor& col)
 {
-    if(col != d->color) {
+    if (col != d->color)
+    {
         d->color = col;
         d->updateBackgroundColor();
         Q_EMIT colorChanged(col);
@@ -58,8 +59,9 @@ QColor QColorButton::color() const
 
 void QColorButton::slotSelectColor()
 {
-    const QColor col = QColorDialog::getColor ( d->color, this );
-    if(col.isValid()) {
+    const QColor col = QColorDialog::getColor(d->color, this);
+    if (col.isValid())
+    {
         setColor(col);
     }
 }

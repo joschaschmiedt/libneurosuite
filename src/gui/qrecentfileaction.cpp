@@ -11,8 +11,8 @@ Copyright (C) 2012 Klarälvdalens Datakonsult AB, a KDAB Group company, info@kda
 
 class QRecentFileActionPrivate
 {
-public:
-    QRecentFileActionPrivate(QRecentFileAction *qq)
+  public:
+    QRecentFileActionPrivate(QRecentFileAction* qq)
         : maximumFileCount(10),
           noEntriesAction(0),
           clearSeparator(0),
@@ -23,24 +23,25 @@ public:
     }
 
     void createRecentMenu();
-    void addAction(const QString &file);
-    void removeAction(QAction *act);
-    void removeAction(const QString &file);
+    void addAction(const QString& file);
+    void removeAction(QAction* act);
+    void removeAction(const QString& file);
     void updateActionsState();
     void initializeRecentMenu();
-    void fileSelected(QAction *action);
+    void fileSelected(QAction* action);
 
     QStringList recentFiles;
     int maximumFileCount;
-    QAction *noEntriesAction;
-    QAction *clearSeparator;
-    QAction *clearAction;
-    QRecentFileAction *q;
+    QAction* noEntriesAction;
+    QAction* clearSeparator;
+    QAction* clearAction;
+    QRecentFileAction* q;
 };
 
-void QRecentFileActionPrivate::fileSelected(QAction *action)
+void QRecentFileActionPrivate::fileSelected(QAction* action)
 {
-    if (action && (action!=clearAction) && (action!=noEntriesAction) && (action!=clearSeparator)) {
+    if (action && (action != clearAction) && (action != noEntriesAction) && (action != clearSeparator))
+    {
         emit q->recentFileSelected(action->data().toString());
     }
 }
@@ -49,18 +50,21 @@ void QRecentFileActionPrivate::fileSelected(QAction *action)
 void QRecentFileActionPrivate::initializeRecentMenu()
 {
 
-    if (!recentFiles.isEmpty()) {
+    if (!recentFiles.isEmpty())
+    {
         const int numberOfRecentFile(recentFiles.count());
-        for (int i=0;i<numberOfRecentFile;++i) {
+        for (int i = 0; i < numberOfRecentFile; ++i)
+        {
             QString file = recentFiles.at(i);
 
             const QString actionText = QString::fromLatin1("%1 [%2]").arg(QFileInfo(file).fileName()).arg(file);
-            QAction* action = new QAction(actionText,q);
+            QAction* action = new QAction(actionText, q);
             action->setToolTip(file);
             action->setData(file);
             q->menu()->addAction(action);
 
-            if (i==maximumFileCount) {
+            if (i == maximumFileCount)
+            {
                 break;
             }
         }
@@ -70,8 +74,7 @@ void QRecentFileActionPrivate::initializeRecentMenu()
     clearSeparator = q->menu()->addSeparator();
     clearAction = q->menu()->addAction(q->tr("Clear List"), q, SLOT(clear()));
     updateActionsState();
-    q->connect(q->menu(), SIGNAL(triggered(QAction*)),q, SLOT(fileSelected(QAction*)));
-
+    q->connect(q->menu(), SIGNAL(triggered(QAction*)), q, SLOT(fileSelected(QAction*)));
 }
 
 void QRecentFileActionPrivate::createRecentMenu()
@@ -80,28 +83,28 @@ void QRecentFileActionPrivate::createRecentMenu()
     noEntriesAction = 0;
     clearSeparator = 0;
     clearAction = 0;
-    QMenu *menu = new QMenu();
+    QMenu* menu = new QMenu();
     q->setMenu(menu);
     initializeRecentMenu();
 }
 
-void QRecentFileActionPrivate::addAction(const QString &file)
+void QRecentFileActionPrivate::addAction(const QString& file)
 {
     if (file.isEmpty())
         return;
 
     QString truncateFileName = file;
     //if (file.length() > 30)
-        //truncateFileName = file.left(15) + QLatin1String("...") + file.right(15);
+    //truncateFileName = file.left(15) + QLatin1String("...") + file.right(15);
 
     const QString actionText = QString::fromLatin1("%1 [%2]").arg(QFileInfo(file).fileName()).arg(truncateFileName);
-    QAction* action = new QAction(actionText,q);
+    QAction* action = new QAction(actionText, q);
     action->setToolTip(file);
     action->setData(file);
     q->menu()->insertAction(q->menu()->actions().value(0), action);
 }
 
-void QRecentFileActionPrivate::removeAction(QAction *act)
+void QRecentFileActionPrivate::removeAction(QAction* act)
 {
     recentFiles.removeAll(act->data().toString());
     q->menu()->removeAction(act);
@@ -117,13 +120,16 @@ void QRecentFileActionPrivate::updateActionsState()
     clearAction->setVisible(!isMenuEmpty);
 }
 
-void QRecentFileActionPrivate::removeAction(const QString &file)
+void QRecentFileActionPrivate::removeAction(const QString& file)
 {
-    if (q->menu()->actions().isEmpty()) {
+    if (q->menu()->actions().isEmpty())
+    {
         recentFiles.removeAll(file);
     }
-    Q_FOREACH (QAction *action, q->menu()->actions()) {
-        if (action->data().toString()==file) {
+    Q_FOREACH (QAction* action, q->menu()->actions())
+    {
+        if (action->data().toString() == file)
+        {
             removeAction(action);
             break;
         }
@@ -133,7 +139,7 @@ void QRecentFileActionPrivate::removeAction(const QString &file)
 /*!
     Constructs a recent file menu with a \a parent.
 */
-QRecentFileAction::QRecentFileAction(QObject *parent)
+QRecentFileAction::QRecentFileAction(QObject* parent)
     : QAction(parent), d(new QRecentFileActionPrivate(this))
 {
     setText(tr("Recent Files..."));
@@ -154,7 +160,8 @@ QRecentFileAction::~QRecentFileAction()
 */
 void QRecentFileAction::clear()
 {
-    Q_FOREACH (QAction *action, menu()->actions()) {
+    Q_FOREACH (QAction* action, menu()->actions())
+    {
         if ((action != d->clearAction) && (action != d->noEntriesAction) && (action != d->clearSeparator))
             d->removeAction(action);
     }
@@ -166,15 +173,17 @@ void QRecentFileAction::clear()
 /*!
     Append a new file with \a file to recent file list.
 */
-void QRecentFileAction::addRecentFile(const QString &file)
+void QRecentFileAction::addRecentFile(const QString& file)
 {
     if (file.isEmpty())
         return;
-    if (d->maximumFileCount && (menu()->actions().count()>=d->maximumFileCount+3)) {
+    if (d->maximumFileCount && (menu()->actions().count() >= d->maximumFileCount + 3))
+    {
         QStringList lst = d->recentFiles;
         lst.prepend(file);
         QStringList newLst;
-        for (int i = 0; i < d->maximumFileCount; ++i) {
+        for (int i = 0; i < d->maximumFileCount; ++i)
+        {
             newLst.append(lst.at(i));
         }
 
@@ -190,7 +199,7 @@ void QRecentFileAction::addRecentFile(const QString &file)
 /*!
     Remove recent file \a file from recent file list.
 */
-void QRecentFileAction::removeRecentFile(const QString &file)
+void QRecentFileAction::removeRecentFile(const QString& file)
 {
     d->removeAction(file);
     save();
@@ -216,15 +225,18 @@ int QRecentFileAction::maximumFileCount() const
 /*!
     Sets the maximum number of files shown by the action
 */
-void QRecentFileAction::setMaximumFileCount(int maximumRecentFile )
+void QRecentFileAction::setMaximumFileCount(int maximumRecentFile)
 {
-    if (d->maximumFileCount!=maximumRecentFile) {
-        d->maximumFileCount=maximumRecentFile;
+    if (d->maximumFileCount != maximumRecentFile)
+    {
+        d->maximumFileCount = maximumRecentFile;
         // remove all excess items
-        if (d->maximumFileCount && (menu()->actions().count()>=d->maximumFileCount+3)) {
+        if (d->maximumFileCount && (menu()->actions().count() >= d->maximumFileCount + 3))
+        {
             QStringList lst = d->recentFiles;
             QStringList newLst;
-            for (int ii = 0; ii < d->maximumFileCount; ++ii) {
+            for (int ii = 0; ii < d->maximumFileCount; ++ii)
+            {
                 newLst.append(lst.at(ii));
             }
 
@@ -249,8 +261,10 @@ void QRecentFileAction::setRecentFiles(const QStringList& lst)
 QStringList QRecentFileAction::recentFiles() const
 {
     QStringList recentFiles;
-    Q_FOREACH (QAction *action, menu()->actions()) {
-        if ((action != d->clearAction) && (action != d->noEntriesAction) && (action != d->clearSeparator)) {
+    Q_FOREACH (QAction* action, menu()->actions())
+    {
+        if ((action != d->clearAction) && (action != d->noEntriesAction) && (action != d->clearSeparator))
+        {
             recentFiles << action->data().toString();
         }
     }
@@ -262,7 +276,6 @@ QStringList QRecentFileAction::recentFiles() const
 
     This signal is emitted when recent list file was changed.
 */
-
 
 
 /*!

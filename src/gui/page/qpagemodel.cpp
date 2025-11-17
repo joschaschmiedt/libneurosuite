@@ -31,12 +31,12 @@ QPageModelPrivate::~QPageModelPrivate()
 {
 }
 
-QPageModel::QPageModel( QObject *parent )
+QPageModel::QPageModel(QObject* parent)
     : QAbstractItemModel(parent), d_ptr(0)
 {
 }
 
-QPageModel::QPageModel(QPageModelPrivate &dd, QObject *parent)
+QPageModel::QPageModel(QPageModelPrivate& dd, QObject* parent)
     : QAbstractItemModel(parent), d_ptr(&dd)
 {
     d_ptr->q_ptr = this;

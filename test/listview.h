@@ -6,11 +6,11 @@
 class ListWidget : public QListWidget
 {
     Q_OBJECT
-public:
-    explicit ListWidget(QWidget *parent=0);
+  public:
+    explicit ListWidget(QWidget* parent = 0);
 
     void setNewWidth(int width);
-    
+
     virtual QSize sizeHint() const;
 };
 

@@ -70,11 +70,10 @@ class QPageDialogPrivate;
  */
 class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
 {
-  Q_OBJECT
+    Q_OBJECT
     Q_DECLARE_PRIVATE(QPageDialog)
 
   public:
-
     /**
      *  @li @p Auto   - A dialog with a face based on the structure of the
      *                  available pages.
@@ -92,18 +91,18 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      */
     enum FaceType
     {
-      Auto   = QPageView::Auto,
-      Plain  = QPageView::Plain,
-      List   = QPageView::List,
-      Tree   = QPageView::Tree,
-      Tabbed = QPageView::Tabbed
+        Auto = QPageView::Auto,
+        Plain = QPageView::Plain,
+        List = QPageView::List,
+        Tree = QPageView::Tree,
+        Tabbed = QPageView::Tabbed
     };
 
   public:
     /**
      * Creates a new page dialog.
      */
-    explicit QPageDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+    explicit QPageDialog(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 
     /**
      * Destroys the page dialog.
@@ -113,7 +112,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
     /**
      * Sets the face type of the dialog.
      */
-    void setFaceType( FaceType faceType );
+    void setFaceType(FaceType faceType);
 
     /**
      * Adds a new top level page to the dialog.
@@ -123,14 +122,14 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      *
      * @returns The associated @see QPageWidgetItem.
      */
-    QPageWidgetItem* addPage( QWidget *widget, const QString &name );
+    QPageWidgetItem* addPage(QWidget* widget, const QString& name);
 
     /**
      * Adds a new top level page to the dialog.
      *
      * @param item The @see QPageWidgetItem which describes the page.
      */
-    void addPage( QPageWidgetItem *item );
+    void addPage(QPageWidgetItem* item);
 
     /**
      * Inserts a new page in the dialog.
@@ -142,7 +141,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      *
      * @returns The associated @see QPageWidgetItem.
      */
-    QPageWidgetItem* insertPage( QPageWidgetItem *before, QWidget *widget, const QString &name );
+    QPageWidgetItem* insertPage(QPageWidgetItem* before, QWidget* widget, const QString& name);
 
     /**
      * Inserts a new page in the dialog.
@@ -152,7 +151,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      *
      * @param item The @see QPageWidgetItem which describes the page.
      */
-    void insertPage( QPageWidgetItem *before, QPageWidgetItem *item );
+    void insertPage(QPageWidgetItem* before, QPageWidgetItem* item);
 
     /**
      * Inserts a new sub page in the dialog.
@@ -163,7 +162,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      *
      * @returns The associated @see QPageWidgetItem.
      */
-    QPageWidgetItem* addSubPage( QPageWidgetItem *parent, QWidget *widget, const QString &name );
+    QPageWidgetItem* addSubPage(QPageWidgetItem* parent, QWidget* widget, const QString& name);
 
     /**
      * Inserts a new sub page in the dialog.
@@ -172,18 +171,18 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      *
      * @param item The @see QPageWidgetItem which describes the page.
      */
-    void addSubPage( QPageWidgetItem *parent, QPageWidgetItem *item );
+    void addSubPage(QPageWidgetItem* parent, QPageWidgetItem* item);
 
     /**
      * Removes the page associated with the given @see QPageWidgetItem.
      */
-    void removePage( QPageWidgetItem *item );
+    void removePage(QPageWidgetItem* item);
 
     /**
      * Sets the page which is associated with the given @see QPageWidgetItem to
      * be the current page and emits the currentPageChanged() signal.
      */
-    void setCurrentPage( QPageWidgetItem *item );
+    void setCurrentPage(QPageWidgetItem* item);
 
     /**
      * Returns the @see QPageWidgetItem for the current page or 0 if there is no
@@ -197,14 +196,14 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      *
      * @param item The new current page or 0 if no current page is available.
      */
-    void currentPageChanged( QPageWidgetItem *current, QPageWidgetItem *before );
+    void currentPageChanged(QPageWidgetItem* current, QPageWidgetItem* before);
 
     /**
      * This signal is emitted whenever a page has been removed.
      *
      * @param page The page which has been removed
      **/
-    void pageRemoved( QPageWidgetItem *page );
+    void pageRemoved(QPageWidgetItem* page);
 
   protected:
     /**
@@ -213,18 +212,18 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      * \param widget The QPageWidget object will be reparented to this object, so you can create
      * it without parent and you are not allowed to delete it.
      */
-    QPageDialog(QPageWidget *widget, QWidget *parent, Qt::WindowFlags flags = 0);
-    QPageDialog(QPageDialogPrivate &dd, QPageWidget *widget, QWidget *parent, Qt::WindowFlags flags = 0);
+    QPageDialog(QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags = 0);
+    QPageDialog(QPageDialogPrivate& dd, QPageWidget* widget, QWidget* parent, Qt::WindowFlags flags = 0);
 
     /**
      * Returns the page widget of the dialog or 0 if no page widget is set.
      */
-    QPageWidget *pageWidget();
+    QPageWidget* pageWidget();
 
     /**
      * Returns the page widget of the dialog or 0 if no page widget is set.
      */
-    const QPageWidget *pageWidget() const;
+    const QPageWidget* pageWidget() const;
 
     /**
      * Set the page widget of the dialog.
@@ -234,8 +233,7 @@ class NEUROSUITE_EXPORT QPageDialog : public QExtendDialog
      * @param widget The QPageWidget object will be reparented to this object, so you can create
      * it without parent and you are not allowed to delete it.
      */
-    void setPageWidget(QPageWidget *widget);
-
+    void setPageWidget(QPageWidget* widget);
 };
 
 #endif

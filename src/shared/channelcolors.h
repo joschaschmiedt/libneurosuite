@@ -30,86 +30,89 @@
   *@author Lynn Hazan
   */
 
-class NEUROSUITE_EXPORT ChannelColors  {
+class NEUROSUITE_EXPORT ChannelColors
+{
 
-public:
+  public:
+    ChannelColors();
+    virtual ~ChannelColors();
+    ChannelColors(const ChannelColors& channelcolors);
 
-  ChannelColors();
-  virtual ~ChannelColors();
-  ChannelColors(const ChannelColors& channelcolors);
 
-
-public:
-
-  /**
+  public:
+    /**
   * Suppress all the elements of
   */
-  inline void removeAll(){qDeleteAll(channelList); channelList.clear();}
-  
-  /**
+    inline void removeAll()
+    {
+        qDeleteAll(channelList);
+        channelList.clear();
+    }
+
+    /**
   * Returns the color for a channel with a given id (@p identifier).
   * @param identifier channel id.
   * @return the QColor for the given channel.
   */
-  virtual QColor color(int identifier);
+    virtual QColor color(int identifier);
 
-  /**
+    /**
   * Returns the group color for a channel with a given id (@p identifier).
   * @param identifier channel id.
   * @return the QColor for the group of the given channel.
   */
-  virtual QColor groupColor(int identifier);
+    virtual QColor groupColor(int identifier);
 
-  /**
+    /**
   * Returns the spike group color for a channel with a given id (@p identifier).
   * @param identifier channel id.
   * @return the QColor for the spike group of the given channel
   */
-  virtual QColor spikeGroupColor(int identifier);
-  
+    virtual QColor spikeGroupColor(int identifier);
 
- /**
+
+    /**
   * Sets the color for a channel with a given id to color.
   * @param identifier channel id.
   * @param color color to attribute to the channel.
   */
-  virtual void setColor(int identifier,const QColor& color);
+    virtual void setColor(int identifier, const QColor& color);
 
- /**
+    /**
   * Sets the group color for a channel with a given id to color.
   * @param identifier channel id.
   * @param color group color to attribute to the channel.
   */
-  virtual void setGroupColor(int identifier,const QColor& color);
+    virtual void setGroupColor(int identifier, const QColor& color);
 
- /**
+    /**
   * Sets the spike group color for a channel with a given id to color.
   * @param identifier channel id.
   * @param color spike group color to attribute to the channel.
   */
-  virtual void setSpikeGroupColor(int identifier,QColor color);
+    virtual void setSpikeGroupColor(int identifier, QColor color);
 
-  /**
+    /**
   * Returns the channel id with a given position in the list (@p index).
   * @param index the index in the list of channels
   * @return the channel id
   */
-  virtual int channelId(int index);
+    virtual int channelId(int index);
 
-  /**
+    /**
   * Returns true if the channel Id exists false otherwise.
   * @param channelId the id of the channel to check for existence
   * @return the boolean value for the existance of the channel
   */
-  virtual bool contains(int channelId);
+    virtual bool contains(int channelId);
 
-  /**
+    /**
   * Returns the number of channels.
   * @return the number of channels in the list
   */
-  virtual inline uint numberOfChannels() const {return channelList.count();}
+    virtual inline uint numberOfChannels() const { return channelList.count(); }
 
-  /**
+    /**
   * Appends a channel to the list of channels.
   * @param channelId the channel id.
   * @param color the color of the channel.
@@ -117,18 +120,18 @@ public:
   * @param spikeGroupColor the decteion group color of the channel.   
   * @return the index in the list.
   */
-  virtual uint append(int channelId, const QColor &color, const QColor &groupColor, const QColor &spikeGroupColor);
+    virtual uint append(int channelId, const QColor& color, const QColor& groupColor, const QColor& spikeGroupColor);
 
-  /**
+    /**
   * This is an overloaded member function, provided for convenience. It behaves essentially like the above function.
   * Appends a channel to the list of channels with its groupColor and spikeGroupColor equal to its color.
   * @param channelId the channel id.
   * @param color the color of the channel.
   * @return the index in the list.
   */
-  virtual uint append(int channelId, const QColor &color);
+    virtual uint append(int channelId, const QColor& color);
 
-  /**
+    /**
   * Inserts a channel at position @p index in the list of channels.
   * @param channelId the channel id.
   * @param index index position where to insert the channel.
@@ -136,54 +139,55 @@ public:
   * @param groupColor the group color of the channel.
   * @param spikeGroupColor the decteion group color of the channel.    
   */
-  virtual void insert(int channelId, int index, const QColor &color, const QColor &groupColor, const QColor &spikeGroupColor);
+    virtual void insert(int channelId, int index, const QColor& color, const QColor& groupColor, const QColor& spikeGroupColor);
 
 
-  /**
+    /**
   * Removes a channel, with a given id (@p identifier),from the list of channels.
   * @param identifier the channel id.
   * @return true if successful,i.e. if identifier is in range, otherwise returns false.
   */
-  virtual bool remove(int identifier);
+    virtual bool remove(int identifier);
 
-private:
+  private:
+    /**Structure representing a color channel.*/
+    struct ChannelColor
+    {
+        int channelId;
+        QColor color;
+        QColor groupColor;
+        QColor spikeGroupColor;
 
-  /**Structure representing a color channel.*/
-  struct ChannelColor{
-    int channelId;
-    QColor color;
-    QColor groupColor;
-    QColor spikeGroupColor;
+        ChannelColor(int id, const QColor& c, const QColor& gc, const QColor& gdc)
+        {
+            channelId = id;
+            color = c;
+            groupColor = gc;
+            spikeGroupColor = gdc;
+        }
 
-    ChannelColor(int id,const QColor& c,const QColor& gc,const QColor& gdc){
-      channelId = id;
-      color = c;
-      groupColor = gc;
-      spikeGroupColor = gdc;
-    }
+        ChannelColor(const ChannelColor& origin)
+            : channelId(origin.channelId),
+              color(origin.color), groupColor(origin.groupColor), spikeGroupColor(origin.spikeGroupColor) {}
+        ~ChannelColor() {}
+    };
 
-    ChannelColor(const ChannelColor& origin):channelId(origin.channelId),
-                      color(origin.color),groupColor(origin.groupColor),spikeGroupColor(origin.spikeGroupColor){}
-    ~ChannelColor(){}
-  };
+    /**list of the ChannelColor contained in the class.*/
+    QList<ChannelColor*> channelList;
 
-  /**list of the ChannelColor contained in the class.*/
-  QList<ChannelColor*> channelList;
-
-  /**
+    /**
   * Looks up for the channel id @p channelId.
   * @param channelId the channel id
   * @return the channelColor corresponding to the channel id or null if not found
   */
-  ChannelColor* channelColor(int channelId) const;
+    ChannelColor* channelColor(int channelId) const;
 
-  /**
+    /**
   * Looks up for the channel index of the channel id @p channelId.
   * @param channelId the channel id.
   * @return the index in the list corresponding to the channel id or -1 if not found.
   */
-  int channelColorIndex(int channelId) const;
-
+    int channelColorIndex(int channelId) const;
 };
 
 #endif

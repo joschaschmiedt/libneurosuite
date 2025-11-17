@@ -30,110 +30,113 @@ Port to Qt4
 
 #include "qpagewidgetmodel.h"
 
-QPageWidgetPrivate::QPageWidgetPrivate(QPageWidget *q)
+QPageWidgetPrivate::QPageWidgetPrivate(QPageWidget* q)
     : QPageViewPrivate(q)
 {
 }
 
-void QPageWidgetPrivate::_k_slotCurrentPageChanged(const QModelIndex &current, const QModelIndex &before)
+void QPageWidgetPrivate::_k_slotCurrentPageChanged(const QModelIndex& current, const QModelIndex& before)
 {
-  QPageWidgetItem *currentItem = 0;
-  if ( current.isValid() )
-    currentItem = model()->item( current );
+    QPageWidgetItem* currentItem = 0;
+    if (current.isValid())
+        currentItem = model()->item(current);
 
-  QPageWidgetItem *beforeItem = 0;
-  if ( before.isValid() )
-    beforeItem = model()->item( before );
+    QPageWidgetItem* beforeItem = 0;
+    if (before.isValid())
+        beforeItem = model()->item(before);
 
     Q_Q(QPageWidget);
     emit q->currentPageChanged(currentItem, beforeItem);
 }
 
-QPageWidget::QPageWidget(QPageWidgetPrivate &dd, QWidget *parent)
+QPageWidget::QPageWidget(QPageWidgetPrivate& dd, QWidget* parent)
     : QPageView(dd, parent)
 {
     Q_D(QPageWidget);
-    connect(this, SIGNAL(currentPageChanged(QModelIndex,QModelIndex)),
-            this, SLOT(_k_slotCurrentPageChanged(QModelIndex,QModelIndex)));
+    connect(this, SIGNAL(currentPageChanged(QModelIndex, QModelIndex)),
+            this, SLOT(_k_slotCurrentPageChanged(QModelIndex, QModelIndex)));
 
-    if (!d->QPageViewPrivate::model) {
+    if (!d->QPageViewPrivate::model)
+    {
         setModel(new QPageWidgetModel(this));
-    } else {
-        Q_ASSERT(qobject_cast<QPageWidgetModel *>(d->QPageViewPrivate::model));
+    }
+    else
+    {
+        Q_ASSERT(qobject_cast<QPageWidgetModel*>(d->QPageViewPrivate::model));
     }
 
-    connect(d->model(), SIGNAL(toggled(QPageWidgetItem*,bool)),
-            this, SIGNAL(pageToggled(QPageWidgetItem*,bool)));
+    connect(d->model(), SIGNAL(toggled(QPageWidgetItem*, bool)),
+            this, SIGNAL(pageToggled(QPageWidgetItem*, bool)));
 }
 
-QPageWidget::QPageWidget( QWidget *parent )
+QPageWidget::QPageWidget(QWidget* parent)
     : QPageView(*new QPageWidgetPrivate(this), parent)
 {
     Q_D(QPageWidget);
-    connect(this, SIGNAL(currentPageChanged(QModelIndex,QModelIndex)),
-            this, SLOT(_k_slotCurrentPageChanged(QModelIndex,QModelIndex)));
+    connect(this, SIGNAL(currentPageChanged(QModelIndex, QModelIndex)),
+            this, SLOT(_k_slotCurrentPageChanged(QModelIndex, QModelIndex)));
 
     setModel(new QPageWidgetModel(this));
 
-    connect(d->model(), SIGNAL(toggled(QPageWidgetItem*,bool)),
-            this, SIGNAL(pageToggled(QPageWidgetItem*,bool)));
+    connect(d->model(), SIGNAL(toggled(QPageWidgetItem*, bool)),
+            this, SIGNAL(pageToggled(QPageWidgetItem*, bool)));
 }
 
 QPageWidget::~QPageWidget()
 {
 }
 
-QPageWidgetItem* QPageWidget::addPage( QWidget *widget, const QString &name )
+QPageWidgetItem* QPageWidget::addPage(QWidget* widget, const QString& name)
 {
     return d_func()->model()->addPage(widget, name);
 }
 
-void QPageWidget::addPage( QPageWidgetItem *item )
+void QPageWidget::addPage(QPageWidgetItem* item)
 {
     d_func()->model()->addPage(item);
 }
 
-QPageWidgetItem* QPageWidget::insertPage( QPageWidgetItem *before, QWidget *widget, const QString &name )
+QPageWidgetItem* QPageWidget::insertPage(QPageWidgetItem* before, QWidget* widget, const QString& name)
 {
     return d_func()->model()->insertPage(before, widget, name);
 }
 
-void QPageWidget::insertPage( QPageWidgetItem *before, QPageWidgetItem *item )
+void QPageWidget::insertPage(QPageWidgetItem* before, QPageWidgetItem* item)
 {
     d_func()->model()->insertPage(before, item);
 }
 
-QPageWidgetItem* QPageWidget::addSubPage( QPageWidgetItem *parent, QWidget *widget, const QString &name )
+QPageWidgetItem* QPageWidget::addSubPage(QPageWidgetItem* parent, QWidget* widget, const QString& name)
 {
     return d_func()->model()->addSubPage(parent, widget, name);
 }
 
-void QPageWidget::addSubPage( QPageWidgetItem *parent, QPageWidgetItem *item )
+void QPageWidget::addSubPage(QPageWidgetItem* parent, QPageWidgetItem* item)
 {
     d_func()->model()->addSubPage(parent, item);
 }
 
-void QPageWidget::removePage( QPageWidgetItem *item )
+void QPageWidget::removePage(QPageWidgetItem* item)
 {
     emit pageRemoved(item); // emit signal before we remove it, because the item will be deleted in the model
     d_func()->model()->removePage(item);
 }
 
-void QPageWidget::setCurrentPage( QPageWidgetItem *item )
+void QPageWidget::setCurrentPage(QPageWidgetItem* item)
 {
     const QModelIndex index = d_func()->model()->index(item);
-  if ( !index.isValid() )
-    return;
+    if (!index.isValid())
+        return;
 
-  QPageView::setCurrentPage( index );
+    QPageView::setCurrentPage(index);
 }
 
 QPageWidgetItem* QPageWidget::currentPage() const
 {
-  const QModelIndex index = QPageView::currentPage();
+    const QModelIndex index = QPageView::currentPage();
 
-  if ( !index.isValid() )
-    return 0;
+    if (!index.isValid())
+        return 0;
 
     return d_func()->model()->item(index);
 }

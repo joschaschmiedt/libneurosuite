@@ -19,13 +19,13 @@
 #include <listview.h>
 #include <QLabel>
 
-ItemGroupView::ItemGroupView(const QColor& backgroundColor,QWidget* parent)
-    :QWidget(parent),
+ItemGroupView::ItemGroupView(const QColor& backgroundColor, QWidget* parent)
+    : QWidget(parent),
       iconView(0L),
       mLabel(0),
       init(true)
 {
-    qDebug()<<" ItemGroupView::ItemGroupView(const QColor& backgroundColor,QWidget* parent)";
+    qDebug() << " ItemGroupView::ItemGroupView(const QColor& backgroundColor,QWidget* parent)";
     mLayout = new QHBoxLayout;
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
@@ -38,9 +38,9 @@ ItemGroupView::ItemGroupView(const QColor& backgroundColor,QWidget* parent)
     int h;
     int s;
     int v;
-    backgroundColor.getHsv(&h,&s,&v);
+    backgroundColor.getHsv(&h, &s, &v);
     QColor legendColor;
-    if(s <= 80 && v >= 240 || (s <= 40 && v >= 220))
+    if (s <= 80 && v >= 240 || (s <= 40 && v >= 220))
         legendColor = Qt::black;
     else
         legendColor = Qt::white;
@@ -53,19 +53,22 @@ ItemGroupView::ItemGroupView(const QColor& backgroundColor,QWidget* parent)
 
 ItemGroupView::~ItemGroupView()
 {
-    qDebug()<<"in ~ItemGroupView()";
+    qDebug() << "in ~ItemGroupView()";
 }
 
-void ItemGroupView::setIconView(ListWidget* view){
+void ItemGroupView::setIconView(ListWidget* view)
+{
     iconView = view;
     mLayout->addWidget(iconView);
 }
 
-void ItemGroupView::reAdjustSize(int parentWidth,int labelSize){
-    if ((iconView->size().width() != 1 && width() != parentWidth) || init) {
+void ItemGroupView::reAdjustSize(int parentWidth, int labelSize)
+{
+    if ((iconView->size().width() != 1 && width() != parentWidth) || init)
+    {
         init = false;
         setFixedWidth(parentWidth);
-        int viewfuturWidth = parentWidth - labelSize - 6;//give so space on the right
+        int viewfuturWidth = parentWidth - labelSize - 6; //give so space on the right
         iconView->setNewWidth(viewfuturWidth);
 
         /*if(iconView->size().height() != 1 && height() != iconView->size().height()) {
@@ -74,22 +77,23 @@ void ItemGroupView::reAdjustSize(int parentWidth,int labelSize){
         }*/
     }
 
-     int iconHeight = iconView->sizeHint().height();
+    int iconHeight = iconView->sizeHint().height();
 
     //If items have been moved in or out of the iconview, its sized has changed and the ItemGroupView has to compensate
-    if (iconHeight != 1 && height() != iconHeight) {
+    if (iconHeight != 1 && height() != iconHeight)
+    {
         setFixedHeight(iconHeight);
     }
 }
 
-void ItemGroupView::setLabel(QLabel* label){
+void ItemGroupView::setLabel(QLabel* label)
+{
     mLabel = label;
     mLabel->setAutoFillBackground(true);
     mLayout->addWidget(mLabel);
 }
 
-QLabel* ItemGroupView::label() const{
+QLabel* ItemGroupView::label() const
+{
     return mLabel;
 }
-
-

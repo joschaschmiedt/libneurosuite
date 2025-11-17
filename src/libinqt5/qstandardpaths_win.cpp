@@ -54,28 +54,29 @@
 #include <shlobj.h>
 #include <qstandardpaths.h>
 #if !defined(Q_OS_WINCE)
-#  include <intshcut.h>
+#include <intshcut.h>
 #else
-#  include <qguifunctions_wince.h>
-#  if !defined(STANDARDSHELL_UI_MODEL)
-#    include <winx.h>
-#  endif
+#include <qguifunctions_wince.h>
+#if !defined(STANDARDSHELL_UI_MODEL)
+#include <winx.h>
+#endif
 #endif
 
 #ifndef CSIDL_MYMUSIC
-#define CSIDL_MYMUSIC	13
-#define CSIDL_MYVIDEO	14
+#define CSIDL_MYMUSIC 13
+#define CSIDL_MYVIDEO 14
 #endif
 
 #ifndef QT_NO_STANDARDPATHS
 
 QT_BEGIN_NAMESPACE
 
-typedef BOOL (WINAPI*GetSpecialFolderPath)(HWND, LPWSTR, int, BOOL);
+typedef BOOL(WINAPI* GetSpecialFolderPath)(HWND, LPWSTR, int, BOOL);
 static GetSpecialFolderPath resolveGetSpecialFolderPath()
 {
     static GetSpecialFolderPath gsfp = 0;
-    if (!gsfp) {
+    if (!gsfp)
+    {
 #ifndef Q_OS_WINCE
         QLibrary library(QLatin1String("shell32"));
 #else
@@ -86,7 +87,7 @@ static GetSpecialFolderPath resolveGetSpecialFolderPath()
     return gsfp;
 }
 
-static QString convertCharArray(const wchar_t *path)
+static QString convertCharArray(const wchar_t* path)
 {
     return QDir::fromNativeSeparators(QString::fromWCharArray(path));
 }
@@ -101,7 +102,8 @@ QString QStandardPaths::writableLocation(StandardLocation type)
 
     wchar_t path[MAX_PATH];
 
-    switch (type) {
+    switch (type)
+    {
     case ConfigLocation: // same as DataLocation, on Windows
     case DataLocation:
     case GenericDataLocation:
@@ -111,7 +113,8 @@ QString QStandardPaths::writableLocation(StandardLocation type)
         if (SHGetSpecialFolderPath(0, path, CSIDL_LOCAL_APPDATA, FALSE))
 #endif
             result = convertCharArray(path);
-        if (type != GenericDataLocation) {
+        if (type != GenericDataLocation)
+        {
             if (!QCoreApplication::organizationName().isEmpty())
                 result += QLatin1Char('/') + QCoreApplication::organizationName();
             if (!QCoreApplication::applicationName().isEmpty())
@@ -184,15 +187,19 @@ QStringList QStandardPaths::standardLocations(StandardLocation type)
 
 #ifndef Q_OS_WINCE
     static GetSpecialFolderPath SHGetSpecialFolderPath = resolveGetSpecialFolderPath();
-    if (SHGetSpecialFolderPath) {
+    if (SHGetSpecialFolderPath)
+    {
         wchar_t path[MAX_PATH];
-        switch (type) {
+        switch (type)
+        {
         case ConfigLocation: // same as DataLocation, on Windows
         case DataLocation:
         case GenericDataLocation:
-            if (SHGetSpecialFolderPath(0, path, CSIDL_COMMON_APPDATA, FALSE)) {
+            if (SHGetSpecialFolderPath(0, path, CSIDL_COMMON_APPDATA, FALSE))
+            {
                 QString result = convertCharArray(path);
-                if (type != GenericDataLocation) {
+                if (type != GenericDataLocation)
+                {
                     if (!QCoreApplication::organizationName().isEmpty())
                         result += QLatin1Char('/') + QCoreApplication::organizationName();
                     if (!QCoreApplication::applicationName().isEmpty())

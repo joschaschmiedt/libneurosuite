@@ -27,12 +27,12 @@ class QPageWidgetModel;
 class QPageWidgetPrivate : public QPageViewPrivate
 {
     Q_DECLARE_PUBLIC(QPageWidget)
-    protected:
-        QPageWidgetPrivate(QPageWidget *q);
+  protected:
+    QPageWidgetPrivate(QPageWidget* q);
 
-        QPageWidgetModel *model() const { return static_cast<QPageWidgetModel *>(QPageViewPrivate::model); }
+    QPageWidgetModel* model() const { return static_cast<QPageWidgetModel*>(QPageViewPrivate::model); }
 
-        void _k_slotCurrentPageChanged(const QModelIndex &, const QModelIndex &);
+    void _k_slotCurrentPageChanged(const QModelIndex&, const QModelIndex&);
 };
 
 #endif // KPAGEWIDGET_P_H

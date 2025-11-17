@@ -25,76 +25,79 @@
 
 class PageItem
 {
-    public:
-        explicit PageItem(QPageWidgetItem *pageItem, PageItem *parent = 0);
-        ~PageItem();
+  public:
+    explicit PageItem(QPageWidgetItem* pageItem, PageItem* parent = 0);
+    ~PageItem();
 
-        void appendChild(PageItem *child);
-        void insertChild(int row, PageItem *child);
-        void removeChild(int row);
+    void appendChild(PageItem* child);
+    void insertChild(int row, PageItem* child);
+    void removeChild(int row);
 
-        PageItem *child(int row);
-        int childCount() const;
-        int columnCount() const;
-        int row() const;
-        PageItem *parent();
+    PageItem* child(int row);
+    int childCount() const;
+    int columnCount() const;
+    int row() const;
+    PageItem* parent();
 
-        QPageWidgetItem *pageWidgetItem() const;
+    QPageWidgetItem* pageWidgetItem() const;
 
-        PageItem *findChild(const QPageWidgetItem *item);
+    PageItem* findChild(const QPageWidgetItem* item);
 
-        void dump(int indent = 0);
+    void dump(int indent = 0);
 
-    private:
-        QPageWidgetItem *mPageWidgetItem;
+  private:
+    QPageWidgetItem* mPageWidgetItem;
 
-        QList<PageItem*> mChildItems;
-        PageItem *mParentItem;
+    QList<PageItem*> mChildItems;
+    PageItem* mParentItem;
 };
 
 class QPageWidgetModelPrivate : public QPageModelPrivate
 {
     Q_DECLARE_PUBLIC(QPageWidgetModel)
-    protected:
-        QPageWidgetModelPrivate()
-            : rootItem(new PageItem(0, 0))
+  protected:
+    QPageWidgetModelPrivate()
+        : rootItem(new PageItem(0, 0))
+    {
+    }
+
+    ~QPageWidgetModelPrivate()
+    {
+        delete rootItem;
+        rootItem = 0;
+    }
+
+    PageItem* rootItem;
+
+    void _k_itemChanged()
+    {
+        Q_Q(QPageWidgetModel);
+        QPageWidgetItem* item = qobject_cast<QPageWidgetItem*>(q->sender());
+        if (!item)
         {
+            return;
         }
 
-        ~QPageWidgetModelPrivate()
+        const QModelIndex index = q->index(item);
+        if (!index.isValid())
         {
-            delete rootItem;
-            rootItem = 0;
+            return;
         }
 
-        PageItem *rootItem;
+        emit q->dataChanged(index, index);
+    }
 
-        void _k_itemChanged()
+    void _k_itemToggled(bool checked)
+    {
+        Q_Q(QPageWidgetModel);
+        QPageWidgetItem* item = qobject_cast<QPageWidgetItem*>(q->sender());
+        if (!item)
         {
-            Q_Q(QPageWidgetModel);
-            QPageWidgetItem *item = qobject_cast<QPageWidgetItem*>(q->sender());
-            if (!item) {
-                return;
-            }
-
-            const QModelIndex index = q->index(item);
-            if (!index.isValid()) {
-                return;
-            }
-
-            emit q->dataChanged(index, index);
+            return;
         }
 
-        void _k_itemToggled(bool checked)
-        {
-            Q_Q(QPageWidgetModel);
-            QPageWidgetItem *item = qobject_cast<QPageWidgetItem*>(q->sender());
-            if (!item) {
-                return;
-            }
-
-            emit q->toggled(item, checked);
-        }
+        emit q->toggled(item, checked);
+    }
 };
 
 #endif // KPAGEWIDGETMODEL_P_H

@@ -33,15 +33,15 @@
 class KLusterSeparator : public QFrame
 {
     Q_OBJECT
-    Q_PROPERTY( Qt::Orientation orientation READ orientation WRITE setOrientation )
+    Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation)
 
-public:
+  public:
     /**
    * Constructor.
    * @param parent parent object.
    * @param f extra QWidget flags.
    **/
-    explicit KLusterSeparator(QWidget* parent=0, Qt::WindowFlags f=0);
+    explicit KLusterSeparator(QWidget* parent = 0, Qt::WindowFlags f = 0);
 
     /**
    * Constructor.
@@ -50,7 +50,7 @@ public:
    * @param parent parent object.
    * @param f extra QWidget flags.
    **/
-    explicit KLusterSeparator(Qt::Orientation orientation, QWidget* parent=0, Qt::WindowFlags f=0);
+    explicit KLusterSeparator(Qt::Orientation orientation, QWidget* parent = 0, Qt::WindowFlags f = 0);
 
     /**
    * Returns the orientation of the separator.
@@ -65,7 +65,7 @@ public:
    */
     void setOrientation(Qt::Orientation orientation);
 
-private:
+  private:
     class KLusterSeparatorPrivate* d;
 };
 

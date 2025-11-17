@@ -33,25 +33,26 @@ Port to Qt4
 class NEUROSUITE_EXPORT QPageDialogPrivate : public QExtendDialogPrivate
 {
     Q_DECLARE_PUBLIC(QPageDialog)
-    protected:
-        QPageDialogPrivate()
-            : mPageWidget(0)
-        {
-        }
+  protected:
+    QPageDialogPrivate()
+        : mPageWidget(0)
+    {
+    }
 
-        QPageWidget *mPageWidget;
+    QPageWidget* mPageWidget;
 
-        void init()
+    void init()
+    {
+        Q_Q(QPageDialog);
+        if (mPageWidget)
         {
-            Q_Q(QPageDialog);
-            if (mPageWidget) {
-                q->connect(mPageWidget, SIGNAL(currentPageChanged(QPageWidgetItem *, QPageWidgetItem *)),
-                        q, SIGNAL(currentPageChanged(QPageWidgetItem *, QPageWidgetItem *)));
-                q->connect(mPageWidget, SIGNAL(pageRemoved(QPageWidgetItem *)),
-                        q, SIGNAL(pageRemoved(QPageWidgetItem *)));
-            }
-            q->setMainWidget(mPageWidget);
+            q->connect(mPageWidget, SIGNAL(currentPageChanged(QPageWidgetItem*, QPageWidgetItem*)),
+                       q, SIGNAL(currentPageChanged(QPageWidgetItem*, QPageWidgetItem*)));
+            q->connect(mPageWidget, SIGNAL(pageRemoved(QPageWidgetItem*)),
+                       q, SIGNAL(pageRemoved(QPageWidgetItem*)));
         }
+        q->setMainWidget(mPageWidget);
+    }
 };
 
 #endif // PAGED_KPAGEDIALOG_P_H

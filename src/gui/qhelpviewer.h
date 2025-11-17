@@ -13,14 +13,15 @@ class QWebView;
 class NEUROSUITE_EXPORT QHelpViewer : public QDialog
 {
     Q_OBJECT
-public:
-    explicit QHelpViewer(QWidget *parent);
+  public:
+    explicit QHelpViewer(QWidget* parent);
     ~QHelpViewer();
-    void setHtml(const QString& filename, const QString &anchor = QString());
-private Q_SLOTS:
-    void slotLinkCLicked(const QUrl &url);
-private:
-    QWebView *mView;
+    void setHtml(const QString& filename, const QString& anchor = QString());
+  private Q_SLOTS:
+    void slotLinkCLicked(const QUrl& url);
+
+  private:
+    QWebView* mView;
 };
 
 #endif // QHELPVIEWER_H

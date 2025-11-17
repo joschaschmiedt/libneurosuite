@@ -16,21 +16,22 @@ class NEUROSUITE_EXPORT QColorButton : public QPushButton
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor)
 
-public:
-    explicit QColorButton(QWidget * parent);
+  public:
+    explicit QColorButton(QWidget* parent);
     ~QColorButton();
 
     void setColor(const QColor&);
     QColor color() const;
 
-Q_SIGNALS:
-    void colorChanged(const QColor&col);
+  Q_SIGNALS:
+    void colorChanged(const QColor& col);
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void slotSelectColor();
-private:
+
+  private:
     void updateBackgroundColor();
-    QColorButtonPrivate *d;
+    QColorButtonPrivate* d;
 };
 
 #endif // QCOLORBUTTON_H

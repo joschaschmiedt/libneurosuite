@@ -55,7 +55,8 @@ QT_BEGIN_NAMESPACE
 */
 OSType translateLocation(QStandardPaths::StandardLocation type)
 {
-    switch (type) {
+    switch (type)
+    {
     case QStandardPaths::ConfigLocation:
         return kPreferencesFolderType;
     case QStandardPaths::DesktopLocation:
@@ -93,10 +94,10 @@ OSType translateLocation(QStandardPaths::StandardLocation type)
 /*
     Constructs a full unicode path from a FSRef.
 */
-static QString getFullPath(const FSRef &ref)
+static QString getFullPath(const FSRef& ref)
 {
     QByteArray ba(2048, 0);
-    if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
+    if (FSRefMakePath(&ref, reinterpret_cast<UInt8*>(ba.data()), ba.size()) == noErr)
         return QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
     return QString();
 }
@@ -107,22 +108,24 @@ static QString macLocation(QStandardPaths::StandardLocation type, short domain)
     FSRef ref;
     OSErr err = FSFindFolder(domain, translateLocation(type), false, &ref);
     if (err)
-       return QString();
+        return QString();
 
-   QString path = getFullPath(ref);
+    QString path = getFullPath(ref);
 
-   if (type == QStandardPaths::DataLocation || type == QStandardPaths::CacheLocation) {
-       if (!QCoreApplication::organizationName().isEmpty())
-           path += QLatin1Char('/') + QCoreApplication::organizationName();
-       if (!QCoreApplication::applicationName().isEmpty())
-           path += QLatin1Char('/') + QCoreApplication::applicationName();
-   }
-   return path;
+    if (type == QStandardPaths::DataLocation || type == QStandardPaths::CacheLocation)
+    {
+        if (!QCoreApplication::organizationName().isEmpty())
+            path += QLatin1Char('/') + QCoreApplication::organizationName();
+        if (!QCoreApplication::applicationName().isEmpty())
+            path += QLatin1Char('/') + QCoreApplication::applicationName();
+    }
+    return path;
 }
 
 QString QStandardPaths::writableLocation(QStandardPaths::StandardLocation type)
 {
-    switch(type) {
+    switch (type)
+    {
     case HomeLocation:
         return QDir::homePath();
     case TempLocation:
@@ -142,7 +145,8 @@ QStringList QStandardPaths::standardLocations(QStandardPaths::StandardLocation t
 {
     QStringList dirs;
 
-    if (type == GenericDataLocation || type == DataLocation || type == GenericCacheLocation || type == CacheLocation) {
+    if (type == GenericDataLocation || type == DataLocation || type == GenericCacheLocation || type == CacheLocation)
+    {
         const QString path = macLocation(type, kOnAppropriateDisk);
         if (!path.isEmpty())
             dirs.append(path);
@@ -173,7 +177,7 @@ QString QStandardPaths::displayName(QStandardPaths::StandardLocation type)
         return QString();
 
     QString string(length, Qt::Uninitialized);
-    CFStringGetCharacters(displayName, CFRangeMake(0, length), reinterpret_cast<UniChar *> (const_cast<QChar *>(string.unicode())));
+    CFStringGetCharacters(displayName, CFRangeMake(0, length), reinterpret_cast<UniChar*>(const_cast<QChar*>(string.unicode())));
     return string;
 }
 
