@@ -10,8 +10,6 @@ Copyright (C) 2012 Klarälvdalens Datakonsult AB, a KDAB Group company, info@kda
 
 QT_BEGIN_NAMESPACE
 
-QT_MODULE(Gui)
-
 class QRecentFileActionPrivate;
 
 class NEUROSUITE_EXPORT QRecentFileAction : public QAction
